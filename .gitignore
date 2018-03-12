@@ -1,3 +1,9 @@
+## Other program files
+*.xlsx
+*.key
+*.pages
+
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
