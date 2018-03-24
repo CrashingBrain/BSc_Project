@@ -13,11 +13,15 @@
 % Utilities
 \usepackage{lipsum}
 \usepackage{arydshln}
+% Biblatex
+\usepackage[style=alphabetic,sorting=none]{biblatex}
+\addbibresource{bib/references.bib}
 %------------------------------------%
 
 \title{
 	{Bound Entanglement and Bound Information}\\
 	{\large Universit\`a della Svizzera Italiana}\\
+	\bigskip\medskip
 	{\includegraphics[scale=0.12]{images/usi-immagini-logo-formatted.png}}
 }
 
@@ -27,13 +31,20 @@
 \begin{document}
 \maketitle
 \chapter*{Abstract}
-\tableofcontents
-\chapter{Introduction}
 \lipsum[1]
+\tableofcontents
 
+\chapter{Introduction}
+\input{chapters/Introduction}
+		
+\chapter{The intuition}
+\input{chapters/chapter2}
+		
+\chapter{Bound Information}
+\input{chapters/chapter3}
+	
+\chapter{Conclusion}
+\input{chapters/Conclusion}
 
-\section*{Project Description}
-\lipsum[2]
-
-
+\printbibliography
 \end{document}
