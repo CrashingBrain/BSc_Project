@@ -2,7 +2,8 @@
   - Complited and submitted Gantt version 1
 
 §14.03
-  -
+  - met with Arne
+  - revwrote Arne's note for myself
 
 §15.03
   - summarized chapter 1 MA Arne
@@ -33,3 +34,8 @@
   - re-read Horodeckix4 part XIX
   - initialized the tex file
 
+§24.03
+  - setup a proper Latex environment
+    divided thesis into chpaters in different files
+    initialized the references.bib
+  - first reading of RennerWolf03
