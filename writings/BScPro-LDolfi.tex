@@ -6,32 +6,65 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+
 % Package for lists
 \usepackage[shortlabels]{enumitem}
+
 % Graphics
 \usepackage{tikz}
+\usetikzlibrary{fit,
+						backgrounds,
+						arrows,
+						decorations.markings,
+						decorations.pathmorphing,
+						snakes,
+						shapes.misc, 
+						positioning}
+
+\tikzset{colorbox/.style={thick, rounded corners=2pt, text height=1.7ex,text depth=.25ex, draw=#1!70!black, fill=#1!30}}
+\tikzset{colorelement/.style={thick, rounded corners=2pt, draw=#1!70!black, fill=#1!30}}
+\tikzset{conn/.style={thick, shorten <=#1, shorten >=#1}}
+\tikzset{arr_node/.style={pos=0.5,above,font=\scriptsize, sloped}}
+
+\usepackage{float}
+
 % Utilities
 \usepackage{lipsum}
 \usepackage{arydshln}
+
 % Biblatex
 \usepackage[style=alphabetic,sorting=none]{biblatex}
 \addbibresource{bib/references.bib}
 %------------------------------------%
 
-\title{
-	{Bound Entanglement and Bound Information}\\
-	{\large Universit\`a della Svizzera Italiana}\\
-	\bigskip\medskip
-	{\includegraphics[scale=0.12]{images/usi-immagini-logo-formatted.png}}
-}
+%quantum commands
+\renewcommand{\H}{\mathcal{H}}
+\newcommand{\ket}[1]{|#1 \rangle}
+\newcommand{\bra}[1]{\langle #1|}
+\newcommand{\braket}[2]{\langle#1|#2\rangle}
+\newcommand{\bk}[2]{\langle#1|#2\rangle}
+\newcommand{\ketbra}[2]{|#1 \rangle\langle #2|}
+\newcommand{\kb}[2]{|#1 \rangle\langle #2|}
+\newcommand{\proj}[1]{|#1\rangle\langle #1|}
 
-\author{Luca Dolfi\\ \\ Advisor: Stefan Wolf \\ Tutor: Arne Hansen}
-\date{Spring 2018}
+%\title{
+%	{\Huge{\textbf{Bound Entanglement and Bound Information}}}\\
+%	{\large{Universit\`a della Svizzera Italiana}}\\
+%	{\normalsize{Department of Informatics}}\\
+%	\bigskip\medskip
+%	{\includegraphics[scale=0.12]{images/usi-immagini-logo-formatted.png}}
+%}
+%
+%\author{\textbf{Luca Dolfi} \\ \\ Advisor: Prof. Dr. Stefan Wolf \\ \\ Tutor: MSc Arne Hansen}
+%\date{Spring 2018}
 
 \begin{document}
-\maketitle
+%\maketitle
+\input{chapters/title}
 \chapter*{Abstract}
 \lipsum[1]
+\chapter*{Acknowledgements}
+\lipsum[13]
 \tableofcontents
 
 \chapter{Introduction}
@@ -46,5 +79,6 @@
 \chapter{Conclusion}
 \input{chapters/Conclusion}
 
+%\bibliographystyle{apalike}
 \printbibliography
 \end{document}
