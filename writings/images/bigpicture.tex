@@ -1,0 +1,27 @@
+% Image of the big idea of the thesis
+% discussed also for initial presentation
+% should show the "track" that goes from
+% QM(bound entanglement) to Classical bound information
+\begin{tikzpicture}
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{fancyArrow} = [<->,very thick,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+
+  \draw[thick,dashed] (-5,-3.24) rectangle (-1, 3.24);
+  \draw[thick, dashed] (1,-3.24) rectangle (5, 3.24);
+
+  \node[below right, anchor=center] (en) at (-3, 3)  {\textbf{ENTANGLEMENT}};
+  \node[below right, anchor=center] (pr) at (3, 3)  {\textbf{PRIVACY}};
+  \node[below right, anchor=center] (dist) at (-3, 2)  {Entanglement distillation};
+  \node[below right, anchor=center] (cka) at (3, 2)  {Classical key agreement};
+  \node[below right, anchor=center] (be) at (-3, -2)  {Bound Entanglement};
+  \node[below right, anchor=center] (bi) at (3, -2)  {Bound Information};
+  \draw[vecArrow] (dist) to (be);
+  \draw[vecArrow] (cka) to (bi);
+  \draw[fancyArrow] (dist) to (cka);
+  \draw[fancyArrow] (be) to (bi);
+
+\end{tikzpicture}
