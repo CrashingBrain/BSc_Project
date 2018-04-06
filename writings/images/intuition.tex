@@ -24,12 +24,7 @@
 	\node[thick, anchor=center, below] (bul) at (0.0, 2) {\textbullet};
 %	\node[above=of bul] (res) {Resource (fixed)}; 
 	
-%  \node[below right, anchor=center] (en) at (-3, 3)  {\textbf{ENTANGLEMENT}};
-%  \node[below right, anchor=center] (pr) at (3, 3)  {\textbf{PRIVACY}};
-%  \node[below right, anchor=center] (dist) at (-3, 2)  {Entanglement distillation};
-%  \node[below right, anchor=center] (cka) at (3, 2)  {Classical key agreement};
-%  \node[below right, anchor=center] (be) at (-3, -2)  {Bound Entanglement};
-%  \node[below right, anchor=center] (bi) at (3, -2)  {Bound Information};
+
 	\draw[vecArrow] (cst) to (bul);
 	\draw[vecArrow] (bul) to (dst);
 	\draw[->] (ecost) to node[above left]{$LOOC$} (rho); \draw[->] (rho) to node[above right]{$LOOC$} (edist);

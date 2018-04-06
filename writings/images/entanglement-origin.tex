@@ -1,0 +1,10 @@
+%% Little schematics showing the origin of entanglement
+%% from the linear theory of QM and tensor product
+
+\begin{tikzpicture}[scale=0.6]
+  \node[colorbox=red]                      (lin)  {Linearity};
+  \node[colorbox=magenta, below=.5cm of lin] (tp)  {Tensor product};
+  \node[colorbox=blue, below=.5cm of tp]   (en)  {Entanglement};
+  \draw[conn=2pt, densely dotted] (tp) to (lin);
+  \draw[conn=2pt, densely dotted] (en) to (tp);
+\end{tikzpicture}
