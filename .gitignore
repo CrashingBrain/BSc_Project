@@ -2,6 +2,7 @@
 *.xlsx
 *.key
 *.pages
+*.swp
 
 
 ## Core latex/pdflatex auxiliary files:
