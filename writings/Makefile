@@ -3,3 +3,12 @@ the_entire_thesis:
 	biber BScPro-LDolfi.bcf
 	pdflatex BScPro-LDolfi.tex
 	pdflatex BScPro-LDolfi.tex
+
+rm_generated_files:
+	rm *.bcf
+	rm *.bbl
+	rm *.blg
+	rm *.aux
+	rm *.toc
+	rm *.log
+	rm *blx.bib
