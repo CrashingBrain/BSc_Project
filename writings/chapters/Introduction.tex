@@ -100,7 +100,7 @@
 	$$ \ket{w}\braket{v}{v'} = \braket{v}{v'}\ket{w} $$	
 	which is a really convenient way of visualizing the action of matrix $A$. In particular if we divide it like $(\ketbra{w}{v}) (\ket{v'}) $ it is easy to interpret it as \textit{matrix $A$ acting on vector $\ket{v'}$}; but the other equivalent form $(\braket{v}{v'})(\ket{w})$ can also be seen as multiplying vector $\ket{w}$ by a value $\braket{v}{v'}$. \\
 	%this part may be too similar to book, page 67...
-	The meaning of this is that $\ketbra{w}{v}$ can indeed be defined as a (linear) operator from the vector space of $\ket{v}$ and $\ket{v'}$ to the vector space of $\ket{w}$. This comes in very handy when we later use it to define operations and measurements on quantum states. % is this true?
+	The meaning of this is that $\ketbra{w}{v}$ can indeed be defined as a (linear) operator from the vector space of $\ket{v}$ and $\ket{v'}$ to the vector space of $\ket{w}$. This comes in very handy when we later use it to define operations and measurements on quantum states.\\ % is this true?
 	
 	\subsubsection*{Linear operators}
 	A linear operator between two vector spaces is defined as 
@@ -111,12 +111,34 @@
 	$$ I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}	 \quad   X = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}$$
 	$$ Y= \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}	 \quad   Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$$
 	
+	In particular it is safe to say that, unless stated otherwise, the operators that will be presented all have a set of properties and are called Hermitian operators, or self-adjoint operators.\\
+	$$ A = A^{dagger} \quad \Longrightarrow (A\ket{v})^{\dagger} = \bra{v}A^{\dagger} $$ 
+	Operators have also to be positive, this means that it holds, for every $\ket{v}$ : $\bra{v}A\ket{v}$ is real non-negative. Any positive operator is also self-adjoint and therefore it has diagonal (spectral) representation $\sum_i \lambda_i \proj{i}$ with non-negative eigenvalues $\lambda_i$.\\
+	
+	\subsubsection*{Tensor product}
+	The tensor product $V\otimes W$ is an operation between vector spaces that combines every element of the first vector space and every element of the second vector space in a bigger vector space. Tensor product is linear and from its properties emerges the famous phenomenon of quantum entanglement, which simply is that not all vectors in $\H = V\otimes W$ can be divided into $\ket{v}\otimes\ket{w}$ with $\ket{v}\in V,\; \ket{w}\in W$. This will later be explained in the next section.\\
+	Notation and abbreviation for the tensor product is 
+	$$ \ket{v}\otimes\ket{w} = \ket{v}\ket{w} = \ket{v,w} = \ket{vw}$$
+	It has the following properties:
+	\begin{description}
+		\item $\forall\ket{v}\in V ,\; \forall\ket{w}\in W, \; \forall z\in \mathbb{C}$	\\
+					$ z(\ket{v}\otimes\ket{w}) = (z\ket{v})\otimes\ket{w} = \ket{v}\otimes(z\ket{w} $
+		\item $\forall\ket{v_1},\ket{v_2}\in V ,\; \forall\ket{w}\in W$	\\
+					$ (\ket{v_1} + \ket{v_2})\otimes\ket{w} = \ket{v_1w} + \ket{v_2w} $
+		\item $\forall\ket{v}\in V ,\; \forall\ket{w}\in W, \; A:V\rightarrow V' \; B:W\rightarrow W'$	\\
+					$ (A\otimes B) \left(\sum_i a_i \ket{v_i w_i} \right) = \sum_i a_i A\ket{v_i}\otimes B\ket{w_i} $
+	\end{description}
+	The inner product on $V$ and $W$ can be used to define (linearly) an inner product on $V\otimes W$.	
+	
+	
 	\section{Basics of QM}
 	\begin{quotation}
 		The simplest quantum mechanical system, and the system which we will be most concerned with, is the \emph{qubit}. A qubit has a two-dimensional state space. [...] 
 		The way a qubit differs from a bit is that superpositions of these two states, of the form $a\ket{0} + b\ket{1}$, can also exist, in which it is not possible to say that the qubit is definitely in the state $\ket0$, or definitely in the state $\ket1$.
 		\cite{NC10}
 	\end{quotation}
+	
+	Quantum mechanics is a very large and complex theory. For our purposes it is enough for us to only consider the quantum system called \emph{qubit} and its rules of computation following from the tensor product algebra.  ...
 	
 	%%TODO review this
 	All pure states in QM are normalized vectors in $\H$.
@@ -128,8 +150,19 @@
 	$\rho$ is a positive, trace-1 operator meaning that $Tr(\rho) = 1$ and all eigenvalues of $\rho$ are positive. Moreover $\rho$ is a linear combination of projectors $\proj{\psi_i}$ which makes $\rho\in\mathbf{P}(\H)$ a projector itself on the the Hilbert space.
 	
 		\subsection{Quantum Measurements}
-		\lipsum[3]
-	
+		To get an actual value out of a qubit one has to \textit{measure} it. Measurement is, mathematically, a projection onto some chosen computational basis. The result for each base vector projection is then interpreted as a \emph{probability}. The state then changes after measurement, meaning for example that it will not retain it value as superposition any more.\\
+		...\\
+		
+		If Alice has the state $\ket{psi_i}$ out of $i=1..n$ and all states are orthonormal, then Bob can find out what the choice of $i$ was.
+		If the states are not orthonormal there is no quantum measurement capable of distinguishing the states. \\
+		From this follows that if the states $\ket{\psi_1}$ and $\ket{\psi_2}$ are not orthogonal, then $\ket{\psi_2}$ has a component orthogonal to $\ket{\psi_1}$ but also a component parallel to it which will give probability not $0$ of measuring differently.
+		
+			\quad\underline{Example:}\\
+			\begin{center}
+				$ Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \quad P_{+1} = \proj{0} , \; P_{-1} = \proj{1}	 $\\
+				Measurement on qubit $ \ket{\psi} = \frac{\ket0 + \ket1}{\sqrt{2}} $ has probability $p_{+1} = \bra{\psi}P_{+1}\ket{\psi} = \bk{\psi}{0}\bk{0}{\psi} = \frac{1}{2}$ and similarly $p_{-1} = \frac{1}{2}$
+			\end{center}%!!taken from book!!
+
 		\subsection{Quantum Entanglement}
 		\begin{quotation}
 		There exist vectors in $V\otimes W$ that can not be represented by a single tensor product:
