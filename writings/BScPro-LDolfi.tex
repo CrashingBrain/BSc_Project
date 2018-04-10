@@ -19,7 +19,8 @@
 						decorations.pathmorphing,
 						snakes,
 						shapes.misc, 
-						positioning}
+						positioning,
+						scopes}
 
 \tikzset{colorbox/.style={thick, rounded corners=2pt, text height=1.7ex,text depth=.25ex, draw=#1!70!black, fill=#1!30}}
 \tikzset{colorelement/.style={thick, rounded corners=2pt, draw=#1!70!black, fill=#1!30}}
@@ -33,7 +34,8 @@
 \usepackage{arydshln}
 
 % Biblatex
-\usepackage[style=alphabetic,sorting=none]{biblatex}
+\usepackage[backend=bibtex,style=alphabetic,sorting=none]{biblatex}
+\nocite{*}
 \addbibresource{bib/references.bib}
 %------------------------------------%
 
