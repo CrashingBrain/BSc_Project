@@ -78,28 +78,38 @@
 		\includegraphics[scale=0.2]{images/sketch1.png} 
 		\caption{how a physical state is represented}
 	\end{figure}
-	The bra-ket notation is a handy notation introduced by physicist Paul Dirac to deal with the vector representation of quantum states linear functionals. 
+	Because much of the theory presented in this research deals with ideas of quantum mechanics, we have to introduce a basic notation and knowledge on the mathematical model underneath it. 
+	Every pure quantum state can be represented a vector in a vector space with inner product, i.e. a \emph{Hilbert space}. 
+	The implication of this will be explained in the next section; for now we only look of this vector representation.\\
+	 If we have a vector space $\H$ --- which we can consider \textit{isomorph} to $\mathbb{C}^n $ --- with an inner product and element $\vec{v}\in \mathbb{C}^n$ we can write it explicitly 
+	$$ \vec{v} =  \begin{pmatrix} v_1 \\ v_2 \\ \vdots \end{pmatrix} = v_1\vec{e_1} + v_2\vec{e_2} + \ldots \in \mathbb{C}^n$$
+	for some basis to apply coefficients $v_1, v_2, \ldots$ to.\\
+	The bra-ket notation is a handy notation introduced by physicist Paul Dirac to deal with such vector representation of quantum states. First of all we note that a state $\varphi\in\H$ can be represented as a vector on top of some basis like this.
 	$$\ket{\varphi} = \begin{pmatrix} \varphi_1 \\ \varphi_2 \\ \vdots \end{pmatrix}	  \text{  is a coloumn vector over } \H $$
-	$$\bra{\psi}  = \begin{pmatrix} \psi_1 & \psi_2 & \hdots \end{pmatrix} \text{  is a row vector over } \H $$
-	Furthermore the conjugate transpose of a \emph{bra} vector is the corresponding \emph{ket} vector, and vice versa.\cite{bkNot}
+	$$\bra{\varphi}  = \begin{pmatrix} \varphi_1 & \varphi_2 & \hdots \end{pmatrix} \text{  is a row vector over } \H $$
+	To be representative of a quantum state the vector has to have unitary length, $\|\varphi\|= 1$.
+	Furthermore the conjugate transpose of a \emph{bra} vector is the corresponding \emph{ket} vector, and vice versa.
 	$$ \bra{\varphi}^{\dagger} = \ket{\varphi} \text{,    } \ket{\varphi}^{\dagger} = \bra{\varphi}$$
 	More specifically, for a complex vector space as $\H$, the components of $\bra{\varphi}$ are each the complex conjugate of the components of $\ket{\varphi}$.\\
 	It is worth noting that in quantum information we will consider only vectors of finite dimensions, and more often than not, the standard basis for qubits represented by
 	$$\ket0 =  \begin{pmatrix} 1 \\ 0 \end{pmatrix}
 	\text{ and }
 	\ket1 =  \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$
+	which are recognizable as the equivalent of $\vec{e_1}$ and $\vec{e_2}$ in $\mathbb{C}^2$.\\
+	
+	To summarize then, $\ket{\varphi}$ represents a coloumn vector on a complex vector space with inner product equivalent to $\mathbb{C}^n$ in some basis, and $\bra{varphi}$ is its complex conjugate.
 	
 	
 	\subsubsection*{Inner/outer product}
 	%This one first to start from standard notation
-	In standard vector notation this is no different from
+	In standard vector notation we define the inner (scalar) product of complex vectors as
 	$$ ( \vec{v}, \vec{w} ) =  \begin{pmatrix} \bar{v_1} & \bar{v_2}\end{pmatrix} \begin{pmatrix} w_1 \\ w_2 \end{pmatrix} = \begin{pmatrix} \bar{w_1} & \bar{w_2}\end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} = ( \vec{w}, \vec{v} )^{\dagger}$$
-	The inner product of two vectors $\ket{v}$ and $\ket{w}$ is
+	Written in bra-ket notation, the inner product of two state vectors $\ket{v}$ and $\ket{w}$ is
 	$$ ( \ket{v} , \ket{w} ) = \bk{v}{w} = (\ket{w} , \ket{v} )^{\dagger} = \bk{w}{v}^{\dagger} $$
 	Where $\dagger$ represents the conjugate transpose,	which produces a scalar (complex) value.\\ %real??
-	This property is fundamental in the sense that it will allows us to go from a state space --- that can be many dimensional --- to a \textit{measurement} space, which assumes real values.\\ %0 and 1 in our case??
+%	This property is fundamental in the sense that it will allows us to go from a state space --- that can be many dimensional --- to a \textit{measurement} space, which assumes real values.\\ %0 and 1 in our case??
 	
-	It is important also to note that through the inner product of two vectors we also define the norm $\Vert\ket{v}\Vert  =  \sqrt{\braket{v}{v}} $.\\
+	It is important also to note that through the inner product of two vectors we also define the norm $\|\ket{v}\|  =  \sqrt{\braket{v}{v}} $.\\
 	
 	
 	The outer product of two vectors, on the other hand, produces a matrix, with very important properties. So if we define the matrix\footnote{The fact that the result of  $ \ketbra{w}{v} $ is indeed a matrix can be seen more directly if we remember that this is nothing less than a column-row vectors multiplication.} $A =  \ketbra{w}{v} $ we observe that
