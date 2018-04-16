@@ -29,34 +29,52 @@
 	% START MOTIVATION
 	The goal of a secret key generation is, at the end, for Alice and Bob to share a \emph{common secret}.  A requirement is also that no eavesdropper Eve can know anything about this common secret.	
 	
+	%Explain here comparison with diffie-Helmann	 step by step
+	\subsubsection*{Diffie-Hellman key exchange}
+		\begin{quotation}
+			"The task of Alice and Bob is to obtain via local (classical) operations and public communication (LOPC) the longest bit-string which is almost perfectly correlated and about which Eve (who can listen to the public discussion) knows a negligible amount of information."
+		\cite{4H07}
+	\end{quotation}	
+	A famous and widely used protocol for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.\footnote{ Diffie, W.; Hellman, M. (1976). "New directions in cryptography". IEEE Transactions on Information Theory. 22 (6): pp. 644–654.}
+	This method illustrates the idea that through local operations and public communication (LOPC) it is possible to achieve a common secret among the parties.
+	The whole process can be summarized in five basic steps:
+	%TODO find the parallelism in here
+	\begin{enumerate}
+		\item Alice and Bob \emph{publicly} communicate and agree on two numbers, that will serve as basis for the computations
+		\item Each party generates \emph{locally} a personal and distinct secret, $s_a$ and $s_b$ , without ever communicating it 
+		\item They mix their own secret with the common agreed basis, producing a result $R_a$ and $R_b$. The mathematical properties of this operation make it so it is computational infeasible to go back and retrieve the secrets $s$
+		\item Both parties exchange publicly their result, so that they now posses the inseparable mixture secret-base of the other party.
+		\item Each party applies again their secret but to the new mixture this time. The results are equal for Alice and Bob so they can use this result as a common secret to create a key
+	\end{enumerate}	 
+	The parts exchanged over the public channel are only the mutually agreed base and the two partial mixtures. It can be proven that those two elements alone give no information about the complete final shared secret and that it is virtually impossible to obtain the correct final product with only those two.\\
+	This example shows how  the goal can be achieved for ALice and Bob starting from some common resource (in this case the common basis)
+	
+	%Formulation of the question (at high level)
+			\begin{quotation}
+				[...] an analogue of the necessary and sufficient condition for entanglement distillation was found.
+				As in the quantum case the state is distillable iff there exists a projection (acting on $n$ copies of a state for some $n$) onto 2-qubit subspace which is entangled, 
+				in the classical case, the key is distillable iff there exists a binary channel (acting on $n$ copies of a 	distribution for some $n$) which outputs Alice's and Bob's variables, such that the resulting distribution has nonzero key.
+				\cite{4H07}
+			\end{quotation}
+	
+	
 	%maybe a bit of an overstatement, but we are dealing the most secure privacy possible, right?
 	\begin{quote}
 	\textbf{Computational security (RSA) $<$ security through physical laws (BB84) $<$ information theoretical security (??)}
 	\end{quote}
 	
+	%Formulation of analogue between privacy and entanglement?
 	\begin{quotation}
 	It is interesting, that entanglement, which is originally quantum concept, corresponds to privacy in general --- not only in the context of quantum protocols.
 	\cite{4H07}
 	\end{quotation}
-	\begin{quotation}
-	The task of Alice and Bob is to obtain via local (classical) operations and public communication (LOPC) the longest bit-string which is almost perfectly correlated and about which Eve (who can listen to the public discussion) knows a negligible amount of information.
-	\cite{4H07}
-	\end{quotation}	
-	%Explain here comparison with diffie-Helmann	 step by step
 	
-	
+	%picture showing intuition emerges from the usage of resources
 	\begin{figure}[H]
 		\centering
 		\input{images/intuition}
 		\caption{Sort of how and why the intuition is constructed from previous knowledge of concepts of QM}
 	\end{figure}
-	
-	\begin{quotation}
-	[...] an analogue of the necessary and sufficient condition for entanglement distillation was found.
-	As in the quantum case the state is distillable iff there exists a projection (acting on $n$ copies of a state for some $n$) onto 2-qubit subspace which is entangled, 
-	in the classical case, the key is distillable iff there exists a binary channel (acting on $n$ copies of a distribution for some $n$) which outputs Alice's and Bob's variables, such that the resulting distribution has nonzero key.
-	\cite{4H07}
-	\end{quotation}
 	
 	
 	\section{Linear Algebra and Notation}
@@ -182,7 +200,7 @@
 	
 	Quantum mechanics is a very large and complex theory. For our purposes it is enough for us to only consider the quantum system called \emph{qubit} and its rules of computation following from the tensor product algebra.  ...
 	
-	%%TODO review this
+	%TODO review this
 	All pure states in QM are normalized vectors in $\H$.
 	$$ \ket{\psi}\in\H \Rightarrow  \vert\bk{\psi}{\psi}\vert = 1$$
 	This is instrumental in seeing them as probability vectors. Every linear operator has then to be unitary to maintain this property.\\
