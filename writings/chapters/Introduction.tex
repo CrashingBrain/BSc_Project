@@ -27,27 +27,37 @@
 	Looking at QM $\rightarrow$ WHY\\
 	
 	% START MOTIVATION
-	The goal of a secret key generation is, at the end, for Alice and Bob to share a \emph{common secret}.  A requirement is also that no eavesdropper Eve can know anything about this common secret.	
+	The goal of a secret key generation is, at the end, for Alice and Bob to share a \emph{common secret}.  A requirement is also that no eavesdropper Eve can know anything about this common secret. A common name for the process to achieve this is \emph{distillation} or \emph{classical key agreement} (CKA) in common cryptography.
 	
 	%Explain here comparison with diffie-Helmann	 step by step
 	\subsubsection*{Diffie-Hellman key exchange}
 		\begin{quotation}
+			%what " to use here?
 			"The task of Alice and Bob is to obtain via local (classical) operations and public communication (LOPC) the longest bit-string which is almost perfectly correlated and about which Eve (who can listen to the public discussion) knows a negligible amount of information."
 		\cite{4H07}
 	\end{quotation}	
-	A famous and widely used protocol for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.\footnote{ Diffie, W.; Hellman, M. (1976). "New directions in cryptography". IEEE Transactions on Information Theory. 22 (6): pp. 644–654.}
-	This method illustrates the idea that through local operations and public communication (LOPC) it is possible to achieve a common secret among the parties.
+	A famous and widely used protocol for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.\footnote{ Diffie, W.; Hellman, M. (1976). "New directions in cryptography". IEEE Transactions on Information Theory. 22 (6): pp. 644–654.} %how cite this?
 	The whole process can be summarized in five basic steps:
 	%TODO find the parallelism in here
 	\begin{enumerate}
-		\item Alice and Bob \emph{publicly} communicate and agree on two numbers, that will serve as basis for the computations
-		\item Each party generates \emph{locally} a personal and distinct secret, $s_a$ and $s_b$ , without ever communicating it 
-		\item They mix their own secret with the common agreed basis, producing a result $R_a$ and $R_b$. The mathematical properties of this operation make it so it is computational infeasible to go back and retrieve the secrets $s$
-		\item Both parties exchange publicly their result, so that they now posses the inseparable mixture secret-base of the other party.
-		\item Each party applies again their secret but to the new mixture this time. The results are equal for Alice and Bob so they can use this result as a common secret to create a key
+		\item Alice and Bob \emph{publicly} communicate and agree on two numbers, that will serve as basis for the computations.
+		\item Each party generates \emph{locally} a personal and distinct secret ($s_A$ and $s_B$) without ever communicating it .
+		\item They mix their own secret with the common agreed basis, producing a result $R_A$ and $R_B$. The mathematical properties of this operation make it so it is computational infeasible to go back and retrieve the secrets $s$ from $R$.
+		\item Both parties exchange \emph{publicly} their result, so that they now posses the inseparable secret-base mixture of the other party.
+		\item Each party applies again their secret but to the received mixture this time. The outputs are equal for Alice and Bob so they can use this result as a common secret to create a key.
 	\end{enumerate}	 
-	The parts exchanged over the public channel are only the mutually agreed base and the two partial mixtures. It can be proven that those two elements alone give no information about the complete final shared secret and that it is virtually impossible to obtain the correct final product with only those two.\\
-	This example shows how  the goal can be achieved for ALice and Bob starting from some common resource (in this case the common basis)
+	The parts exchanged over the public channel --- the ones that Eve knows --- are only the mutually agreed base and the two partial mixtures. 
+	It can be proven that those two elements alone give no information about the complete final shared secret and that it is virtually impossible to obtain the correct final product with only those two.\\
+	This method illustrates the idea that through local operations and public communication (LOPC) it is possible to achieve a common secret among the parties. 
+	In this example the resource Alice and Bob start with could be seen as the \textit{basis} they publicly decide. %or the probability distribution on that?
+	 Specific to the Diffie-Hellman method there are bounding conditions on such basis (which is has no importance for us), but more relevant is that the length $p$ of such basis bounds the length of the final secret with $(p-1)$. \\
+	 Here we see a first intuition of how obtaining a secret from common resources is possible, but a certain \emph{cost} must be paid and there are bounding conditions on the result. 
+	 These two concepts --- cost and distillate result --- will be explained and discussed later but they can  already be used now to formulate the question of \emph{bound information}.
+	 
+	 \begin{itemize}
+		\item Is there a tripartite probability $P_{ABE}$ (\textsl{corresponding to the mixture above}), that has some \texttt{cost} associated to it to create it, but has $0$ possible key distillable from it? 
+	 \end{itemize}
+	 
 	
 	%Formulation of the question (at high level)
 			\begin{quotation}
