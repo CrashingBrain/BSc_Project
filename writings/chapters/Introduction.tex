@@ -26,6 +26,8 @@
 	why it may be useful\\
 	Looking at QM $\rightarrow$ WHY\\
 	
+	$$ P(A\downarrow B)$$
+	
 	% START MOTIVATION
 	The goal of a secret key generation is, at the end, for Alice and Bob to share a \emph{common secret}.  A requirement is also that no eavesdropper Eve can know anything about this common secret. A common name for the process to achieve this is \emph{distillation} or \emph{classical key agreement} (CKA) in common cryptography.
 	
@@ -36,7 +38,7 @@
 			"The task of Alice and Bob is to obtain via local (classical) operations and public communication (LOPC) the longest bit-string which is almost perfectly correlated and about which Eve (who can listen to the public discussion) knows a negligible amount of information."
 		\cite{4H07}
 	\end{quotation}	
-	A famous and widely used protocol for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.\footnote{ Diffie, W.; Hellman, M. (1976). "New directions in cryptography". IEEE Transactions on Information Theory. 22 (6): pp. 644–654.} %how cite this?
+	A famous and widely used protocol for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.\cite{DH76}
 	The whole process can be summarized in five basic steps:
 	%TODO find the parallelism in here
 	\begin{enumerate}
@@ -55,7 +57,7 @@
 	 These two concepts --- cost and distillate result --- will be explained and discussed later but they can  already be used now to formulate the question of \emph{bound information}.
 	 
 	 \begin{itemize}
-		\item Is there a tripartite probability $P_{ABE}$ (\textsl{corresponding to the mixture above}), that has some \texttt{cost} associated to it to create it, but has $0$ possible key distillable from it? 
+		\item Is there a tripartite probability $P_{ABE}$ (\textsl{corresponding to the mixture above}), that has some \textbf{cost} associated to it to create it, but has $0$ possible key bits distillable from it? 
 	 \end{itemize}
 	 
 	
@@ -63,7 +65,7 @@
 			\begin{quotation}
 				[...] an analogue of the necessary and sufficient condition for entanglement distillation was found.
 				As in the quantum case the state is distillable iff there exists a projection (acting on $n$ copies of a state for some $n$) onto 2-qubit subspace which is entangled, 
-				in the classical case, the key is distillable iff there exists a binary channel (acting on $n$ copies of a 	distribution for some $n$) which outputs Alice's and Bob's variables, such that the resulting distribution has nonzero key.
+				in the classical case, the key is distillable iff there exists a binary channel (acting on $n$ copies of a distribution for some $n$) which outputs Alice's and Bob's variables, such that the resulting distribution has non-zero key.
 				\cite{4H07}
 			\end{quotation}
 	
@@ -156,7 +158,7 @@
 	$$ Y= \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}	 \quad   Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$$
 	
 	In particular it is safe to say that, unless stated otherwise, the operators that will be presented all have a set of properties and are called Hermitian operators, or self-adjoint operators.\\
-	$$ A = A^{dagger} \quad \Longrightarrow (A\ket{v})^{\dagger} = \bra{v}A^{\dagger} $$ 
+	$$ A = A^{\dagger} \quad \Longrightarrow (A\ket{v})^{\dagger} = \bra{v}A^{\dagger} $$ 
 	Operators have also to be positive, this means that it holds, for every $\ket{v}$ : $\bra{v}A\ket{v}$ is real non-negative. Any positive operator is also self-adjoint and therefore it has diagonal (spectral) representation $\sum_i \lambda_i \proj{i}$ with non-negative eigenvalues $\lambda_i$.\\
 	
 	\subsubsection*{Tensor product}
@@ -212,7 +214,7 @@
 	
 	%TODO review this
 	All pure states in QM are normalized vectors in $\H$.
-	$$ \ket{\psi}\in\H \Rightarrow  \vert\bk{\psi}{\psi}\vert = 1$$
+	$$ \ket{\psi} \text{ is a state vector } \Rightarrow \ket{\psi}\in\H \text{ and }  \vert\bk{\psi}{\psi}\vert = 1$$
 	This is instrumental in seeing them as probability vectors. Every linear operator has then to be unitary to maintain this property.\\
 	A statistical mixture of states corresponds to a \emph{density matrix}, which is itself a new state. It is important to note that a mixture of probability of states is not the same thing as superposition of states. In the latter we don't have a measure of uncertainty of the state, meaning also that in theory we are always able to find a measurement basis that will always output the same result for that state. In the former, however, this is not possible given by the direct intrinsic uncertainty of the state.\\
 	Density matrices have then the properties:
