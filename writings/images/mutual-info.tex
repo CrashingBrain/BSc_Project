@@ -1,9 +1,9 @@
 % Representation of mutual information in relation to entropy of variables
-\tikzset{colorcircle/.style={circle, thick, minimum size=4cm, text height=1.7ex,text depth=.25ex, text width=3cm, draw=#1!70!black, fill=#1!30, fill opacity=0.2, text opacity=1}}
+\tikzset{colorcircle/.style={circle, thick, minimum size=4cm, text height=1.7ex,text depth=.25ex, text width=3cm, draw=#1!70!black, fill=#1!30, fill opacity=0.33, text opacity=1.0}}
 
 \begin{tikzpicture}[scale=0.6]
   
-  \node[colorcircle=magenta] (Hx) at (-2,0)  {$ H(X\mid Y) $\hfill};
+  \node[colorcircle=magenta] (Hx) at (-2,0)  {$ H(X\mid Y) $ \hfill};
   \node[colorcircle=blue] (Hy) at (2,0)  {\hfill $ H(Y\mid X) $};
   \node (mI) at (0,0) {$ \mathbf{I(X;Y)} $};
   \node [left =of Hx.north] (HxL) {$ H(X) $};
