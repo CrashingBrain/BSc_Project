@@ -9,33 +9,32 @@
 \section{Mathematical Framework (for QM)}
 	%TODO Correct and reformulate
 	
-		In order to understand subsequent sections of this thesis %pezzé will not like this
-		a basic knowledge of the mathematical framework behind quantum mechanics is needed. The whole theory is constructed on a (mostly) straightforward linear theory, thus a basic knowledge of linear algebra plus some addendum is enough. It is important, however, to specify a standard notation as used in literature.
+		In order to understand subsequent sections of this thesis a basic knowledge of the mathematical framework behind quantum mechanics is needed.
+		 It is also important to specify a standard notation as used in literature.
 	
-	\begin{enumerate}
-	\item Dirac's braket notation
-	\item Inner/(Outer) product
-	\item Linear operator
-	\item Adjoints and Hermitian operators
-	\item Pauli matrices
-	\item Tensor Product and tensor space
-	\end{enumerate}
+%	\begin{enumerate}
+%	\item Dirac's braket notation
+%	\item Inner/(Outer) product
+%	\item Linear operator
+%	\item Adjoints and Hermitian operators
+%	\item Pauli matrices
+%	\item Tensor Product and tensor space
+%	\end{enumerate}
 	
 	\subsubsection*{Dirac's bra-ket notation and Hilbert spaces}
-	\begin{figure}[h!]
-		\centering
-		\includegraphics[scale=0.2]{images/sketch1.png} 
-		\caption{how a physical state is represented}
-	\end{figure}
-	Because much of the theory presented in this research deals with ideas of quantum mechanics, we have to introduce a basic notation and knowledge on the mathematical model underneath it. 
+%	\begin{figure}[h!]
+%		\centering
+%		\includegraphics[scale=0.2]{images/sketch1.png} 
+%		\caption{how a physical state is represented}
+%	\end{figure}
 	Every pure quantum state can be represented a vector in a vector space with inner product, i.e. a \emph{Hilbert space}. 
 	The implication of this will be explained in the next section; for now we only look of this vector representation.\\
-	 If we have a vector space $\H$ --- which we can consider \textit{isomorph} to $\mathbb{C}^n $ --- with an inner product and element $\vec{v}\in \mathbb{C}^n$ we can write it explicitly 
-	$$ \vec{v} =  \begin{pmatrix} v_1 \\ v_2 \\ \vdots \end{pmatrix} = v_1\vec{e_1} + v_2\vec{e_2} + \ldots \in \mathbb{C}^n$$
-	for some basis to apply coefficients $v_1, v_2, \ldots$ to.\\
-	The bra-ket notation is a handy notation introduced by physicist Paul Dirac to deal with such vector representation of quantum states. First of all we note that a state $\varphi\in\H$ can be represented as a vector on top of some basis like this.
-	$$\ket{\varphi} = \begin{pmatrix} \varphi_1 \\ \varphi_2 \\ \vdots \end{pmatrix}	  \text{  is a coloumn vector over } \H $$
-	$$\bra{\varphi}  = \begin{pmatrix} \varphi_1 & \varphi_2 & \hdots \end{pmatrix} \text{  is a row vector over } \H $$
+	 A complex Hilbert space $\H$ of dimension $n$ is isomorphic to $ \mathbb{C}^n $ with the standard inner product. 
+	 In $\mathbb{C}^n $ one can choose a basis and represents vectors with coordinates with respect to this basis.\\
+	The bra-ket notation is a handy notation introduced by physicist Paul Dirac to deal with such vector representation of quantum states. 
+	First of all we note that a state $\varphi '\in\H$ corresponds via the isomorphism to $ \varphi  \in \mathbb{C}^n $. It can be represented as a vector with respect of some basis as follows
+	$$\ket{\varphi} = \begin{pmatrix} \varphi_1 \\ \varphi_2 \\ \vdots \end{pmatrix}	  \text{  is a coloumn "ket" vector over } \H $$
+	$$\bra{\varphi}  = \begin{pmatrix} \varphi_1 & \varphi_2 & \hdots \end{pmatrix} \text{  is a row "bra" vector over } \H $$
 	To be representative of a quantum state the vector has to have unitary length, $\|\varphi\|= 1$.
 	Furthermore the conjugate transpose of a \emph{bra} vector is the corresponding \emph{ket} vector, and vice versa.
 	$$ \bra{\varphi}^{\dagger} = \ket{\varphi} \text{,    } \ket{\varphi}^{\dagger} = \bra{\varphi}$$
