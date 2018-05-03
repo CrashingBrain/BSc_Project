@@ -6,6 +6,8 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{IEEEtrantools}
 
 % Package for lists
 \usepackage[shortlabels]{enumitem}
@@ -40,6 +42,11 @@
 \addbibresource{bib/references.bib}
 %------------------------------------%
 
+% Math environments
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\newtheorem{xmpl}{Example}
+
 %quantum commands
 \renewcommand{\H}{\mathcal{H}}
 \newcommand{\ket}[1]{|#1 \rangle}
@@ -52,6 +59,8 @@
 
 %Math commands
 \DeclareMathOperator{\Tr}{Tr} % Trace
+\DeclareMathOperator{\Ent}{H} % Entropy
+\DeclareMathOperator{\I}{I} % Mutual Information
 
 %------------------------------------%
 

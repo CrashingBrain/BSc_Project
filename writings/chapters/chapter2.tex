@@ -148,21 +148,25 @@
 		If the states are not orthonormal there is no quantum measurement capable of distinguishing the states. \\
 		From this follows that if the states $\ket{\psi_1}$ and $\ket{\psi_2}$ are not orthogonal, then $\ket{\psi_2}$ has a component orthogonal to $\ket{\psi_1}$ but also a component parallel to it which will give probability not $0$ of measuring differently.
 		
-			\quad\underline{Example:}\\
-			\begin{center}
-				$ Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \quad P_{+1} = \proj{0} , \; P_{-1} = \proj{1}	 $\\
+			\begin{xmpl}
+      \begin{equation*} % environment for equation 
+				Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \quad P_{+1} = \proj{0} , \; P_{-1} = \proj{1}
+      \end{equation*}
 				Measurement on qubit $ \ket{\psi} = \frac{\ket0 + \ket1}{\sqrt{2}} $ has probability $p_{+1} = \bra{\psi}P_{+1}\ket{\psi} = \bk{\psi}{0}\bk{0}{\psi} = \frac{1}{2}$ and similarly $p_{-1} = \frac{1}{2}$
 				\cite{NC10}
-			\end{center}%!!taken from book!!
+			\end{xmpl}
 
 		\subsection{Quantum Entanglement}
 		\begin{quotation}
 		There exist vectors in $V\otimes W$ that can not be represented by a single tensor product:
-		$$ \textrm{Given } v_1,v_2\in V \; w_1,w_2\in W \; \textrm{linear independent:}$$
-		$$v_1\otimes w_1 + v_2\otimes w_2 = v_1w_1 + v_2w_2 \in V\otimes W \; \textrm{is \emph{not} separable}$$ 
-		this may be strange because on physical level tensor product is combination(merging) of quantum systems
-		\cite{Han13}
+		Given $v_1,v_2\in V \; w_1,w_2\in W$ linear independent:
+    \begin{equation*}
+		v_1\otimes w_1 + v_2\otimes w_2 = v_1w_1 + v_2w_2 \in V\otimes W
+    \end{equation*}
+    is \emph{not} separable.
+		this may be strange because on physical level tensor product is combination(merging) of quantum systems (??? this is not a complete sentence??)
 		\end{quotation}
+		\cite{Han13}
 		
 		\begin{figure}[h]
 			\centering
@@ -193,8 +197,10 @@
 	
 	\subsection{Common Secret} \label{commonsecret}%here?
 	Let $X,Y,Z,S$ be random variables on the same range $\mathcal{X}$. Let $X$ be owned by Alice, $Y$ by Bob and $Z$ by Eve. Then
-	$$ (common) \qquad P[X=Y=S] > 1 - \epsilon $$
-	$$ (secret) \qquad I(X;Z) = 0 \: \wedge \: I(Y;Z) = 0 $$
+  \begin{align}
+	 & P[X=Y=S] > 1 - \epsilon\label{eqn:common}\tag{common} \\ 
+	 & I(X;Z) = 0 \: \wedge \: I(Y;Z) = 0 \label{eqn:secret}\tag{secret}
+  \end{align}
 for all $\epsilon > 0 $. \\
 The first part defines the \textit{common} property: $X$ and $Y$ must be asymptotically the same. 
 The second part states that the amount of information Eve can gather about $X$ and $Y$, through it's realization of $Z$, is $0$.
