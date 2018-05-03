@@ -23,6 +23,7 @@
 						scopes}
 
 \tikzset{colorbox/.style={thick, rounded corners=2pt, text height=1.7ex,text depth=.25ex, draw=#1!70!black, fill=#1!30}}
+
 \tikzset{colorelement/.style={thick, rounded corners=2pt, draw=#1!70!black, fill=#1!30}}
 \tikzset{conn/.style={thick, shorten <=#1, shorten >=#1}}
 \tikzset{arr_node/.style={pos=0.5,above,font=\scriptsize, sloped}}
@@ -34,7 +35,7 @@
 \usepackage{arydshln}
 
 % Biblatex
-\usepackage[backend=biber,style=alphabetic,sorting=none]{biblatex}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \nocite{*}
 \addbibresource{bib/references.bib}
 %------------------------------------%
@@ -74,12 +75,15 @@
 %\lipsum[13]
 \tableofcontents
 
-\chapter{Introduction}
-\input{chapters/Introduction}
+%\chapter{Introduction}
+%\input{chapters/Introduction}
+
+\chapter{Motivation}
+\input{chapters/Motivation}
 		
 % Comment out empty chapters
-%\chapter{The Intuition}
-%\input{chapters/chapter2}
+\chapter{Foundamentals}
+\input{chapters/chapter2}
 		
 \chapter{Bound Information}
 \input{chapters/chapter3}

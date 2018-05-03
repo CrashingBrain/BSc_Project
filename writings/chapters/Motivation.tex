@@ -1,0 +1,87 @@
+% Motivation chapter
+% contains also abstract explanation on theoretic secure key distribution
+
+%\lipsum[3]
+%The problem of secure and private communication between parties is as old as it can be complicated. 
+%\\
+
+There are nonetheless distributions of probabilities that can hold a value of privacy and can therefore used in cryptographic systems. These joint probabilities have the properties
+\\
+
+It has been noticed that these concepts of privacy also appear in nature and the strongest analogy comes from quantum mechanics.\footnotemark 
+From this theory arises the famous \emph{quantum entanglement} that appears to be the equivalent of privacy in many ways.
+Both phenomena are composed of correlations between known parties that no other person can access or copy. As summed in \cite{4H07} "If systems are in pure entangled state then at the same time (i) systems are correlated and (ii) no other system is correlated with them.". 
+This can be seen as Alice and Bob holding a secret that Eve can not get to know.
+\begin{table}[h]
+	 \centering
+	 	\begin{tabular}{ l | l}
+	 		\textbf{quantum theory} & \textbf{classical information} \\ 
+	 		\hline 
+	 		quantum entanglement & secret classical correlations \\ 
+	 		quantum communication & secret classical communication \\ 
+	 		classical communication & public classical communication \\ 
+	 		entanglement distillation & classical key agreement (CKA) \\ %TODO doubt here
+	 		local actions & local actions \\ 
+	 		bound entanglement & bound information ? \\
+	 	\end{tabular} 
+	 	\caption{Table showing key QM concepts and their analog in classical key agreement, following \cite{CP02}.
+	 	\label{Tab:analogy}}
+	 \end{table}
+\\
+\footnotetext{While those analogies are present in many sources, they can be found summed up in the paper by Collins and Popescu \cite{CP02}, which also shortly addresses the question of bound information. }
+
+From table \ref{Tab:analogy} we see that some the resources and operations of QM have a one-to-one analog in classical information theory. 
+Such a close relation suggests that the two theories can be viewed together and to use one to better understand the other. 
+It is important however to point out that quantum entanglement and its effects \emph{are not} a quantum manifestation of classical effects and one theory does not explain the other. \\
+For example there is no instance --- and it is believed to not exist -- of a classical correspondence to super-dense coding (a quantum effect). Other entities like a classical correspondence to bound entanglement, \emph{bound information}, are not excluded a priori and remain yet to be observed or disproved.
+
+\paragraph*{Common Secret}
+Intuitively a common secret is a piece of information (i.e. \textit{bits} of information) known to trusted parties --- for example Alice and Bob --- and to none else. 
+In an environment where we allow the presence of an eavesdropper Eve, reaching such state is not always trivial. \\
+There exist methods and protocols to generate such secrets, even from nothing, although they differ at different levels of secrecy. A notable one is the famous Diffie-Hellman method to generate a common cryptographic key \cite{DH76} .
+%Add line about Shannon maybe?
+
+A more formal and precise definition --- one that we may also use in calculations -- of a common secret is given later in section \ref{commonsecret}.
+\\
+
+\paragraph*{The Question}
+\begin{itemize}
+		\item Is there a tripartite probability $P_{ABE}$, that has some \textbf{cost} associated to it to create it, but has $0$ possible key bits distillable from it? 
+\end{itemize}
+
+\section{A Comparison between Securities}
+% begin expalining that you want to share a secret within parties
+% give broad definition of a common secret (in words) it will later
+% be explained in next chapter -> ... A more formal and precise definition of a \textit{common secret} is given in section [XX]
+
+	\subsection{Security Bounded by Computational Complexity}
+	The majority of cryptographic systems used are built on computational complexity security. The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.
+		\subsubsection{The Diffie-Hellman key exchange}
+		% Expalin only ho w the protocol works, what is based on, what are its bounds, how it can be attacked (ideally).
+		% Don't dive into Maurer violations, that will be covered in chapter [3] (XX)
+	
+		A famous and widely used protocol for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.
+	The whole process can be summarized in five basic steps:
+	\begin{enumerate}
+		\item Alice and Bob \emph{publicly} communicate and agree on two numbers, that will serve as basis for the computations.
+		\item Each party generates \emph{locally} a personal and distinct secret ($s_A$ and $s_B$) without ever communicating it .
+		\item They mix their own secret with the common agreed basis, producing a result $R_A$ and $R_B$. The mathematical properties of this operation make it so it is computational infeasible to go back and retrieve the secrets $s$ from $R$.
+		\item Both parties exchange \emph{publicly} their result, so that they now posses the inseparable secret-base mixture of the other party.
+		\item Each party applies again their secret but to the received mixture this time. The outputs are equal for Alice and Bob so they can use this result as a common secret to create a key.
+	\end{enumerate}	 
+	The parts exchanged over the public channel --- the ones that Eve knows --- are only the mutually agreed base and the two partial mixtures. 
+	It can be proven that those two elements alone give no information about the complete final shared secret and that it is virtually impossible to obtain the correct final product with only those two.\\  
+	
+	The security in this method relies mainly in step 3. Here an action as $ R_A = g^{s_A} \bmod p $ is performed, where $g$ and $p$ are the public common basis agreed beforehand. 
+	To get back to $s_A$  one will need to find the prime factors of $R_A$, which is a known hard problem. It is not impossible however. The difficulty of breaking this step is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
+		
+	\subsection{Security Bounded by the Laws of Physics}
+	
+		\subsubsection{The BB84 protocol}
+		
+	
+	\subsection{Information Theoretical Security}
+	
+		\subsubsection{The One-time Pad}
+		%this is not really a method to share a common secret, since you have 
+		% to already start with a secret.. <- point that out!
