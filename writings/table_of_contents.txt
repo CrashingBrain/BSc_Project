@@ -1,20 +1,30 @@
 1. Motivation
 % Gives the intuition from QM and explain the bridge between
 % the two theories. Formulate the question at high level.
-  1.1 Secret Key Exchange
-  % maybe two words on a very high level explaining the idea 
+% analogies, like privacy <-> entanglement
+%                 complete correlation -> pure entanglement
+% from a common secret we can extract a key
+% there are Qstates that can not produce keys -> distribution with correlations but no key
+  % Secret Key Exchange
+  % two words on a very high level explaining the idea 
   % of secret keys exchange (=> bound information is about (not) being
   % able to extract keys...)
-  1.2 A comparison between securities
+  1.1 A comparison between securities
+    % Temporarely here until I find a right chapter for this
     % This to give an idea of what theoretical securerity is,
     % compared to other kinds of security approaches
-    1.2.1 Computational Complexity (Diffie-Hellman)
-    1.2.2 Based on Laws of Physics (BB84)
-    1.2.3 Information Theoretical security (Shannon/one-time pad)
+    1.1.1 Computational Complexity (Diffie-Hellman)
+    1.1.2 Based on Laws of Physics (BB84)
+    1.1.3 Information Theoretical security (Shannon/one-time pad)
 
 2. Foundamentals
+% lay out mathematical concepts needed/used in the next chapter. 
+% Or formalize some aspects.
   2.1 Mathematical Framework (for QM)
-    2.1.1 Notation
+  % inner product spaces, tensor product spaces, 
+  % linear operators, self-adjoint operators
+    % Dirac notation here?
+    % it is useful to then note operators and such 
     2.1.2 Inner Product
     2.1.3 Linear Operators
   2.2 Quantum Mechanics
@@ -24,11 +34,17 @@
   2.3 Information Theory
     2.3.1 Mutual Information
       2.3.1.1 Conditional Mutual Information
-    2.3.2 Common Secret
+    2.3.2 Common Secret (a.k.a. CKA)
+    % The end result we want to achieve at the end of the protocol. 
+    % The thing we prove or disprove that is extractable form a distribution
+  2.4 Quantum Distillation and Key Extraction
+  % explain the princpiple and how they relate
+  % Title can also be "Quantum information theory", to follow up from the others?
 
 3. Bound Information
   3.1 Conjectures
   % What the question would imply. What is speculated
+  % Taken mostly from Gisin, Wolf paper
   3.2 State of research
   % brief summaries of foundings in following papers:
   %   Linking classical and quantum key agreement: is there "bound Information"?
@@ -36,13 +52,11 @@
   %   Multipartite bound information exists and can be activated    
   %   (Gaussian multipartite bound information)
   %   ...
-  3.3 Quantum Distillation and Key Extraction
-  % explain the princpiple and how they relate
-  3.4 The Bounds of Bound Information
+  3.3 The Bounds of Bound Information
   % maybe here is too late (since they are mentioned
   %  from the beginning in the question)?
-    3.4.1 Secret key rate
-    3.4.2 Intrinsic Information
-  3.5 Analysis of a probability distribution asymptotically bound information
+    3.3.1 Secret key rate
+    3.3.2 Intrinsic Information
+  3.4 Analysis of a probability distribution asymptotically bound information
 
 4. Conclusion and open questions
