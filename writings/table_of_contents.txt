@@ -24,13 +24,16 @@
   % inner product spaces, tensor product spaces, 
   % linear operators, self-adjoint operators
     % Dirac notation here?
-    % it is useful to then note operators and such 
+    % it is useful to then write operators and such 
     2.1.2 Inner Product
     2.1.3 Linear Operators
   2.2 Quantum Mechanics
+    % Dirac notation here?
     2.2.1 Quantum Measurements 
     % not sure it's needed
     2.2.2 Quantum Entanglement
+    % add also bound entagnglement probably
+    % not sure how to explain BE yet. Is still very complicated to me. (the origin)
   2.3 Information Theory
     2.3.1 Mutual Information
       2.3.1.1 Conditional Mutual Information
@@ -58,5 +61,6 @@
     3.3.1 Secret key rate
     3.3.2 Intrinsic Information
   3.4 Analysis of a probability distribution asymptotically bound information
+  % comment and report on python code
 
 4. Conclusion and open questions
