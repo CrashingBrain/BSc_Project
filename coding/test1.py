@@ -59,8 +59,12 @@ def step_linear(Ptable):
     sh = np.shape(Ptable)
     norm = 1.0/reduce((lambda x,y: x*y), sh)
     normal = np.ones_like(Ptable) * norm
-    #TODO correct this
-    PPs = alpha[1]*normal + (1.0-alpha[1])*Ptable
+    alphash = np.shape(alpha)
+
+    PPs = np.empty(alphash + sh)
+    
+    for idx,a in enumerate(alpha):
+        PPs[idx] = a*normal + (1.0-a)*Ptable
 
     return PPs
 
@@ -85,14 +89,7 @@ p = q = 0.5
 # Pzz = np.array([[p,p],[q,q]]);
 Pzz = np.array([p,p,q,q])
 # print(I(ps,qs))
-print(Ptable[0,0,0,0])
-normalize(Ptable)
-print(Ptable[0,0,0,0])
-print("*********")
-print(PP)
-normalize(PP)
-print("--")
-print(PP)
+
 print("*********")
 PPs = step_linear(PP)
 print(np.shape(PPs))
