@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib
 from functools import reduce
 
+# Constants
+epsilon = np.finfo(float).eps
+
 #########################################################
 # Joint probability table
 # Order of dimensions X,Y,Z,U (4x4x2x2)
@@ -53,32 +56,39 @@ def entropy(px):
         Output:
         res:    entropy of random varaible
     """
-    res = 0
+    res = 0.0
     for p in px:
         res += p*np.log2(p)
     return -res
 
-def I(r):
-    """Mutual inforfomation
-
+def I(Ptable):
+    """Mutual information of r.v. X and Y
+    
         Input:
-        p:      probability of channel P_ZZ(0,0), P_ZZ(1,0)
-        q:      probability of channel P_ZZ(0,1), P_ZZ(1,1)
+        Ptable:     array-like table of joint probability for X and Y
 
         Output:
-        res:    mutal information of 
+        res:        mutual information I(X;Y)
     """
-    # r = p/(p+q)
-    foo = 0.5*(1-h(r))
-    bar = 0.5*h(r)
-    res = 1.0 + foo + bar
+    m = marginals(Ptable)
+    px = m[0]
+    py = m[1]
+    res = 0.0
+    z = 0
+    for ix,x in enumerate(px):
+        for iy,y in enumerate(py):
+            temp = Ptable[ix,iy]
+            if temp > epsilon:
+                res += temp*np.log2(temp/(x*y))
+
     return res
+
 #########################################################
 
 #########################################################
 # Utilities  on interpolation towards uniform distribution
 #
-alpha,stepsize = np.linspace(0,1,num=20, retstep=True)
+alpha,stepsize = np.linspace(0,1,num=10, retstep=True)
 def step_linear(Ptable):
     """Linear stepping
 
@@ -127,12 +137,10 @@ print("*********")
 PPs = step_linear(PP)
 results = []
 for table in PPs:
-    # take the p/(p+q) value from the first element of the table
-    #TODO adjust for arbitrarely dimension
-    foop = 4.0*table[0,0]
-    results.append( I(foop) )
+    results.append( I(table) )
 
 print(results)
 print("*********")
-a = marginals(Ptable)
+a = marginals(PP)
 print(a)
+print(epsilon)
