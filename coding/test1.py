@@ -4,10 +4,6 @@ import matplotlib
 from functools import reduce
 
 #########################################################
-# testing python to generate probability distributions
-#########################################################
-
-#########################################################
 # Joint probability table
 # Order of dimensions X,Y,Z,U (4x4x2x2)
 
@@ -80,20 +76,22 @@ def normalize(Ptable):
 
 
 # range of all [0,1]
-ps = np.linspace(0,1,num=1000)
-qs = 1-ps
+# ps = np.linspace(0,1,num=1000)
+# qs = np.linspace(0,1,num=1000)
 
 #mock values
-p = q = 0.5
+# p = q = 0.5
 # Z channel vector
 # Pzz = np.array([[p,p],[q,q]]);
-Pzz = np.array([p,p,q,q])
+# Pzz = np.array([p,p,q,q])
 # print(I(ps,qs))
 
 print("*********")
 PPs = step_linear(PP)
 results = []
 for table in PPs:
+    # take the p/(p+q) value from the first element of the table
+    #TODO adjust for arbitrarely dimension
     foop = 4.0*table[0,0]
     results.append( I(foop) )
 
