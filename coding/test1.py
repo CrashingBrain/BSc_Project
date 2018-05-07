@@ -23,19 +23,16 @@ def marginals(Ptable):
     numDim = np.shape(sh)[0] # number of dimensions of the table
 
     # generate numDim tuples for sum
-    ll = np.arange(0,numDim)
+    # (1,2,3), (2,3,0), (3,0,1), (0,1,2)
+    ll = list(range(0,numDim))
     tuples = []
     for i in range(numDim):
-        print('--')
-        print(ll)
-        tuples.append(ll[1:])
-        print(ll[1:] + [ll[0]])
+        tuples.append(tuple(ll[1:]))
         ll = ll[1:] + [ll[0]]
-    print(tuples)
-
-    #convert lists to tuples
-    #for i in range(numDim) sum the Ptable with each tuple
-    #append resulting lists in res
+    
+    # reduce Ptable with `sum` and get the marginals
+    for tup in tuples:
+        res.append(np.sum(Ptable, axis=tup))
 
     return res
 #########################################################
@@ -46,6 +43,20 @@ def marginals(Ptable):
 # Note: different behaviour using
 # math.log2(p) and np.log(p)/np.log(2)
 h = lambda p: -(p*np.log2(p) + (1-p)*np.log2(1-p))
+
+def entropy(px):
+    """Entropy of random variable x
+
+        Input:
+        px:     list containing probabilities of random variable X
+
+        Output:
+        res:    entropy of random varaible
+    """
+    res = 0
+    for p in px:
+        res += p*np.log2(p)
+    return -res
 
 def I(r):
     """Mutual inforfomation
@@ -124,3 +135,4 @@ for table in PPs:
 print(results)
 print("*********")
 a = marginals(Ptable)
+print(a)
