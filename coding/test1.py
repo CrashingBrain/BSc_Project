@@ -20,12 +20,12 @@ PP = Ptable[:,:,0,0] + Ptable[:,:,0,1] + Ptable[:,:,1,1] + Ptable[:,:,1,0]
 
 #########################################################
 # Utilies on Mutual Information measure
+
 # Note: different behaviour using
 # math.log2(p) and np.log(p)/np.log(2)
-"""  """
 h = lambda p: -(p*np.log2(p) + (1-p)*np.log2(1-p))
 
-def I(p,q):
+def I(r):
     """Mutual inforfomation
 
         Input:
@@ -35,7 +35,7 @@ def I(p,q):
         Output:
         res:    mutal information of 
     """
-    r = p/(p+q)
+    # r = p/(p+q)
     foo = 0.5*(1-h(r))
     bar = 0.5*h(r)
     res = 1.0 + foo + bar
@@ -45,7 +45,7 @@ def I(p,q):
 #########################################################
 # Utilities  on interpolation towards uniform distribution
 #
-alpha,stepsize = np.linspace(0,1,num=2000, retstep=True)
+alpha,stepsize = np.linspace(0,1,num=20, retstep=True)
 def step_linear(Ptable):
     """Linear stepping
 
@@ -92,5 +92,9 @@ Pzz = np.array([p,p,q,q])
 
 print("*********")
 PPs = step_linear(PP)
-print(np.shape(PPs))
-print(PPs)
+results = []
+for table in PPs:
+    foop = 4.0*table[0,0]
+    results.append( I(foop) )
+
+print(results)
