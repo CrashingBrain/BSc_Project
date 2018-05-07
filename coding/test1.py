@@ -11,7 +11,33 @@ Ptable = np.zeros((4,4,2,2))
 Ptable[0,0,0,0] = Ptable[1,1,0,0] = Ptable[0,1,1,0] = Ptable[1,0,1,0] = 1.0/8.0
 Ptable[2,2,0,1] = Ptable[3,3,1,1] = 1.0/4.0
 # Table for P_XY
-PP = Ptable[:,:,0,0] + Ptable[:,:,0,1] + Ptable[:,:,1,1] + Ptable[:,:,1,0]
+PP = np.sum(Ptable, axis=(2,3))
+#########################################################
+
+
+#########################################################
+# Utilities on probabilities
+def marginals(Ptable):
+    res = []
+    sh = np.shape(Ptable)
+    numDim = np.shape(sh)[0] # number of dimensions of the table
+
+    # generate numDim tuples for sum
+    ll = np.arange(0,numDim)
+    tuples = []
+    for i in range(numDim):
+        print('--')
+        print(ll)
+        tuples.append(ll[1:])
+        print(ll[1:] + [ll[0]])
+        ll = ll[1:] + [ll[0]]
+    print(tuples)
+
+    #convert lists to tuples
+    #for i in range(numDim) sum the Ptable with each tuple
+    #append resulting lists in res
+
+    return res
 #########################################################
 
 #########################################################
@@ -96,3 +122,5 @@ for table in PPs:
     results.append( I(foop) )
 
 print(results)
+print("*********")
+a = marginals(Ptable)
