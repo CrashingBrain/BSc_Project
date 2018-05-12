@@ -1,6 +1,7 @@
 import numpy as np
 # import scipy as sp #TODO doesn't work
 import matplotlib
+import itertools as itools
 from functools import reduce
 
 # Constants
@@ -17,10 +18,20 @@ Ptable[2,2,0,1] = Ptable[3,3,1,1] = 1.0/4.0
 PP = np.sum(Ptable, axis=(2,3))
 #########################################################
 
-
 #########################################################
 # Utilities on probabilities
+
 def marginals(Ptable):
+    """Compute the value of marginals for a joint probability
+
+        Input:
+        Ptable:     table of joint probability
+
+        Output:
+        res:        list of probabilities of the marginals, in the same order
+                    as listed in np.shape(Ptable)
+
+    """
     res = []
     sh = np.shape(Ptable)
     numDim = np.shape(sh)[0] # number of dimensions of the table
@@ -38,6 +49,54 @@ def marginals(Ptable):
         res.append(np.sum(Ptable, axis=tup))
 
     return res
+
+def marginal_Z(Ptable):
+    """Values of the marginal Z, derived from P(X,Y)
+
+        Input:
+        Ptable: Table of joint probability P(X,Y)
+
+        Output:
+        res:    array of probabilities for marginal Z
+    """
+    sh = np.shape(Ptable)
+    n = sh[0]//2
+    res = np.zeros(n)
+
+    # get all combinations of indices for Ptable
+    combinations = [(x,y) for x in range(sh[0]) for y in range(sh[1]) if x<n and y<n]
+    # combinations = list(filter(lambda t: (t[0]<n) and (t[1]<n), combinations))
+    # get marginal of X
+    m = marginals(Ptable)
+    px = m[0]
+    for z in range(n):
+        # create a filter for this value of Z
+        f = lambda t: (t[0] + t[1])%n == z
+        # get only the indices that satisfy X+Y mod n = z
+        # where z is the value of Z (also the index in res)
+        ls = list(filter(f, combinations))
+        print(ls)
+        # P(Z=z) = sum_{X+Ymod2=z} P(X,Y) + P(X=n+z)
+        for idx in ls:
+            res[z]+= Ptable[idx]
+        res[z]+= px[n+z]
+
+    return res
+
+def evalZ(x,y):
+    """value of Z based on values of X and Y
+
+        Input:
+        x,y:    values of x and y
+
+        Output:
+        res:    Z
+
+    """
+    if (x >= 2):
+        return x%2
+    else:
+        return (x+y)%2
 #########################################################
 
 #########################################################
@@ -74,7 +133,7 @@ def I(Ptable):
     px = m[0]
     py = m[1]
     res = 0.0
-    z = 0
+    
     for ix,x in enumerate(px):
         for iy,y in enumerate(py):
             temp = Ptable[ix,iy]
@@ -100,7 +159,7 @@ def step_linear(Ptable):
                 towards uniform ditribution
     """
     sh = np.shape(Ptable)
-    norm = 1.0/reduce((lambda x,y: x*y), sh)
+    norm = 1.0/np.product(sh)
     normal = np.ones_like(Ptable) * norm
     alphash = np.shape(alpha)
 
@@ -115,9 +174,10 @@ def step_linear(Ptable):
 # Renormalize the joint probability distribution
 def normalize(Ptable):
     sh = np.shape(Ptable)
-    n = reduce((lambda x, y: x * y), sh)
+    n = np.product(sh)
 
     Ptable = 1/n * Ptable
+    return Ptable
 #########################################################
 
 
@@ -133,14 +193,17 @@ def normalize(Ptable):
 # Pzz = np.array([p,p,q,q])
 # print(I(ps,qs))
 
-print("*********")
+print("*********\n")
 PPs = step_linear(PP)
 results = []
 for table in PPs:
     results.append( I(table) )
 
 print(results)
-print("*********")
-a = marginals(PP)
+print("*********\n")
+a = marginals(Ptable)
 print(a)
-print(epsilon)
+print("*********\n")
+pz = marginal_Z(PP)
+print("---")
+print(pz)
