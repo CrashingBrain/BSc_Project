@@ -16,6 +16,24 @@ Ptable[0,0,0,0] = Ptable[1,1,0,0] = Ptable[0,1,1,0] = Ptable[1,0,1,0] = 1.0/8.0
 Ptable[2,2,0,1] = Ptable[3,3,1,1] = 1.0/4.0
 # Table for P_XY
 PP = np.sum(Ptable, axis=(2,3))
+
+def create_table(n=4):
+    """ Create a n-dimensions-joint probability table for X,Y
+        X and Y have range n
+
+        Input:
+        n:      range of varaibles X and Y
+
+        Output:
+        Ptable: Table of joint probability for X,Y. Dimension is nxn
+    """
+    Ptable = np.zeros((n,n))
+    h = n//2
+    Ptable[:h,:h] = 1.0/(2*h*h)
+    Ptable[h:,h:] = np.eye(h)*1.0/(2*h)
+
+    return Ptable
+
 #########################################################
 
 #########################################################
@@ -75,7 +93,6 @@ def marginal_Z(Ptable):
         # get only the indices that satisfy X+Y mod n = z
         # where z is the value of Z (also the index in res)
         ls = list(filter(f, combinations))
-        print(ls)
         # P(Z=z) = sum_{X+Ymod2=z} P(X,Y) + P(X=n+z)
         for idx in ls:
             res[z]+= Ptable[idx]
@@ -147,17 +164,18 @@ def I(Ptable):
 #########################################################
 # Utilities  on interpolation towards uniform distribution
 #
-alpha,stepsize = np.linspace(0,1,num=10, retstep=True)
-def step_linear(Ptable):
+def step_linear(Ptable, n=10):
     """Linear stepping
 
         Input:
         Ptable: table of joint probability
+        n:      number of steps to interpolate. Default n=10
 
         Output:
         PPs: list of tables, interpolated from Ptable
                 towards uniform ditribution
     """
+    alpha,stepsize = np.linspace(0,1,num=n, retstep=True)
     sh = np.shape(Ptable)
     norm = 1.0/np.product(sh)
     normal = np.ones_like(Ptable) * norm
@@ -193,17 +211,36 @@ def normalize(Ptable):
 # Pzz = np.array([p,p,q,q])
 # print(I(ps,qs))
 
-print("*********\n")
+print("*********\nSIMPLE TEST\n")
 PPs = step_linear(PP)
 results = []
 for table in PPs:
     results.append( I(table) )
 
 print(results)
-print("*********\n")
+print("*********\nSIMPLE MARGINALS TEST\n")
 a = marginals(Ptable)
 print(a)
+print("*********\nBIG TEST\n")
+# pz = marginal_Z(PP)
+# print("---")
+# print(pz)
+big = create_table(1024)
+# print(big)
+Bigs = step_linear(big)
+results2 = []
+for table in Bigs:
+    results2.append( I(table) )
+    # pz = marginal_Z(table)
+    # print(pz)
+    # print(np.sum(pz))
+    print("---")
+
+print(results2)
 print("*********\n")
-pz = marginal_Z(PP)
-print("---")
-print(pz)
+
+#########################################################
+# PRINT RESULTS
+
+
+#########################################################
