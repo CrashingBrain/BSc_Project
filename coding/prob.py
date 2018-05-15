@@ -62,4 +62,4 @@ def FourDimToTwo(P):
 
 def OneDimToTwo( P, dim=(4,4)):
     return np.reshape( P, dim)
-        
+
