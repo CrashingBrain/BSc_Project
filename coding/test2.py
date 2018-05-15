@@ -1,7 +1,11 @@
 import prob as pr
-import infro as inf
+import info as inf
+import numpy as np
 
 P = pr.FourPDstrb()
+P1 = pr.FourPDstrb2()
+# Compare different methods
+print(np.subtract(P,P1).max())
 P_XY = pr.marginal(P,(2,3))
 P_XYU = pr.marginal(P,2)
 P1 = pr.FourDimToTwo(P)
@@ -15,4 +19,4 @@ P4 = pr.marginal(P1,0)
 print(P3)
 print(P4)
 print(pr.OneDimToTwo( P3))
-
+print(pr.marginal(pr.ThreePNoise1(),2))
