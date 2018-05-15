@@ -11,13 +11,31 @@ def FourPDstrb():
     Ptable[2,2,0,1] = Ptable[3,3,1,1] = 1.0/4.0
     return Ptable
 
+def FourPDstrb2():
+    P = np.zeros((4,4,2,2))
+    for x in range(0,2):
+        for y in range(0,2):
+            P[x,y, (x+y)%2, x//2] = 1./8.
+    for x in range(2,4):
+        P[x, x, x%2, x//2] = 1./4.
+    return P
+
+def FourPDstrb3():
+    P = np.zeros((4,4,16,2))
+    for x in range(0,2):
+        for y in range(0,2):
+            P[x,y, (x+y)%2, x//2] = 1./8.
+    for x in range(2,4):
+        P[x, x, x%2, x//2] = 1./4.
+    return P
+
 def ThreePDstrb():
     P = np.zeros((4,4,16))
     for x in range(0,2):
         for y in range(0,2):
             P[x,y, (x+y)%2] = 1./8.
     for x in range(2,4):
-        P[x,x, x%2] = 1./4.
+        P[x, x, x%2] = 1./4.
     return P
 
 # Four partite noise -> to be mixed with FourPDistrib
@@ -26,9 +44,8 @@ def ThreePNoise1():
     P = np.zeros((4,4,16))
     # Fill upper triangle
     for idx in [[0,2],[0,3],[1,2],[1,3]]:
-        P[ idx, idx[0]*4 + idx[1]] = 1
-        idx2 = reversed(idx)
-        P[ idx2, idx2[0]*4 + idx2[1]] = 1
+        P[ idx[0], idx[1], idx[0]*4 + idx[1]] = 1
+        P[ idx[1], idx[0], idx[1]*4 + idx[0]] = 1
     return normalize(P)        
 
 def marginal( P, overdim):
