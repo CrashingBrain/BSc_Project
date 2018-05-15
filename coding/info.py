@@ -19,3 +19,26 @@ def mutInf(P):
             if P[x,y] > 0.:
                 I += P[x,y]*np.log2( P[x,y]/Pprod[x,y] )
     return I
+
+def condMutInf(P):
+    Pz = np.sum(P, (0,1))
+    I = 0.
+    for z in range(0, P.shape[2]):
+        I += Pz[z] * mutInf( np.multiply(1./Pz[z], P[:,:,z]))
+    return I
+
+# Monte Carlo way of computing an upper bound on the intrinsic information
+def MCupperBoundIntrinInf(P, noIter):
+    minVal = 0.
+    for i in range(0, noIter):
+        PC = randChannel( P.shape[2], P.shape[2])
+        Pprime = applyChannel( P, PC, 2)
+        val = condMutInf( Pprime)
+        if i == 0:
+            minVal = val
+        elif val < minVal:
+            minVal = val
+    return minVal
+            
+
+
