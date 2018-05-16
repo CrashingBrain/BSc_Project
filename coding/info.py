@@ -66,5 +66,9 @@ def MCupperBoundIntrinInf(P, noIter):
 def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
     minVal = 0.
     for i in range(0, noIterOuter):
-        PC_U_XYZ = randChannel( P.shape[2], P.shape[2])
+        PC_U_XYZ = randChannelMultipart( (np.prod(P.shape)), P.shape)
+        P_XYZU = PC_U_XYZ
+        for u in range(0,PC_U_XYZ.shape[0]):
+            
         for k in range(0, noIterInner):
+            
