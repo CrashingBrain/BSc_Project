@@ -1,6 +1,6 @@
 import numpy as np
 # import scipy as sp #TODO doesn't work
-import matplotlib
+from matplotlib.pyplot import *
 import itertools as itools
 from functools import reduce
 
@@ -151,6 +151,11 @@ def I(Ptable):
     py = m[1]
     res = 0.0
     
+    #TODO
+    # mask = Ptable != 0
+    # Ptable[mask] = Ptable[mask]*np.log2(Ptable[mask]/(x*y))
+    # A[A!=0] += np.log2(A[A!=0]/(x*y))
+
     for ix,x in enumerate(px):
         for iy,y in enumerate(py):
             temp = Ptable[ix,iy]
@@ -225,9 +230,11 @@ print("*********\nBIG TEST\n")
 # pz = marginal_Z(PP)
 # print("---")
 # print(pz)
-big = create_table(1024)
+dim = 8192
+big = create_table(dim)
 # print(big)
-Bigs = step_linear(big)
+n = 20
+Bigs = step_linear(big, n)
 results2 = []
 for table in Bigs:
     results2.append( I(table) )
@@ -242,5 +249,14 @@ print("*********\n")
 #########################################################
 # PRINT RESULTS
 
+t = np.arange(n)
+figure()
+plot(t, results2, label=r'$I(X;Y)$')
+xlabel("steps")
+# ylabel(r'$V \; [V]$')
+grid(True)
+# ylim(-Vo - 1, Vo + 1)
+legend(loc='upper right')
+savefig('I_XY-'+str(dim)+'-'+str(n)+'.png')
 
 #########################################################
