@@ -3,8 +3,8 @@ import numpy as np
 def coeffOfNo( no, mixedBasis):
     coeffs = ()
     for k in len(mixedBasis):
-        coeffs = coeffs + ( no//np.prod( mixedBasis(k:)))
-        no = no%np.prod( mixedBasis(k:))
+        coeffs = coeffs + ( no//np.prod( mixedBasis[k:]))
+        no = no%np.prod( mixedBasis[k:])
     return coeffs()
         
 def randChannel( dim_out, dim_in):
@@ -63,12 +63,11 @@ def MCupperBoundIntrinInf(P, noIter):
 # Monte Carlo way of computing an upper bound on the reduced intrinsic information
 # -> need to choose 2 channels at random
 # -> choose size of U as product of 3 dimensions X,Y,Z
-def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
-    minVal = 0.
-    for i in range(0, noIterOuter):
-        PC_U_XYZ = randChannelMultipart( (np.prod(P.shape)), P.shape)
-        P_XYZU = PC_U_XYZ
-        for u in range(0,PC_U_XYZ.shape[0]):
-            
-        for k in range(0, noIterInner):
-            
+#def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
+#    minVal = 0.
+#    for i in range(0, noIterOuter):
+#        PC_UXYZ = randChannelMultipart( (np.prod(P.shape)), P.shape)
+#        for u in range(0,PC_U_XYZ.shape[0]):
+#            P_UXYZ[u,:,:,:] = np.multiply( P_UXYZ[u,:,:,:], P)
+#        for k in range(0, noIterInner):
+#            
