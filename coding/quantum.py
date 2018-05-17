@@ -28,5 +28,34 @@ def PrToRho(P):
                 for l in P.shape[1]:
                     rho[ i + P.shape[0]*k, j + P.shape[0]*l] = np.sqrt( P[i,k]*P[j,l])
     pass
-        
+
+def proj(v):
+    if v.shape[1] > 1:
+        prj = np.matmul( v, np.transpose(v))
+    else:
+        prj = np.matmul( np.transpose(v), v)
+    return prj
+
+# Witness from quant-ph/0308032  (VII, B)
+def wtns44():
+    v = np.zeros( 8, 16, 1)
+    v[0][ 2 + 4*2, 1] = 1
+    v[0][ 0 + 4*0, 1] = -1
+    v[1][ 2 + 4*2, 1] = 1
+    v[1][ 1 + 4*1, 1] = -1
+    v[2][ 3 + 4*3, 1] = 1
+    v[2][ 0 + 4*1, 1] = -1
+    v[3][ 3 + 4*3, 1] = 1
+    v[3][ 1 + 4*0, 1] = -1
+    v[4][ 2 + 4*3, 1] = 1
+    v[5][ 3 + 4*2, 1] = 1
+    v[6][ 2 + 4*2, 1] = -1
+    v[7][ 3 + 4*3, 1] = -1
+    w = np.zeros(16,16)
+    for k in range(0,8):
+        w += proj(v[i])
+    return w
+
+# WANTED: SDP from quant-ph/0308032 eqn (23) resp (A1)
+# But careful: might not be so easy (needs inclusion of an SDP solver (see e.g. https://peterwittek.com/sdp-in-python.html) 
     
