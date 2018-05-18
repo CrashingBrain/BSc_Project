@@ -63,11 +63,26 @@ def MCupperBoundIntrinInf(P, noIter):
 # Monte Carlo way of computing an upper bound on the reduced intrinsic information
 # -> need to choose 2 channels at random
 # -> choose size of U as product of 3 dimensions X,Y,Z
-#def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
-#    minVal = 0.
-#    for i in range(0, noIterOuter):
-#        PC_UXYZ = randChannelMultipart( (np.prod(P.shape)), P.shape)
-#        for u in range(0,PC_U_XYZ.shape[0]):
-#            P_UXYZ[u,:,:,:] = np.multiply( P_UXYZ[u,:,:,:], P)
-#        for k in range(0, noIterInner):
-#            
+def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
+    minVal = 0.
+    for i in range(0, noIterOuter):
+        # Setup random channel XYZ->U and compute P_UXYZ
+        PC_UXYZ = randChannelMultipart( (np.prod(P.shape)), P.shape)
+        for u in range(0,PC_U_XYZ.shape[0]):
+            P_UXYZ[u,:,:,:] = np.multiply( P_UXYZ[u,:,:,:], P)
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        for k in range(0, noIterInner):
+            PC_UZ = randChannelMultipart( (P.shape[0], P.shape[3]), (P.shape[0], P.shape[3]))
+            Pprime = np.tensordot( P, PC_UZ, ( (0,2), (0,1)))
+            P_UZ = np.sum( Pprime, (1,2))
+            I = 0.
+            for u in range(0,Pprime.shpae[0]):
+                for z in range(0,Pprime.shape[2]):
+                    I += P_UZ[u][z] * mutInf( np.multiply(1./P_UZ[u][z], Pprime[u,:,:,z]))
+            if (i == 0 & k == 0):
+                minVal = I
+            elif val < minVal:
+                minVal = I
+    return minVal
+                
+

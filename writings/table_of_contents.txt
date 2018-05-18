@@ -6,9 +6,10 @@
 % from a common secret we can extract a key
 % there are Qstates that can not produce keys -> distribution with correlations but no key
   % Secret Key Exchange
-  % two words on a very high level explaining the idea 
+  % two words on a very high level explaining the idea
   % of secret keys exchange (=> bound information is about (not) being
   % able to extract keys...)
+# There are a lot of ideas here but I don't see what you think should be the line of thought... maybe you could order them?
   1.1 A comparison between securities
     % Temporarely here until I find a right chapter for this
     % This to give an idea of what theoretical securerity is,
@@ -18,46 +19,56 @@
     1.1.3 Information Theoretical security (Shannon/one-time pad)
 
 2. Foundamentals
-% lay out mathematical concepts needed/used in the next chapter. 
+% lay out mathematical concepts needed/used in the next chapter.
 % Or formalize some aspects.
   2.1 Mathematical Framework (for QM)
-  % inner product spaces, tensor product spaces, 
+# 2.1.1???
+  % inner product spaces, tensor product spaces,
   % linear operators, self-adjoint operators
     % Dirac notation here?
-    % it is useful to then write operators and such 
+    % it is useful to then write operators and such
     2.1.2 Inner Product
+# Do you want to put here more than just a definition?
     2.1.3 Linear Operators
+# What goes here? Hermitian, unitary operators? Decompositions? ...
   2.2 Quantum Mechanics
     % Dirac notation here?
-    2.2.1 Quantum Measurements 
+    2.2.1 Quantum Measurements
     % not sure it's needed
+# How do you mean? Well: I think you can do with just quantum entanglement (I think that's what I did in my thesis)
     2.2.2 Quantum Entanglement
     % add also bound entagnglement probably
     % not sure how to explain BE yet. Is still very complicated to me. (the origin)
+# This will need some notion of distillation already... PPT is quite intuitive I think
   2.3 Information Theory
     2.3.1 Mutual Information
       2.3.1.1 Conditional Mutual Information
     2.3.2 Common Secret (a.k.a. CKA)
-    % The end result we want to achieve at the end of the protocol. 
+    % The end result we want to achieve at the end of the protocol.
     % The thing we prove or disprove that is extractable form a distribution
   2.4 Quantum Distillation and Key Extraction
   % explain the princpiple and how they relate
+# What principle?
   % Title can also be "Quantum information theory", to follow up from the others?
+# Depends on what you want to put here...
 
 3. Bound Information
   3.1 Conjectures
   % What the question would imply. What is speculated
   % Taken mostly from Gisin, Wolf paper
+# I guess there will be an overlap with the following section
   3.2 State of research
   % brief summaries of foundings in following papers:
+# Findings
   %   Linking classical and quantum key agreement: is there "bound Information"?
   %   New bounds in secret-key agreement: The gap between formation and secrecy extraction
-  %   Multipartite bound information exists and can be activated    
+  %   Multipartite bound information exists and can be activated
   %   (Gaussian multipartite bound information)
   %   ...
   3.3 The Bounds of Bound Information
   % maybe here is too late (since they are mentioned
   %  from the beginning in the question)?
+# I think so too... I guess somewhere you will have to introduce all the concepts to approach the question... maybe it's better to tell a story going from one concept to the next to finally formulate the open questions/conjectures and explain the current results
     3.3.1 Secret key rate
     3.3.2 Intrinsic Information
   3.4 Analysis of a probability distribution asymptotically bound information
