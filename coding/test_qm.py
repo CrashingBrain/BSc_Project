@@ -1,4 +1,5 @@
 import bhvs as bv
+import prob as pr
 import info as inf
 import numpy as np
 import quantum as qm
@@ -11,4 +12,7 @@ print( qm.pt(rho, (2,2)))
 print( qm.ppt(rho, (2,2)))
 
 # Transfer prob to state and check witness
+rho1 = qm.PrToRho( pr.marginal( bv.ThreePDstrb(), 2))
+print(rho1)
+print( np.trace( np.matmul( rho1, qm.wtns44())))
 # TO BE DONE
