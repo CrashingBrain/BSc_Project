@@ -87,9 +87,12 @@ def PrintThreePDstrb(P):
     for z in range(0, P.shape[2]):
         s += str(' %0.3f' %np.sum(P, (0,1))[z])
         s += ' ' 
+    s += str(' %0.3f' %np.sum(P))
     print(s)
     pass
 
 def OneDimToTwo( P, dim=(4,4)):
     return np.reshape( P, dim)
 
+def mixBhvs( P1, P2, alpha=.5):
+    return np.add( np.multiply( alpha, P1), np.multiply( 1-alpha, P2))

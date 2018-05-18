@@ -15,3 +15,5 @@ pr.PrintThreePDstrb( bv.ThreePNoise1())
 pr.PrintThreePDstrb( bv.ThreePNoise2())
 pr.PrintThreePDstrb( bv.ThreePNoise3())
 pr.PrintThreePDstrb( bv.ThreePUniformNoise())
+
+pr.PrintThreePDstrb( pr.mixBhvs( bv.ThreePDstrb(), bv.ThreePNoise1(), .8))
