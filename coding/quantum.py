@@ -27,7 +27,7 @@ def ppt(rho, dims):
 
 # define bipartite rho from bipartite probability distribution
 def PrToRho(P):
-    rho = np.zeros( np.prod( P.shape), np.prod( P.shape))
+    rho = np.zeros( (np.prod( P.shape), np.prod( P.shape)))
     for i in range(0, P.shape[0]):
         for j in range(0, P.shape[0]):
             for k in range(0, P.shape[1]):
@@ -42,22 +42,22 @@ def proj(v):
 # Witness from quant-ph/0308032  (VII, B)
 # For all separable states: tr(W*rho) >=0
 def wtns44():
-    v = np.zeros( 8, 16, 1)
-    v[0][ 2 + 4*2, 1] = 1
-    v[0][ 0 + 4*0, 1] = -1
-    v[1][ 2 + 4*2, 1] = 1
-    v[1][ 1 + 4*1, 1] = -1
-    v[2][ 3 + 4*3, 1] = 1
-    v[2][ 0 + 4*1, 1] = -1
-    v[3][ 3 + 4*3, 1] = 1
-    v[3][ 1 + 4*0, 1] = -1
-    v[4][ 2 + 4*3, 1] = 1
-    v[5][ 3 + 4*2, 1] = 1
-    v[6][ 2 + 4*2, 1] = -1
-    v[7][ 3 + 4*3, 1] = -1
-    w = np.zeros(16,16)
+    v = np.zeros( (8, 16, 1))
+    v[0,  2 + 4*2, 1] = 1
+    v[0,  0 + 4*0, 1] = -1
+    v[1,  2 + 4*2, 1] = 1
+    v[1,  1 + 4*1, 1] = -1
+    v[2,  3 + 4*3, 1] = 1
+    v[2,  0 + 4*1, 1] = -1
+    v[3,  3 + 4*3, 1] = 1
+    v[3,  1 + 4*0, 1] = -1
+    v[4,  2 + 4*3, 1] = 1
+    v[5,  3 + 4*2, 1] = 1
+    v[6,  2 + 4*2, 1] = -1
+    v[7,  3 + 4*3, 1] = -1
+    w = np.zeros((16,16))
     for k in range(0,8):
-        w += proj(v[i])
+        w += proj(v[i, :])
     return w
 
 # WANTED: SDP from quant-ph/0308032 eqn (23) resp (A1)
