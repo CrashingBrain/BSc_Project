@@ -8,3 +8,5 @@ psi = np.multiply( 1./np.sqrt(2), np.identity(4)[0, :]+np.identity(4)[3,:])
 rho = qm.proj(psi)
 print( qm.ppt(rho))
 
+# Transfer prob to state and check witness
+# TO BE DONE
