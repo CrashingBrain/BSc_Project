@@ -1,4 +1,5 @@
 import numpy as np
+import prob as pr
 
 # Four partite distrib
 def FourPDstrb():
@@ -43,5 +44,5 @@ def ThreePNoise1():
     for idx in [[0,2],[0,3],[1,2],[1,3]]:
         P[ idx[0], idx[1], idx[0]*4 + idx[1]] = 1
         P[ idx[1], idx[0], idx[1]*4 + idx[0]] = 1
-    return normalize(P)        
+    return pr.normalize(P)        
 
