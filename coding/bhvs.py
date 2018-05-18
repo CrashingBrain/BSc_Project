@@ -46,3 +46,25 @@ def ThreePNoise1():
         P[ idx[1], idx[0], idx[1]*4 + idx[0]] = 1
     return pr.normalize(P)        
 
+def ThreePNoise2():
+    P = np.zeros((4,4,16))
+    # Fill upper triangle
+    for idx in [[0,0],[0,1],[1,0],[1,1],[0,2],[0,3],[1,2],[1,3]]:
+        P[ idx[0], idx[1], idx[0]*4 + idx[1]] = 1
+        P[ idx[1], idx[0], idx[1]*4 + idx[0]] = 1
+    return pr.normalize(P)        
+
+def ThreePNoise3():
+    P = np.zeros((4,4,16))
+    for x in range(0, P.shape[0]):
+        for y in range(0, P.shape[1]):
+            P[ x, y, x*4 + y] = 1
+    return pr.normalize(P)        
+
+def ThreePUniformNoise():
+    P = np.zeros((4,4,16))
+    for x in range(0, P.shape[0]):
+        for y in range(0, P.shape[1]):
+            for z in range(0, P.shape[2]):
+                P[ x,y,z] = 1
+    return pr.normalize(P)        

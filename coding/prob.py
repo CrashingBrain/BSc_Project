@@ -41,17 +41,17 @@ def PrintFourPDstrb(P):
             for z in range(0, P.shape[2]):
                 for u in range(0, P.shape[3]):
                     if P[x,y,z,u] > 0:
-                        s += str('     %0.4f' %P[x,y,z,u])
+                        s += str('     %0.4f ' %P[x,y,z,u])
                     else:
-                        s += '           |'
+                        s += '           :'
             s += '   '
-            s += str(' %0.4f' %np.sum(P, (2,3))[x,y])
+            s += str(' %0.4f ' %np.sum(P, (2,3))[x,y])
             print(s)
     s = str()
     s += '( marginal) '
     for z in range(0, P.shape[2]):
         for u in range(0, P.shape[3]):
-            s += str('     %0.3f' %np.sum(P, (0,1))[z,u])
+            s += str('     %0.3f ' %np.sum(P, (0,1))[z,u])
             s += ' ' 
     print(s)
     pass
@@ -78,7 +78,7 @@ def PrintThreePDstrb(P):
                 if P[x,y,z] > 0:
                     s += str(' %0.4f' %P[x,y,z])
                 else:
-                    s += '      |'
+                    s += '      :'
             s += '   '
             s += str(' %0.4f' %np.sum(P, (2))[x,y])
             print(s)
