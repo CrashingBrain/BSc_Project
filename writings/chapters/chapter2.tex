@@ -30,7 +30,7 @@
 	Every pure quantum state can be represented a vector in a vector space with inner product, i.e. a \emph{Hilbert space}. 
 	The implication of this will be explained in the next section; for now we only look of this vector representation.\\
 	 A complex Hilbert space $\H$ of dimension $n$ is isomorphic to $ \mathbb{C}^n $ with the standard inner product. 
-	 In $\mathbb{C}^n $ one can choose a basis and represents vectors with coordinates with respect to this basis.\\
+	 In $\mathbb{C}^n $ one can choose a basis and then represent vectors with coordinates with respect to this basis.\\
 	The bra-ket notation is a handy notation introduced by physicist Paul Dirac to deal with such vector representation of quantum states. 
 	First of all we note that a state $\varphi '\in\H$ corresponds via the isomorphism to $ \varphi  \in \mathbb{C}^n $. It can be represented as a vector with respect of some basis as follows
 	$$\ket{\varphi} = \begin{pmatrix} \varphi_1 \\ \varphi_2 \\ \vdots \end{pmatrix}	  \text{  is a coloumn "ket" vector over } \H $$
@@ -45,7 +45,7 @@
 	\ket1 =  \begin{pmatrix} 0 \\ 1 \end{pmatrix}$$
 	which are recognizable as the equivalent of $\vec{e_1}$ and $\vec{e_2}$ in $\mathbb{C}^2$.\\
 	
-	To summarize then, $\ket{\varphi}$ represents a coloumn vector on a complex vector space with inner product equivalent to $\mathbb{C}^n$ in some basis, and $\bra{varphi}$ is its complex conjugate.
+	To summarize then, $\ket{\varphi}$ represents a column vector on a complex vector space with inner product equivalent to $\mathbb{C}^n$ in some basis, and $\bra{\varphi}$ is its complex conjugate.
 	
 	
 	\subsubsection*{Inner/outer product}
@@ -71,7 +71,7 @@
 	$$ \mathbf{A}: V\longrightarrow W \text{  ,  }\ket{v_i}\mapsto A\ket{v_i}$$
 	$$ \text{ linear in all inputs, i.e.  }  A\left( \sum_i a_i\ket{v_i}\right) = \sum_i a_i A\ket{v_i} \text{  for all } i $$ 
 	Looking back at the definition of the matrix $ A = \ketbra{w}{v}$ we can now refer to it as a linear operator from now on. \\
-	Some well-known linear operators acting on single qubits that we will use later on are the \textit{Pailu Matrices}
+	Some well-known linear operators acting on single qubits that we will use later on are the \textit{Pauli Matrices}
 	$$ I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}	 \quad   X = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}$$
 	$$ Y= \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix}	 \quad   Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$$
 	
