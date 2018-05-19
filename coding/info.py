@@ -2,8 +2,8 @@ import numpy as np
 
 def coeffOfNo( no, mixedBasis):
     coeffs = ()
-    for k in len(mixedBasis):
-        coeffs = coeffs + ( no//np.prod( mixedBasis[k:]))
+    for k in range(0, len(mixedBasis)):
+        coeffs = coeffs + ( no//np.prod( mixedBasis[k:]),)
         no = no%np.prod( mixedBasis[k:])
     return coeffs
         
@@ -23,8 +23,10 @@ def randChannelMultipart( dim_out, dim_in):
         factor = 0.
         for l in range(0, np.prod(dim_out)):
             factor += PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)]
-        for l in range(0, np.prod(dim_out)):
-            PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)] *= 1./factor
+        
+        if factor > 1e-15:
+            for l in range(0, np.prod(dim_out)):
+                PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)] *= 1./factor
     return PC
 
 # Seems to swap "channelled" party always to the very end
@@ -68,7 +70,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
     for i in range(0, noIterOuter):
         # Setup random channel XYZ->U and compute P_UXYZ
         PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
-        P_UXYZ = np.zeros_like(P)
+        P_UXYZ = np.zeros_like(PC_UXYZ)
         for u in range(0,PC_UXYZ.shape[0]):
             P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
