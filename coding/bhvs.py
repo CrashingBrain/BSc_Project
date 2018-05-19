@@ -27,6 +27,16 @@ def FourPDstrb3():
         P[x, x, x%2, x//2] = 1./4.
     return P
 
+def FourPDistribN(n=4):
+    h = n//2
+    P = np.zeros((n,n,h,h))
+    for x in range(0,h):
+        for y in range(0,h):
+            P[x,y, (x+y)%h, x//h] = 1./(2*h*h)
+    for x in range(h,n):
+        P[x, x, x%h, x//h] = 1./n
+    return P
+
 def ThreePDstrb():
     P = np.zeros((4,4,16))
     for x in range(0,2):
@@ -34,6 +44,16 @@ def ThreePDstrb():
             P[x,y, (x+y)%2] = 1./8.
     for x in range(2,4):
         P[x, x, x%2] = 1./4.
+    return P
+
+def ThreePDstrbN(n=4):
+    h = n//2
+    P = np.zeros((n,n,n*n))
+    for x in range(0,h):
+        for y in range(0,h):
+            P[x,y, (x+y)%h] = 1./(2*n*n)
+    for x in range(h,n):
+        P[x, x, x%h] = 1./n
     return P
 
 # Four partite noise -> to be mixed with FourPDistrib
