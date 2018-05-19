@@ -64,7 +64,7 @@ def ThreePNoise1():
     for idx in [[0,2],[0,3],[1,2],[1,3]]:
         P[ idx[0], idx[1], idx[0]*4 + idx[1]] = 1
         P[ idx[1], idx[0], idx[1]*4 + idx[0]] = 1
-    return pr.normalize(P)        
+    return pr.normalize(P)   
 
 def ThreePNoise2():
     P = np.zeros((4,4,16))
