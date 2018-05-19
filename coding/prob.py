@@ -54,6 +54,7 @@ def PrintFourPDstrb(P):
             s += str('     %0.3f ' %np.sum(P, (0,1))[z,u])
             s += ' ' 
     print(s)
+    print() # new line
     pass
 
 def PrintThreePDstrb(P):
@@ -89,6 +90,7 @@ def PrintThreePDstrb(P):
         s += ' ' 
     s += str(' %0.3f' %np.sum(P))
     print(s)
+    print() # new line
     pass
 
 def OneDimToTwo( P, dim=(4,4)):
