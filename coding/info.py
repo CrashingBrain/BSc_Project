@@ -5,7 +5,7 @@ def coeffOfNo( no, mixedBasis):
     for k in len(mixedBasis):
         coeffs = coeffs + ( no//np.prod( mixedBasis[k:]))
         no = no%np.prod( mixedBasis[k:])
-    return coeffs()
+    return coeffs
         
 def randChannel( dim_out, dim_in):
     PC = np.random.rand(dim_out, dim_in)
@@ -18,12 +18,12 @@ def randChannel( dim_out, dim_in):
 # -> dim_out, dim_in are lists
 # (No easy way of fixing the last (dim_in) indeces to perform sum etc on the resulting array...)
 def randChannelMultipart( dim_out, dim_in):
-    PC = np.random.rand( dim_out+dim_in);
-    for k in np.prod(dim_in):
+    PC = np.random.random_sample( dim_out+dim_in);
+    for k in range(0, np.prod(dim_in)):
         factor = 0.
-        for l in np.prod(dim_out):
+        for l in range(0, np.prod(dim_out)):
             factor += PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)]
-        for l in np.prod(dim_out):
+        for l in range(0, np.prod(dim_out)):
             PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)] *= 1./factor
     return PC
 
@@ -67,9 +67,10 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
     minVal = 0.
     for i in range(0, noIterOuter):
         # Setup random channel XYZ->U and compute P_UXYZ
-        PC_UXYZ = randChannelMultipart( (np.prod(P.shape)), P.shape)
-        for u in range(0,PC_U_XYZ.shape[0]):
-            P_UXYZ[u,:,:,:] = np.multiply( P_UXYZ[u,:,:,:], P)
+        PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
+        P_UXYZ = np.zeros_like(P)
+        for u in range(0,PC_UXYZ.shape[0]):
+            P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         for k in range(0, noIterInner):
             PC_UZ = randChannelMultipart( (P.shape[0], P.shape[3]), (P.shape[0], P.shape[3]))
@@ -81,7 +82,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
                     I += P_UZ[u][z] * mutInf( np.multiply(1./P_UZ[u][z], Pprime[u,:,:,z]))
             if (i == 0 & k == 0):
                 minVal = I
-            elif val < minVal:
+            elif I < minVal:
                 minVal = I
     return minVal
                 
