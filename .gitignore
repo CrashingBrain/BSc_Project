@@ -233,3 +233,6 @@ coding/examples
 ## planning files
 /planning/*.pdf
 /planning/gantt/*.pdf
+
+## vscode files
+*/.vscode/
