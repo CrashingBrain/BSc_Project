@@ -11,14 +11,14 @@
   % able to extract keys...)
 # There are a lot of ideas here but I don't see what you think should be the line of thought... maybe you could order them?
   1.1 A comparison between securities
-    % Temporarely here until I find a right chapter for this
-    % This to give an idea of what theoretical securerity is,
+    % Temporarily here until I find a right chapter for this
+    % This to give an idea of what theoretical security is,
     % compared to other kinds of security approaches
     1.1.1 Computational Complexity (Diffie-Hellman)
     1.1.2 Based on Laws of Physics (BB84)
     1.1.3 Information Theoretical security (Shannon/one-time pad)
 
-2. Foundamentals
+2. Fundamentals
 % lay out mathematical concepts needed/used in the next chapter.
 % Or formalize some aspects.
   2.1 Mathematical Framework (for QM)
@@ -37,7 +37,7 @@
     % not sure it's needed
 # How do you mean? Well: I think you can do with just quantum entanglement (I think that's what I did in my thesis)
     2.2.2 Quantum Entanglement
-    % add also bound entagnglement probably
+    % add also bound entanglement probably
     % not sure how to explain BE yet. Is still very complicated to me. (the origin)
 # This will need some notion of distillation already... PPT is quite intuitive I think
   2.3 Information Theory
@@ -47,7 +47,7 @@
     % The end result we want to achieve at the end of the protocol.
     % The thing we prove or disprove that is extractable form a distribution
   2.4 Quantum Distillation and Key Extraction
-  % explain the princpiple and how they relate
+  % explain the principle and how they relate
 # What principle?
   % Title can also be "Quantum information theory", to follow up from the others?
 # Depends on what you want to put here...
@@ -58,7 +58,7 @@
   % Taken mostly from Gisin, Wolf paper
 # I guess there will be an overlap with the following section
   3.2 State of research
-  % brief summaries of foundings in following papers:
+  % brief summaries of findings in following papers:
 # Findings
   %   Linking classical and quantum key agreement: is there "bound Information"?
   %   New bounds in secret-key agreement: The gap between formation and secrecy extraction
