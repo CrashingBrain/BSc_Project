@@ -1,8 +1,10 @@
 1. Motivation 
     <!-- all concepts here are very high level, as just an intuition  -->
     + explain that for key exchange you need privacy
+    <!-- so this is referring to Maurers result ? Don't you need to introduce information theoretic secret key for that? -->
     + Then define that for an eavesdropper it means to factor it out: `P(X,Y,Z) = P(X,Y)P(Z)`
         * possible quotation of Shannon on information theoretical security
+    <!-- Maybe you find some reference to a source that discusses information theoretic secret key in one of the papers.... -->
     + QM offers an analogy to privacy in QE : correlation + privacy
         * some analogies work
         * some don't
@@ -14,6 +16,7 @@
     2. The analogy with entanglement
         + high level explanation of entanglement.
         <!--The complete definition of entanglement is in the appendix -->
+        <!-- Can you draw an analogy without information theoretic secret keys... that is without the content of the next chapter? -->
     3. Examples of key exchange
         1. Diffie-Hellman
         2. BB84
@@ -28,6 +31,7 @@
         2. Quantum distillation
         3. A cost to entanglement
     <!-- still not sure of content of this part since it's very technical. I know only at high level -->
+    <!-- Important here is: monogamy of entanglement: if a system kann be shown to be maximally entangled, it cannot be entangled with any other system... it is product, similar to a 3p prob distrib, being product to E (and in fact it can then be shown that one can use if for key agreement (http://cqi.inf.usi.ch/qic/91_Ekert.pdf ) -->
 3. Information Theoretical model of cryptography: random variables
     1. The abstraction through random variables
         + a message is a repetition of an experiment defined by random variables with a probability distribution (on a channel)
