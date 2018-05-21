@@ -24,9 +24,10 @@ def allTests(P):
     redIntrInf = 0.0
 
     # quantum part. very slow.
-    # rho = qm.PrToRho(m)
-    # ppt = qm.ppt(rho, np.shape(rho)) == 1
-    ppt = False
+    rho = qm.PrToRho(m)
+    dims = tuple(t//2 for t in np.shape(rho))
+    ppt = qm.ppt(rho, dims) == 1
+    # ppt = False
     return (mutInf, intrInf, redIntrInf, ppt)
 
 def testAlongPath(P1, P2, iter=100):
