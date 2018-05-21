@@ -23,7 +23,7 @@ def HSnormalize(P):
 
 # Get trace zero bases from su(n) + diag(1,0,...)
 def basesH( dim):
-    bases = [ np.zeros((dim,dim))) ] 
+    bases = [ np.multiply( 1./dim, np.identity(dim)) ] 
     bases[0][0,0] = 1.0
     # fill off-diagonal elements
     for i in range(0, dim):
