@@ -87,4 +87,15 @@ def ThreePUniformNoise():
         for y in range(0, P.shape[1]):
             for z in range(0, P.shape[2]):
                 P[ x,y,z] = 1
-    return pr.normalize(P)        
+    return pr.normalize(P)
+
+def redBhv(P):
+    """
+        trace out all parties 4,5,.. so that only a tripartite
+        behaviour is left
+    """    
+    l = len(P.shape)
+    # t is () for l>=3
+    t = tuple(np.arange(3,l))
+    # np.sum does not change P for axis=()
+    return np.sum(P,axis=t)
