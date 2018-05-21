@@ -2,10 +2,7 @@ import numpy as np
 
 def pt(rho, dims):
     # flatten rho to array
-    # rho.shape = np.power(np.prod( dims),2)
-    # not sure this is what you meant...
-    rho = rho.flatten()
-    rho = np.resize(rho, np.power(np.prod( dims),2))
+    rho.shape = np.power(np.prod( dims),2)
     # build matrix for PT
     PT = np.zeros( (np.power(np.prod(dims),2), np.power(np.prod(dims),2)))
     for m in range(0, dims[0]):
@@ -21,8 +18,8 @@ def pt(rho, dims):
 # return 1 if positive partial transpose
 def ppt(rho, dims):
     min_val = np.linalg.eig( pt(rho, dims))[0].min()
-    # print('qm.ppt.minval ' + str(min_val))
-    if min_val > -1e-8: #why the minus? also why only 1e-8? python uses 64bit by default
+    print('qm.ppt.minval ' + str(min_val))
+    if min_val > -1e-8:
         res = 1
     else:
         res = 0
@@ -30,7 +27,7 @@ def ppt(rho, dims):
 
 # define bipartite rho from bipartite probability distribution
 def PrToRho(P):
-    rho = np.zeros( (np.prod(P.shape, dtype=int), np.prod(P.shape, dtype=int)))
+    rho = np.zeros( (np.prod( P.shape), np.prod( P.shape)))
     for i in range(0, P.shape[0]):
         for j in range(0, P.shape[0]):
             for k in range(0, P.shape[1]):
