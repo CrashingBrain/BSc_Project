@@ -4,7 +4,7 @@ def coeffOfNo( no, mixedBasis):
     coeffs = ()
     for k in range(0, len(mixedBasis)):
         coeffs = coeffs + ( no//np.prod( mixedBasis[k:]),)
-        no = no%np.prod( mixedBasis[k:])
+        no = no%np.prod( mixedBasis[k:]) -1
     return coeffs
         
 def randChannel( dim_out, dim_in):
@@ -19,14 +19,17 @@ def randChannel( dim_out, dim_in):
 # (No easy way of fixing the last (dim_in) indeces to perform sum etc on the resulting array...)
 def randChannelMultipart( dim_out, dim_in):
     PC = np.random.random_sample( dim_out+dim_in);
+    print(PC.shape)
     for k in range(0, np.prod(dim_in)):
         factor = 0.
         for l in range(0, np.prod(dim_out)):
-            factor += PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)]
+            coeffs = coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)
+            print(coeffs)
+            factor += PC[coeffs]
         
         if factor > 1e-15:
             for l in range(0, np.prod(dim_out)):
-                PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)] *= 1./factor
+                PC[coeffs] *= 1./factor
     return PC
 
 # Seems to swap "channelled" party always to the very end
@@ -70,19 +73,21 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
     for i in range(0, noIterOuter):
         # Setup random channel XYZ->U and compute P_UXYZ
         PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
+        print('DEBUG channel: ' + str(PC_UXYZ.shape))
         P_UXYZ = np.zeros_like(PC_UXYZ)
         for u in range(0,PC_UXYZ.shape[0]):
             P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         for k in range(0, noIterInner):
-            PC_UZ = randChannelMultipart( (P.shape[0], P.shape[3]), (P.shape[0], P.shape[3]))
+            dimInOut = tuple((P_UXYZ.shape[0], P_UXYZ.shape[3]))
+            PC_UZ = randChannelMultipart( dimInOut, dimInOut)
             Pprime = np.tensordot( P, PC_UZ, ( (0,2), (0,1)))
             P_UZ = np.sum( Pprime, (1,2))
             I = 0.
             for u in range(0,Pprime.shpae[0]):
                 for z in range(0,Pprime.shape[2]):
                     I += P_UZ[u][z] * mutInf( np.multiply(1./P_UZ[u][z], Pprime[u,:,:,z]))
-            if (i == 0 & k == 0):
+            if (i == 0 and k == 0):
                 minVal = I
             elif I < minVal:
                 minVal = I
