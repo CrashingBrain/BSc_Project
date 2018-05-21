@@ -20,11 +20,13 @@ def allTests(P):
     # calculate mutual information of the marginal X,Y
     mutInf = inf.mutInf(m)
     intrInf = inf.MCupperBoundIntrinInf(P, inIter)
-    redIntrInf = inf.MCupperBoundRedIntrinInf(P, inIter, outIter)
+    # redIntrInf = inf.MCupperBoundRedIntrinInf(P, inIter, outIter)
+    redIntrInf = 0.0
 
-    # quantum part
-    rho = qm.PrToRho(np.sum(m))
-    ppt = qm.ppt(rho, np.shape(rho))
+    # quantum part. very slow.
+    # rho = qm.PrToRho(m)
+    # ppt = qm.ppt(rho, np.shape(rho)) == 1
+    ppt = False
     return (mutInf, intrInf, redIntrInf, ppt)
 
 def testAlongPath(P1, P2, iter=100):
@@ -33,8 +35,17 @@ def testAlongPath(P1, P2, iter=100):
         for iter steps
     """
 
+    outStr = str()
+    outStr += str('#Testing for %d iters\n' % iter)
+    outStr += str('#alpha\t\tI(X,Y)\t\tintrInf\t\tredIntr\t\tseparable\n')
+    print(outStr)
     for alpha in np.linspace(0,1,num=iter):
         newP = pr.mixBhvs(P1, P2, alpha=alpha)
 
-        allTests(newP)
+        results = allTests(newP)
+        results = (alpha,)+results
+        outStr = str()
+        outStr += str('%.3f\t\t%.4f\t\t%.4f\t\t%.4f\t\t%s' % results)
+        print(outStr)
+    print('#-----')
     pass
