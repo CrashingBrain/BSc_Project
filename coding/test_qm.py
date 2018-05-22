@@ -15,4 +15,5 @@ print( qm.ppt(rho, (2,2)))
 rho1 = qm.PrToRho( pr.marginal( bv.ThreePDstrb(), 2))
 print(rho1)
 print( np.trace( np.matmul( rho1, qm.wtns44())))
+print( qm.pt(rho1, (2,2)))
 # TO BE DONE

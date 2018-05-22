@@ -18,7 +18,7 @@ def pt(rho, dims):
 # return 1 if positive partial transpose
 def ppt(rho, dims):
     min_val = np.linalg.eig( pt(rho, dims))[0].min()
-    print('qm.ppt.minval ' + str(min_val))
+    # print('qm.ppt.minval ' + str(min_val))
     if min_val > -1e-8:
         res = 1
     else:
@@ -27,7 +27,7 @@ def ppt(rho, dims):
 
 # define bipartite rho from bipartite probability distribution
 def PrToRho(P):
-    rho = np.zeros( (np.prod( P.shape), np.prod( P.shape)))
+    rho = np.zeros( (np.prod( P.shape, dtype=int), np.prod( P.shape, dtype=int)))
     for i in range(0, P.shape[0]):
         for j in range(0, P.shape[0]):
             for k in range(0, P.shape[1]):
