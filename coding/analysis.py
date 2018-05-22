@@ -25,7 +25,7 @@ def allTests(P):
 
     # quantum part. very slow.
     rho = qm.PrToRho(m)
-    dims = tuple(t//2 for t in np.shape(rho))
+    dims = tuple(int(np.sqrt(t)) for t in np.shape(rho))
     ppt = qm.ppt(rho, dims) == 1
     # ppt = False
     return (mutInf, intrInf, redIntrInf, ppt)
