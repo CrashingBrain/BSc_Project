@@ -2,6 +2,7 @@
 <!-- all concepts here are very high level, as just an intuition  -->
 + explain that for key exchange you need privacy
 <!-- so this is referring to Maurers result ? Don't you need to introduce information theoretic secret key for that? -->
+<!-- Not really. I was thinking Shannon but also Maurer applies. Anyway I thought this might be just  a really brief mention, like a single statement (with reference). -->
 + Then define that for an eavesdropper it means to factor it out: `P(X,Y,Z) = P(X,Y)P(Z)`
     * possible quotation of Shannon on information theoretical security
 <!-- Maybe you find some reference to a source that discusses information theoretic secret key in one of the papers.... -->
@@ -17,6 +18,7 @@
     + high level explanation of entanglement.
     <!--The complete definition of entanglement is in the appendix -->
     <!-- Can you draw an analogy without information theoretic secret keys... that is without the content of the next chapter? -->
+    <!-- I think yes. Also here the idea is to make high level statements, with reference to next sections or literature for proofs/formal definition -->
 3. Examples of key exchange
     1. Diffie-Hellman
     2. BB84
