@@ -19,4 +19,6 @@ print(inf.mutInf(pr.marginal(P, (2,3))))
 for k in range(10):
     PC = inf.randChannel(2,2)
     print( inf.mutInf( pr.marginal( inf.applyChannel(P, PC, 3), (2,3))))
+    print( inf.MCupperBoundIntrinInf( pr.marginal(P, 3), 100))
+    print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 10, 10))
     pass
