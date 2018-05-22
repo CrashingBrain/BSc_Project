@@ -7,7 +7,7 @@ def tensorNflatten( b1,b2,b3):
     return B.flatten()
 
 
-# Goal is the alternative formulation of the SDP -> appendix A
+# The goal is the alternative formulation of the SDP -> appendix A
 
 # compute the objective function min t (t... auxiliary var)
 def c( dim):
@@ -51,5 +51,7 @@ def G0( rho, dim):
 
 def Giji( rho, dim):
     G = co.matrix(0, (1, np.power(dim[0],2)*dim[1]))
-
+    for i in range(0,dim[1]):
+        for j in range(0,dim[1]):
+            G += np.multiply( rho[1,j], tensorNflatten( basesA[i], basesB[j], basesA[i]))
     return G

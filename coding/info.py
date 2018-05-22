@@ -82,7 +82,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
             for u in range(0,Pprime.shpae[0]):
                 for z in range(0,Pprime.shape[2]):
                     I += P_UZ[u][z] * mutInf( np.multiply(1./P_UZ[u][z], Pprime[u,:,:,z]))
-            if (i == 0 & k == 0):
+            if (i == 0 and k == 0):
                 minVal = I
             elif I < minVal:
                 minVal = I
