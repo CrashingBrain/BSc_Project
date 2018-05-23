@@ -46,12 +46,36 @@ def G0( rho, dim):
     basesA = basis( dim[0])
     basesB = basis( dim[1])
     for j in range(0,dim[1]):
-        G += np.multiply( rho[1,j], tensorNflatten( basesA[0], basesB[j], basesA[0]))
+        G += co.matrix( np.multiply( rho[1,j], tensorNflatten( basesA[0], basesB[j], basesA[0])) )
     return G
 
-def Giji( rho, dim):
-    G = co.matrix(0, (1, np.power(dim[0],2)*dim[1]))
-    for i in range(0,dim[1]):
-        for j in range(0,dim[1]):
-            G += np.multiply( rho[1,j], tensorNflatten( basesA[i], basesB[j], basesA[i]))
+def Gt ( dim, ctr):
+    G = [co.matrix(0, (1, np.power(dim[0],2)*dim[1]))]
+    ctr++
     return G
+
+def Giji( dim, ctr):
+    for i in range(1,dim[1]):
+        for j in range(0,dim[1]):
+            G += [ co.matrix(tensorNflatten( basesA[i], basesB[j], basesA[i])) ] 
+            ctr++
+    return G
+
+def Gijk( dim, ctr):
+    for i in range(1,dim[1]):
+        for j in range(0,dim[1]):
+            for k in range(i+1,dim[2]):
+                G += [ co.matrix(tensorNflatten( basesA[i], basesB[j], basesA[i])) ]
+                ctr++
+    return G
+
+def assembleGx( dim):
+    Gx = Giji + Gijk
+    # check if counter is correct
+    if ( ctr != (np.power(dim[0],4)*np.power(dim[1],2)- np.power(dim[0],2)*np.power(dim[1],2))/2 + 1):
+        print("assembeGx: counter does not match no arguments")
+    return Gx
+
+def PPTsymmExt( rho, dim):
+    sol = co.solvers.sdp( c( dim), h = -G0( rho, dim), Gl = assembeGx( dim) )
+    return sol
