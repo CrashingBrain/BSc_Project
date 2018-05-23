@@ -10,7 +10,9 @@ pr.PrintThreePDstrb(P)
 print() # new line
 
 # compute `iter` steps towards the uniform distribution
-iter = 10
+iter = 25
 uniform = bv.ThreePUniformNoise()
 print('applying uniform noise...')
-alys.testAlongPath(P, uniform, iter=iter)
+alys.testInfoAlongPath(P, uniform, iter=iter)
+# 1'15" for testInfo 1 iter
+# 5'59" for testAll 1 iter
