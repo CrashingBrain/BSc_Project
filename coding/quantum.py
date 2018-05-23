@@ -43,24 +43,45 @@ def proj(v):
 # For all separable states: tr(W*rho) >=0
 # NB: something wrong.... doesn't yield the expected violation
 def wtns44():
-    v = np.zeros( (8, 16, 1))
-    v[0,  2 + 4*2, 0] = 1
-    v[0,  0 + 4*0, 0] = -1
-    v[1,  2 + 4*2, 0] = 1
-    v[1,  1 + 4*1, 0] = -1
-    v[2,  3 + 4*3, 0] = 1
-    v[2,  0 + 4*1, 0] = -1
-    v[3,  3 + 4*3, 0] = 1
-    v[3,  1 + 4*0, 0] = -1
-    v[4,  2 + 4*3, 0] = 1
-    v[5,  3 + 4*2, 0] = 1
-    v[6,  2 + 4*2, 0] = -1
-    v[7,  3 + 4*3, 0] = -1
+    v = np.zeros( (8, 16))
+    v[0,  2 + 4 * 2] = 1
+    v[0,  0 + 4 * 0] = -1
+    v[1,  2 + 4 * 2] = 1
+    v[1,  1 + 4 * 1] = -1
+    v[2,  3 + 4 * 3] = 1
+    v[2,  0 + 4 * 1] = -1
+    v[3,  3 + 4 * 3] = 1
+    v[3,  1 + 4 * 0] = -1
+    v[4,  2 + 4 * 3] = 1
+    v[5,  3 + 4 * 2] = 1
+    v[6,  2 + 4 * 2] = 1
+    v[7,  3 + 4 * 3] = 1
     w = np.zeros((16,16))
-    for k in range(0,8):
+    for k in range(0,4):
         w += proj(v[k, :])
+    w += proj( v[4, :]) + proj( v[5, :])
+    w += -proj( v[6, :]) - proj( v[7, :])
     return w
 
-# WANTED: SDP from quant-ph/0308032 eqn (23) resp (A1)
-# But careful: might not be so easy (needs inclusion of an SDP solver (see e.g. https://peterwittek.com/sdp-in-python.html) 
-    
+def rho_a(alpha=0.):
+    psi = np.zeros( (2, 16))
+    psi[ 0, 0 + 4 * 0] = 1./2.
+    psi[ 0, 1 + 4 * 1] = 1./2.
+    psi[ 0, 2 + 4 * 2] = np.sqrt(2.)/2.
+    psi[ 1, 0 + 4 * 1] = 1./2.
+    psi[ 1, 1 + 4 * 0] = 1./2.
+    psi[ 1, 3 + 4 * 3] = np.sqrt(2.)/2.
+    sigma = np.zeros( (8, 16))
+    sigma[ 0, 0 + 4 * 2] = 1.
+    sigma[ 1, 0 + 4 * 3] = 1.
+    sigma[ 2, 1 + 4 * 2] = 1.
+    sigma[ 3, 1 + 4 * 3] = 1.
+    sigma[ 4, 2 + 4 * 0] = 1.
+    sigma[ 5, 2 + 4 * 1] = 1.
+    sigma[ 6, 3 + 4 * 0] = 1.
+    sigma[ 7, 3 + 4 * 1] = 1.
+    rho = proj( psi[0,:]) + proj(psi[1,:])
+    rho_s = np.zeros((16,16))
+    for k in range(0,8):
+        rho_s += 1./8.*proj( sigma[k, :])
+    return ( 1./(2+alpha)*(rho+alpha*rho_s))
