@@ -21,7 +21,6 @@ def randChannelMultipart( dim_out, dim_in):
     #print( dim_out)
     #print( dim_in)
     PC = np.random.random_sample( dim_out+dim_in);
-    print(PC.shape)
     for k in range(0, np.prod(dim_in)):
         factor = 0.
         for l in range(0, np.prod(dim_out)):
@@ -31,7 +30,7 @@ def randChannelMultipart( dim_out, dim_in):
         
         if factor > 1e-15:
             for l in range(0, np.prod(dim_out)):
-                PC[coeffs] *= 1./factor
+                PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)] *= 1./factor
     return PC
 
 # Seems to swap "channelled" party always to the very end
@@ -83,7 +82,6 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
         #print('----')
         #print(P.shape)
         PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
-        print('DEBUG channel: ' + str(PC_UXYZ.shape))
         P_UXYZ = np.zeros_like(PC_UXYZ)
         #print(PC_UXYZ.shape)
         for u in range(0,PC_UXYZ.shape[0]):
