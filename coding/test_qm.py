@@ -1,8 +1,7 @@
-import bhvs as bv
-import prob as pr
-import info as inf
 import numpy as np
+import prob as pr
 import quantum as qm
+import bhvs as bv
 
 # Get some entangled vector
 psi = np.multiply( 1./np.sqrt(2), np.identity(4)[:, 0]+np.identity(4)[:,3])

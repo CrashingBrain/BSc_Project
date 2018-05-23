@@ -41,6 +41,7 @@ def proj(v):
 
 # Witness from quant-ph/0308032  (VII, B)
 # For all separable states: tr(W*rho) >=0
+# NB: something wrong.... doesn't yield the expected violation
 def wtns44():
     v = np.zeros( (8, 16, 1))
     v[0,  2 + 4*2, 0] = 1
