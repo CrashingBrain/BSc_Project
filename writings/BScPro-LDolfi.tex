@@ -40,6 +40,9 @@
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
 \nocite{*}
 \addbibresource{bib/references.bib}
+
+% Appendices
+\usepackage[title]{appendix}
 %------------------------------------%
 
 % Math environments
@@ -90,15 +93,31 @@
 \chapter{Motivation}
 \input{chapters/Motivation}
 		
-% Comment out empty chapters
-\chapter{Fundamentals}
+% empty
+\chapter{A common key exchange problem}
 \input{chapters/chapter2}
-		
-\chapter{Bound Information}
+% empty
+\chapter{Information Theoretical model of cryptography: random variables}
 \input{chapters/chapter3}
-	
-%\chapter{Conclusion}
-%\input{chapters/Conclusion}
+% empty
+\chapter{Measures of correlation and their bounds}
+\input{chapters/chapter4}
+% empty
+\chapter{State of research}
+\input{chapters/chapter5}
+% empty
+\chapter{A practical analysis of a candidate distribution}
+\input{chapters/chapter6}
+% empty
+\chapter{Conclusion}
+\input{chapters/Conclusion}
+
+\begin{appendices}
+	\chapter{Mathematical framework for QM}
+	\input{chapters/appendixA}
+	\chapter{Quantum mechanics}
+	\input{chapters/appendixB}
+\end{appendices}
 
 %\bibliographystyle{apalike}
 \printbibliography
