@@ -5,11 +5,13 @@ def pt(rho, dims):
     rho.shape = np.power(np.prod( dims),2)
     # build matrix for PT
     PT = np.zeros( (np.power(np.prod(dims),2), np.power(np.prod(dims),2)))
-    for m in range(0, dims[0]):
-        for n in range(0, dims[0]):
-            for k in range(0,dims[1]):
-                for l in range(0,dims[1]):
-                    PT[ m + dims[0] * (k + dims[1] * ( n + dims[0] * l)), m + dims[0] * (l + dims[1] * ( n + dims[0] * k))] = 1
+    x = dims[0] # performance
+    y = dims[1] # performance
+    for m in range(0, x):
+        for n in range(0, x):
+            for k in range(0,y):
+                for l in range(0,y):
+                    PT[ m + x * (k + y * ( n + x * l)), m + x * (l + y * ( n + x * k))] = 1
     rho_pt = np.matmul( PT, rho)
     rho_pt.shape = ( np.prod(dims), np.prod(dims))
     return rho_pt
@@ -19,7 +21,7 @@ def pt(rho, dims):
 def ppt(rho, dims):
     min_val = np.linalg.eig( pt(rho, dims))[0].min()
     # print('qm.ppt.minval ' + str(min_val))
-    if min_val > -1e-8:
+    if min_val > -1e-16:
         res = 1
     else:
         res = 0
@@ -28,11 +30,13 @@ def ppt(rho, dims):
 # define bipartite rho from bipartite probability distribution
 def PrToRho(P):
     rho = np.zeros( (np.prod( P.shape, dtype=int), np.prod( P.shape, dtype=int)))
-    for i in range(0, P.shape[0]):
-        for j in range(0, P.shape[0]):
-            for k in range(0, P.shape[1]):
-                for l in range(0, P.shape[1]):
-                    rho[ i + P.shape[0]*k, j + P.shape[0]*l] = np.sqrt( P[i,k]*P[j,l])
+    x = P.shape[0] # performance
+    y = P.shape[1] # performance
+    for i in range(0, x):
+        for j in range(0, x):
+            for k in range(0, y):
+                for l in range(0, y):
+                    rho[ i + x*k, j + x*l] = np.sqrt( P[i,k]*P[j,l])
     return rho
 
 def proj(v):
