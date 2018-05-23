@@ -82,11 +82,11 @@ def ThreePNoise3():
     return pr.normalize(P)        
 
 def ThreePUniformNoise():
-    P = np.zeros((4,4,16))
-    for x in range(0, P.shape[0]):
-        for y in range(0, P.shape[1]):
-            for z in range(0, P.shape[2]):
-                P[ x,y,z] = 1
+    P = np.ones((4,4,16))
+    return pr.normalize(P)
+
+def ThreePUniformNoise2():
+    P = np.ones((4,4,2))
     return pr.normalize(P)
 
 def redBhv(P):
