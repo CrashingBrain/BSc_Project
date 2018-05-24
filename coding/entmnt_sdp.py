@@ -16,49 +16,51 @@ def c( dim):
     return c
 
 def HSnorm( P,S):
-    return np.trace( np.matmul( np.adjoint(P), T))
+    return np.trace( np.matmul( np.transpose(P), S))
 
-def HSnormalize(P):
-    return np.multiply( 1./sqrt(HSnorm(P,P)), P )
+def HSnormalize(P, val=1.):
+    return (val/np.sqrt(HSnorm(P,P)))*P
 
-# Get trace zero bases from su(n) + diag(1,0,...)
-def basesH( dim):
-    bases = [ np.multiply( 1./dim, np.identity(dim)) ] 
-    bases[0][0,0] = 1.0
-    # fill off-diagonal elements
+# Get trace zero bases from su(n) + identity
+def basisH( dim):
+    # the normalized identity as a first element to satisfy the second part of eq 15
+    # the norm of id/n is 1/n -> have to normalize all other matrices to 1/n
+    bases = [ 1./dim*np.identity(dim) ] 
+    # fill off-diagonal elements: normalized to 
     for i in range(0, dim):
-        for j in range(j+1, dim):
+        for j in range(i+1, dim):
             T = np.zeros( (dim, dim))
             T[i,j] = T[j,i] = 1.0
-            bases += [ np.multiply( 1./np.sqrt(2), T) ]
+            bases += [ np.multiply( 1./(dim*np.sqrt(2)), T) ]
     # n-1 remaining diagonal, trace-zero basis elements
     for i in range(1, dim):
         T = np.zeros( (dim, dim))
         T[i, i] = -i
         for j in range(1,i):
             T[j,j] = 1
-        bases += [ HSnormalize( T) ]
+        bases += [ HSnormalize( T, 1./dim) ]
     return bases
 
 # Compute the function F (G in cvxopt manual)
 def G0( rho, dim):
-    G = co.matrix(0, (1, np.power(dim[0],2)*dim[1]))
-    basesA = basis( dim[0])
-    basesB = basis( dim[1])
+    G = co.matrix(0, (((dim[0]**2)*dim[1])**2, )
+    basisA = basisH( dim[0])
+    basisB = basisH( dim[1])
     for j in range(0,dim[1]):
-        G += co.matrix( np.multiply( rho[1,j], tensorNflatten( basesA[0], basesB[j], basesA[0])) )
+        Gp =  rho[1,j] * tensorNflatten( basisA[0], basisB[j], basisA[0])
+        G += Gp 
     return G
 
 def Gt ( dim, ctr):
     G = [co.matrix(0, (1, np.power(dim[0],2)*dim[1]))]
-    ctr++
+    ctr += 1
     return G
 
 def Giji( dim, ctr):
     for i in range(1,dim[1]):
         for j in range(0,dim[1]):
             G += [ co.matrix(tensorNflatten( basesA[i], basesB[j], basesA[i])) ] 
-            ctr++
+            ctr += 1
     return G
 
 def Gijk( dim, ctr):
@@ -66,7 +68,7 @@ def Gijk( dim, ctr):
         for j in range(0,dim[1]):
             for k in range(i+1,dim[2]):
                 G += [ co.matrix(tensorNflatten( basesA[i], basesB[j], basesA[i])) ]
-                ctr++
+                ctr += 1
     return G
 
 def assembleGx( dim):
