@@ -1,0 +1,7 @@
+\begin{tikzpicture} 
+  \begin{axis}[ xlabel=$\alpha$, ylabel={$I(X,Y)$} ] % use TeX as calculator: 
+    \addplot[cyan, thick] table[x=dof,y=L1] {../coding/some_test_data.csv};
+    \addplot[magenta, thick] table[x=dof,y=L2] {../coding/some_test_data.csv};
+    %\addplot table[x=dof,y=Lmax] {../coding/some_test_data.csv};
+  \end{axis} 
+\end{tikzpicture}

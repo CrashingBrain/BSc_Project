@@ -236,3 +236,6 @@ coding/examples
 
 ## vscode files
 */.vscode/
+
+# Ignore test pdf
+/writings/pgfplot_doc.pdf
