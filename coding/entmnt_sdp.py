@@ -6,12 +6,15 @@ def tensorNflatten( b1,b2,b3):
     B = np.tensordot( b1, np.tensordot( b2, b3, 0), 0)
     return B.flatten()
 
-
 # The goal is the alternative formulation of the SDP -> appendix A
+
+# Compute the number of variables
+def sizeX( dim):
+    return ((dim[0]**4)*(dim[1]**2)- (dim[0]**2)*(dim[1]**2))//2 + 1
 
 # compute the objective function min t (t... auxiliary var)
 def c( dim):
-    c = co.matrix(0, (1, np.prod(dim)))
+    c = co.matrix(0., (sizeX(dim), 1))
     c[0] = 1
     return c
 
@@ -42,8 +45,13 @@ def basisH( dim):
     return bases
 
 # Compute the function F (G in cvxopt manual)
+
+# compute the length of the flattened three partite system... last party is a copy of the first
+def rowLen( dim):
+    return ((dim[0]**2)*dim[1])**2
+
 def G0( rho, dim):
-    G = co.matrix(0, (((dim[0]**2)*dim[1])**2, )
+    G = co.matrix(0, (1,rowLen(dim)))
     basisA = basisH( dim[0])
     basisB = basisH( dim[1])
     for j in range(0,dim[1]):
@@ -51,33 +59,37 @@ def G0( rho, dim):
         G += Gp 
     return G
 
-def Gt ( dim, ctr):
-    G = [co.matrix(0, (1, np.power(dim[0],2)*dim[1]))]
-    ctr += 1
+def Gt( dim):
+    G = np.zeros( (1, rowLen(dim)) )
+    G[0] = 1.
     return G
 
-def Giji( dim, ctr):
-    for i in range(1,dim[1]):
+def Giji( dim):
+    G = np.zeros( ((dim[0]-1)*dim[1], rowLen(dim)) )
+    basisA = basisH( dim[0])
+    basisB = basisH( dim[1])
+    for i in range(1,dim[0]):
         for j in range(0,dim[1]):
-            G += [ co.matrix(tensorNflatten( basesA[i], basesB[j], basesA[i])) ] 
-            ctr += 1
+            G[ (i-1) + (dim[0]-1) * j, :] = tensorNflatten( basisA[i], basisB[j], basisA[i])
     return G
 
-def Gijk( dim, ctr):
-    for i in range(1,dim[1]):
+def Gijk( dim):
+    G = np.zeros((((dim[0]-1)*dim[1]*dim[0])//2, rowLen(dim)) )
+    basisA = basisH( dim[0])
+    basisB = basisH( dim[1])
+    ctr = 0
+    for i in range(1,dim[0]):
         for j in range(0,dim[1]):
-            for k in range(i+1,dim[2]):
-                G += [ co.matrix(tensorNflatten( basesA[i], basesB[j], basesA[i])) ]
+            for k in range(i+1,dim[0]):
+                G[ctr, :] =  tensorNflatten( basisA[i], basisB[j], basisA[k])
+                G[ctr, :] += tensorNflatten( basisA[k], basisB[j], basisA[i])
                 ctr += 1
     return G
 
 def assembleGx( dim):
-    Gx = Giji + Gijk
-    # check if counter is correct
-    if ( ctr != (np.power(dim[0],4)*np.power(dim[1],2)- np.power(dim[0],2)*np.power(dim[1],2))/2 + 1):
-        print("assembeGx: counter does not match no arguments")
+    Gx = co.matrix( np.vstack( (Gt(dim), Giji(dim), Gijk(dim))) )
     return Gx
 
 def PPTsymmExt( rho, dim):
-    sol = co.solvers.sdp( c( dim), h = -G0( rho, dim), Gl = assembeGx( dim) )
+    sol = co.solvers.sdp( c( dim), Gs = assembleGx( dim), hs = -G0( rho, dim))
     return sol
