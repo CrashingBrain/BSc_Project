@@ -55,6 +55,7 @@ def entropy_(P):
 
     mask = P != 0.0 # avoid 0 in log
     f = lambda x: x*np.log2(x)
+    # map-reduce strategy (likely to be more optimized than loops)
     temp = list(map(f, P[mask]))
     res = -np.sum(temp, dtype=float)
     return res
@@ -76,6 +77,20 @@ def condMutInf(P):
     return I
 
 def condMutInf_(P, dimX, dimY, dimZ):
+    """ Evaluates the I(X;Y|Z) for joint probability P
+        Utilizes the definition of condMutInf
+            I(X;Y|Z) = H(X,Z) + H(Y,Z) - H(X,Y,Z) - H(Z)
+        Works for any dimensions of P,
+        where the first two dimensions are interpreted as X,Y and
+        all the remainig are grouped as Z
+
+        Input:
+            P       : array-like probability distribution
+            dimX    : index of the X in the array
+            dimY    : index of the Y in the array
+            dimZ    : index(ices) of the remaining component(s) for the Z (can be a tuple)
+        
+    """
     res = 0.0
     Pxz = pr.marginal(P,(dimY))
     Pyz = pr.marginal(P,(dimX))
@@ -114,8 +129,13 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         # for u in range(P_UZ.shape[0]):
         #     for z in range(P_UZ.shape[1]):
         #         val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
+        
         val = condMutInf_(Pprime, 0,1,(3,2))
+        # add entropy 
         val -= entropy(np.sum(Pprime, (0,1,2)))
+        # I think this should be like this instead:
+        # val += entropy(np.sum(Pprime, (0,1,3)))
+        # but then it makes even less sense
         if val < minVal:
             minVal = val
     return minVal
