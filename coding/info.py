@@ -40,14 +40,24 @@ def applyChannel( P, PC, toParty):
     return np.tensordot(P,PC,(toParty,1))
 
 def entropy( P):
-    # E = 0
-    # for x in range(0,len(P)):
-    #     E += -P[x] * np.log2(P[x])
-    # return E
     res = 0.0
     for p in P:
-        res += p*np.log2(p)
+        if p != 0:
+            res += p*np.log2(p)
     return -res
+
+def entropy_(P):
+    """
+        works fo rany dimension of joint P distr
+        since the mask flatten the array
+    """
+    res = 0.0
+
+    mask = P != 0.0 # avoid 0 in log
+    f = lambda x: x*np.log2(x)
+    temp = list(map(f, P[mask]))
+    res = -np.sum(temp, dtype=float)
+    return res
 
 def mutInf(P):
     Pprod = np.tensordot( np.sum(P,0), np.sum(P,1), 0)
@@ -64,6 +74,14 @@ def condMutInf(P):
     for z in range(0, P.shape[2]):
         I += Pz[z] * mutInf( np.multiply(1./Pz[z], P[:,:,z]))
     return I
+
+def condMutInf_(P, dimX, dimY, dimZ):
+    res = 0.0
+    Pxz = pr.marginal(P,(dimY))
+    Pyz = pr.marginal(P,(dimX))
+    Pz = pr.marginal(P,(dimX,dimY))
+    res = entropy_(Pxz) + entropy_(Pyz) - entropy_(P) - entropy_(Pz)
+    return res
 
 # Monte Carlo way of computing an upper bound on the intrinsic information
 def MCupperBoundIntrinInf(P, noIter):
@@ -91,17 +109,13 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         # apply channel
         Pprime = np.tensordot( P, PC_UZ, ( (0,3), (0,1)))
         # Pprime has form P_XYUZ because of reordering of tensordot
-        P_UZ = np.sum( Pprime, (0,1))
-        # P_Z_bar = P_UZ.flatten()
-        # newSh = Pprime.shape[:2] + P_Z_bar.shape
-        # newP = np.zeros(newSh)
-
-        val = 0.
-        for u in range(P_UZ.shape[0]):
-            for z in range(P_UZ.shape[1]):
-                val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
-
-        val += entropy(np.sum(P_UZ, (1,)))
+        # P_UZ = np.sum( Pprime, (0,1))
+        # val = 0.
+        # for u in range(P_UZ.shape[0]):
+        #     for z in range(P_UZ.shape[1]):
+        #         val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
+        val = condMutInf_(Pprime, 0,1,(3,2))
+        val -= entropy(np.sum(Pprime, (0,1,2)))
         if val < minVal:
             minVal = val
     return minVal
@@ -137,8 +151,8 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
                 for z in range(0,Pprime.shape[3]):
                     I += P_UZ[u,z] * mutInf( np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
             Pu = pr.marginal(P_UXYZ, (1,2,3))
-            print(Pu)
-            print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Pu)))
+            # print(Pu)
+            # print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Pu)))
             I -= entropy( np.sum( P_UZ, (0)))
             if (i == 0 and k == 0):
                 minVal = I
@@ -147,7 +161,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
     return minVal
                 
 def MCupperBoundRedIntrinInf_( P, noIterOuter, noIterInner):
-    minVal = 0.
+    minVal = np.finfo(float).max
     for i in range(0, noIterOuter):
         # Setup random channel XYZ->U and compute P_UXYZ
         PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)

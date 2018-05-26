@@ -15,6 +15,11 @@ print(inf.applyChannel(P, PC, 2))
 print(inf.applyChannel(P, PC, 3))
 print(inf.mutInf(pr.marginal(P, (2,3))))
 
+print("TEst Con mutInfo")
+print(inf.condMutInf(pr.marginal(P,3)))
+print(inf.condMutInf_(pr.marginal(P,3),0,1,2))
+print("---")
+
 # Loop over different random channels
 for k in range(0, 10):
     PC = inf.randChannel(2,2)
@@ -25,4 +30,5 @@ for k in range(0, 10):
     print( inf.mutInf( pr.marginal( inf.applyChannel(P, PC, 3), (2,3))))
     print( inf.MCupperBoundIntrinInf( pr.marginal(P, 3), 100))
     print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 10, 10))
+    print( inf.MCupperBoundRedIntrinInf_( pr.marginal( P, 3), 10, 10))
     pass
