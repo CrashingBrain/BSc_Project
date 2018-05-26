@@ -1,6 +1,28 @@
 \section{Mutual Information}
-    %[2]
+    Mutual information can be used as a measure of correlation between random variables. 
+	
+	Mutual information is defined as
+	$$ I(X;Y) = \sum_{y\in\mathcal{Y}}\sum_{x\in\mathcal{X}} p(x,y) \log\left(\frac{p(x,y)}{p(x)p(y)}\right) $$
+	or equivalently, showing its relation to the entropies of the random variables
+	$$ I(X;Y) = H(X) - H(X\mid Y) = H(X,Y) - H(X\mid Y) - H(Y\mid X) $$
+	This relation can be seen more directly in Fig. \ref{fig:mutual_info}.\\
+	Mutual information is nonnegative and bounded by the entropy of random variable $X$
+	$$ 0 \leq I(X;Y) \leq H(X) $$
+	In this sense mutual information can also be interpreted as how much measuring one variable reduces the uncertainty of the other, thus being bounded by its uncertainty itself.
+	
+	\begin{figure}[h]
+		\centering
+		\input{images/mutual-info}
+		\caption{Representation of mutual information $I(X;Y)$ in relation with entropies $H(X)$ and $H(Y)$ and joint entropy $H(X,Y)$ of the random variables .
+		\label{fig:mutual_info}}
+	\end{figure}	
 \section{An eavesdropper that can choose the best channel to listen to}
     %[3]
 \section{When correlation is unusable}
-    %[1]
+    % Here you can retake the examples of protocols in chapter 1. After explaining Maurer postulate, show that they don't violate Maurer because of reasons.
+	\begin{quotation}
+		Bound entanglement is a kind of correlation between Alice and Bob inaccessible to Eve but nevertheless of no use for generating a secret (quantum) key.\\
+		Unfortunately the existence of such bound information, which would contradict the mentioned conjecture\footnotemark on the classical side of the picture, could not be proven so far.
+	\end{quotation}
+	\footnotetext{Shannon states that information theoretical security can be achieved only by parties sharing an unconditionally secret key initially. Maurer added also that this key can not be generated from scratch. Maurer+Wolf: \emph{Intrinsic information} between $A$ and $B$ given $E$ == \emph{secret key rate}(how much key can Alice and Bob generate from that $P_{ABE}$).}
+		
