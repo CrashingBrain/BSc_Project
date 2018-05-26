@@ -34,8 +34,8 @@ def allTests(P, inIter=10, outIter=10):
     # ppt = False
     results.append(ppt)
     # trace with witness
-    trace = 0.0
-    # trace = np.trace( np.matmul( rho, qm.wtns44()))
+    # trace = 0.0
+    trace = np.trace( np.matmul( rho, qm.wtns44()))
     results.append(trace)
     return results
 
@@ -56,7 +56,7 @@ def allInfoTests(P, inIter=10, outIter=10):
     intrInf = inf.MCupperBoundIntrinInf(P, inIter)
     results.append(intrInf)
     # print('#Done intrInf')
-    redIntrInf = inf.MCupperBoundRedIntrinInf(P, inIter, outIter)
+    redIntrInf = inf.MCupperBoundRedIntrinInf_(P, inIter, outIter)
     results.append(redIntrInf)
 
     return results
@@ -96,7 +96,7 @@ def testInfoAlongPath(P1,P2,iter=100):
     for alpha in np.linspace(0,1,num=iter):
         newP = pr.mixBhvs(P1, P2, alpha=alpha)
 
-        results = tuple(allInfoTests(newP, 1, 1))
+        results = tuple(allInfoTests(newP, 2, 2))
         results = (alpha,)+results
         outStr = str()
         outStr += str('%.3f\t\t%.4f\t\t%.4f\t\t%.4f' % results)
