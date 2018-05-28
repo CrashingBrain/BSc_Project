@@ -25,14 +25,25 @@ def randChannelMultipart( dim_out, dim_in):
     PC = np.random.random_sample( dim_out+dim_in);
     for k in range(0, np.prod(dim_in)):
         factor = 0.
-        for l in range(0, np.prod(dim_out)):
-            #print(coeffOfNo( l, dim_out))
-            #print(coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in))
-            factor += PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)]
-        
+        inCoeffs = coeffOfNo( k, dim_in)
+        # for l in range(0, np.prod(dim_out)):
+        #     #print(coeffOfNo( l, dim_out))
+        #     # print(coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in))
+        #     factor += PC[coeffOfNo( l, dim_out) + inCoeffs]
+        factor = np.sum(PC[:,:,inCoeffs])
         if factor > eps:
-            for l in range(0, np.prod(dim_out)):
-                PC[coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in)] *= 1./factor
+            norm = 1./factor
+            print(inCoeffs)
+            print(PC[:,:,inCoeffs].shape)
+            print(np.sum(PC[:,:,inCoeffs]))
+            # for l in range(0, np.prod(dim_out)):
+            #     PC[coeffOfNo( l, dim_out) + inCoeffs] *= norm
+            PC[:,:,inCoeffs] = norm*PC[:,:,inCoeffs]
+            print(np.sum(PC[:,:,inCoeffs]))
+            print("--------")
+    # print("************")
+    # print(np.sum(PC[:,0,0,0]))
+    # print("------------")
     return PC
 
 # Seems to swap "channelled" party always to the very end
@@ -131,11 +142,9 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         #         val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
         
         val = condMutInf_(Pprime, 0,1,(3,2))
+        # print("condI: %.4f" % val)
         # add entropy 
-        val -= entropy(np.sum(Pprime, (0,1,2)))
-        # I think this should be like this instead:
-        # val += entropy(np.sum(Pprime, (0,1,3)))
-        # but then it makes even less sense
+        val += entropy(np.sum(Pprime, (0,1,3)))
         if val < minVal:
             minVal = val
     return minVal

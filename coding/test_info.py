@@ -2,6 +2,7 @@ import bhvs as bv
 import info as inf
 import numpy as np
 import prob as pr
+import time
 
 PC = inf.randChannel(3,2)
 print(PC.shape)
@@ -16,8 +17,14 @@ print(inf.applyChannel(P, PC, 3))
 print(inf.mutInf(pr.marginal(P, (2,3))))
 
 print("Test CondMutInfo")
+start = time.time()
 print(inf.condMutInf(pr.marginal(P,3)))
+end = time.time()
+print("time Arne: %.8f" % (end - start))
+start = time.time()
 print(inf.condMutInf_(pr.marginal(P,3),0,1,2))
+end = time.time()
+print("time Mio: %.8f" % (end - start))
 print("---")
 
 # Loop over different random channels
