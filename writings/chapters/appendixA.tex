@@ -37,34 +37,5 @@
 	\end{description}
 	The inner product on $V$ and $W$ can be used to define (linearly) an inner product on $V\otimes W$.	
 	
-\section{Quantum Mechanics}
-	%TODO Correct and reformulate this
-	
-	
-	
-	%TODO review this
-	All pure states in QM are normalized vectors in $\H$.
-	$$ \ket{\psi} \text{ is a state vector } \Rightarrow \ket{\psi}\in\H \text{ and }  \vert\bk{\psi}{\psi}\vert = 1$$
-	This is instrumental in seeing them as probability vectors. Every linear operator has then to be unitary to maintain this property.\\
-	A statistical mixture of states corresponds to a \emph{density matrix}, which is itself a new state. It is important to note that a mixture of probability of states is not the same thing as superposition of states. In the latter we don't have a measure of uncertainty of the state, meaning also that in theory we are always able to find a measurement basis that will always output the same result for that state. In the former, however, this is not possible given by the direct intrinsic uncertainty of the state.\\
-	Density matrices have then the properties:
-	$$ M = \rho = \sum_i p_i \ketbra{\psi_i}{\psi_i} = \sum_i p_i P_{\ket{\psi_i}} \text{  , where state }\ket{\psi_i}\text{ has probability } p_i $$ 
-	$\rho$ is a positive, trace-1 operator meaning that $\Tr{\rho} = 1$ and all eigenvalues of $\rho$ are positive. Moreover $\rho$ is a linear combination of projectors $\proj{\psi_i}$ which makes $\rho\in\mathbf{P}(\H)$ a projector itself on the the Hilbert space.
-	
-		\subsection{Quantum Measurements}
-		To get an actual value out of a qubit one has to \textit{measure} it. Measurement is, mathematically, a projection onto some chosen computational basis. The result for each base vector projection is then interpreted as a \emph{probability}. The state then changes after measurement, meaning for example that it will not retain it value as superposition any more.\\
-		...\\
-		
-		If Alice has the state $\ket{psi_i}$ out of $i=1..n$ and all states are orthonormal, then Bob can find out what the choice of $i$ was.
-		If the states are not orthonormal there is no quantum measurement capable of distinguishing the states. \\
-		From this follows that if the states $\ket{\psi_1}$ and $\ket{\psi_2}$ are not orthogonal, then $\ket{\psi_2}$ has a component orthogonal to $\ket{\psi_1}$ but also a component parallel to it which will give probability not $0$ of measuring differently.
-		
-			\begin{xmpl}
-      \begin{equation*} % environment for equation 
-				Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \quad P_{+1} = \proj{0} , \; P_{-1} = \proj{1}
-      \end{equation*}
-				Measurement on qubit $ \ket{\psi} = \frac{\ket0 + \ket1}{\sqrt{2}} $ has probability $p_{+1} = \bra{\psi}P_{+1}\ket{\psi} = \bk{\psi}{0}\bk{0}{\psi} = \frac{1}{2}$ and similarly $p_{-1} = \frac{1}{2}$
-				\cite{NC10}
-			\end{xmpl}
 	
 

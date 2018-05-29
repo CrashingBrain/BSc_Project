@@ -1,4 +1,4 @@
-
+\label{App:appendixB}
 \begin{quotation}
 	The simplest quantum mechanical system, and the system which we will be most concerned with, is the \emph{qubit}. A qubit has a two-dimensional state space. [...] 
 	The way a qubit differs from a bit is that superpositions of these two states, of the form $a\ket{0} + b\ket{1}$, can also exist, in which it is not possible to say that the qubit is definitely in the state $\ket0$, or definitely in the state $\ket1$.
@@ -29,9 +29,9 @@
 		$$ 1 = \sum_m p(m) = \sum_m  \bra{\psi}M_m^{\dagger}M_m\ket{\psi} \: .$$ 
 	\end{quote}
 	
-	Quantum mechanics is a very large and complex theory. For our purposes it is enough for us to only consider the quantum system called \emph{qubit} and its rules of computation following from the tensor product algebra. 
+	For our purposes it is enough for us to only consider the quantum system called \emph{qubit} and its rules of computation following from the tensor product algebra. 
 
-\section{Dirac's notation}
+\section{Dirac's bra-ket notation}
 	%	\begin{figure}[h!]
 %		\centering
 %		\includegraphics[scale=0.2]{images/sketch1.png} 
@@ -63,7 +63,25 @@
 	which is a convenient way of visualizing the action of matrix $A$. In particular if we divide it like $(\ketbra{w}{v}) (\ket{v'}) $ it is easy to interpret it as \textit{matrix $A$ acting on vector $\ket{v'}$}; but the other equivalent form $(\braket{v}{v'})(\ket{w})$ can also be seen as multiplying vector $\ket{w}$ by a value $\braket{v}{v'}$. \\
 	%this part may be too similar to book, page 67...
 	The meaning of this is that $\ketbra{w}{v}$ can indeed be defined as a (linear) operator from the vector space of $\ket{v}$ and $\ket{v'}$ to the vector space of $\ket{w}$. This comes in very handy when we later use it to define operations and measurements on quantum states.\\
-\section{Measurements on a  basis}
+
+\section{Measurements on a  basis} \label{measurements}
+
+	To get an actual value out of a qubit one has to \textit{measure} it. 
+	Measurement is, mathematically, a projection onto some chosen computational basis. 
+	The result for each base vector projection is then interpreted as a \emph{probability}. 
+	The state then changes after measurement, meaning for example that it will not retain its value as superposition any more.\\
+
+	If Alice has the state $\ket{\psi_i}$ out of $i=1..n$ and all states are orthonormal, then Bob can find out what the choice of $i$ was.
+	If the states are not orthonormal there is no quantum measurement capable of distinguishing the states. \\
+	From this follows that if the states $\ket{\psi_1}$ and $\ket{\psi_2}$ are not orthogonal, then $\ket{\psi_2}$ has a component orthogonal to $\ket{\psi_1}$ but also a component parallel to it which will give probability not $0$ of measuring differently.
+
+	\begin{xmpl}
+		\begin{equation*} 
+			Z = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \quad P_{+1} = \proj{0} , \; P_{-1} = \proj{1}
+		\end{equation*}
+		Measurement on qubit $ \ket{\psi} = \frac{\ket0 + \ket1}{\sqrt{2}} $ has probability $p_{+1} = \bra{\psi}P_{+1}\ket{\psi} = \bk{\psi}{0}\bk{0}{\psi} = \frac{1}{2}$ and similarly $p_{-1} = \frac{1}{2}$
+			
+	\end{xmpl}\cite{NC10}
     
 	\subsubsection*{Linear operators}
 	A linear operator between two vector spaces is defined as 
@@ -77,7 +95,19 @@
 	In particular it is safe to say that, unless stated otherwise, the operators that will be presented all have a set of properties and are called Hermitian operators, or self-adjoint operators.\\
 	$$ A = A^{\dagger} \quad \Longrightarrow (A\ket{v})^{\dagger} = \bra{v}A^{\dagger} $$ 
 	Operators have also to be positive, this means that it holds, for every $\ket{v}$ : $\bra{v}A\ket{v}$ is real non-negative. Any positive operator is also self-adjoint and therefore it has diagonal (spectral) representation $\sum_i \lambda_i \proj{i}$ with non-negative eigenvalues $\lambda_i$.\\    
-    
+ 
+\section{Mixed states}
+	All pure states in QM are normalized vectors in $\H$.
+	$$ \ket{\psi} \text{ is a state vector } \Rightarrow \ket{\psi}\in\H \text{ and }  \vert\bk{\psi}{\psi}\vert = 1$$
+	This is instrumental in seeing them as probability vectors. 
+	Every linear operator has then to be unitary to maintain this property.\\
+	A statistical mixture of states corresponds to a \emph{density matrix}, which is itself a new state. 
+	It is important to note that a mixture of probability of states is not the same thing as superposition of states. In the latter we don't have a measure of uncertainty of the state, meaning also that in theory we are always able to find a measurement basis that will always output the same result for that state. 
+	In the former, however, this is not possible because of the intrinsic uncertainty of the state.\\
+	Density matrices have then the properties:
+	$$ M = \rho = \sum_i p_i \ketbra{\psi_i}{\psi_i} = \sum_i p_i P_{\ket{\psi_i}} \text{  , where state }\ket{\psi_i}\text{ has probability } p_i $$ 
+	$\rho$ is a positive, trace-1 operator meaning that $\Tr{\rho} = 1$ and all eigenvalues of $\rho$ are positive. Moreover $\rho$ is a linear combination of projectors $\proj{\psi_i}$ which makes $\rho\in\mathbf{P}(\H)$ a projector itself on the the Hilbert space.
+
 \section{Quantum entanglement}
 
 	\begin{quotation}
@@ -88,5 +118,4 @@
     \end{equation*}
     is \emph{not} separable.
 		this may be strange because on physical level tensor product is combination(merging) of quantum systems
-		\end{quotation}
-		\cite{Han13}
+		\end{quotation}\cite{Han13}
