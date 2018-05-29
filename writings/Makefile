@@ -4,6 +4,10 @@ the_entire_thesis:
 	pdflatex BScPro-LDolfi.tex
 	pdflatex BScPro-LDolfi.tex
 
+fast:
+	pdflatex BScPro-LDolfi.tex
+	pdflatex BScPro-LDolfi.tex
+
 rm_generated_files:
 	rm *.bcf
 	rm *.bbl
