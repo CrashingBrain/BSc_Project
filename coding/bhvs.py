@@ -56,6 +56,22 @@ def ThreePDstrbN(n=4):
         P[x, x, x%h] = 1./n
     return P
 
+# Tripartite distribution given in Gisin, Wolf paper Example 3.bis
+# translated from \psi = (1/sqrt(3))(|11> + |22> + |33>)
+def ThreePDstrEx3(alpha=4):
+    # for alpha <= 4 it seems that S(X;Y||Z) = 0
+    # for alpha <= 3 I(X;Y|Z) = 0
+    P = np.zeros(2,2,3)
+    P[0,0,0] = P[1,1,0] = 2*(9/(2*alpha+4))
+    P[0,0,2] = P[1,1,2] = alpha * 9/(2*alpha+4) * (2*alpha-5)/(2*alpha+4)
+    P[1,0,0] = 2 * 2 * (2*alpha-5)/(2*alpha+4)
+    P[1,0,1] = 5-alpha
+    P[1,0,2] = alpha * (2*alpha-5)/(2*alpha+4) * (2*alpha-5)/(2*alpha+4)
+    P[0,1,2] = alpha * 9/(2*alpha+4) * 9/(2*alpha+4)
+
+    return pr.normalize(P)
+##########################################################
+
 # Four partite noise -> to be mixed with FourPDistrib
 # Is to yield as a marginal the candidate from 2003 paper
 def ThreePNoise1():
