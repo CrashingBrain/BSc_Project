@@ -4,19 +4,6 @@
 % secret key rate and information of formaion
 
 \begin{tikzpicture}
-%	\tikzstyle{lineLabel}=[text width=10mm,align=center, below]
-%	\draw[->] (0,0) -- (11,0);
-%	\draw (0,.5) -- (0,-.5);
-%	\draw (2,.5) -- (2,-.5);
-%	\draw[dashed] (5,.5) -- (5,-.5);
-%	\draw (7,.5) -- (7,-.5);
-%	\draw (9,.5) -- (9,-.5);
-%	
-%	\node (zero) at (0,-.7) {$0$};
-%	\node[lineLabel] (iof) at (9,-.7) {\footnotesize Information of formation};
-%	\node[lineLabel] (inf) at (7,-.7) {\footnotesize Intrinsic Information};
-%	\node[lineLabel] (rinf) at (5,-.7) {\footnotesize Reduced Intrinsic Information};
-%	\node[lineLabel] (skr) at (2,-.7) {\footnotesize secret key rate};
 
 \tikzset{
     position label/.style={
@@ -42,13 +29,13 @@
 \draw[->] (0,0) -- (11,0);
 
 %draw vertical lines
-\foreach \x in {0,2,5,7,9}
+\foreach \x in {0,2,4,7,9}
    \draw (\x cm,3pt) -- (\x cm,-3pt);
 
 %labels
 \node [position label] (Start) at (0,0) {$0$};
 \node [position label] (skr) at (2,0) {\footnotesize secret key rate};
-\node [position label] (rinf) at (5,0) {\footnotesize reduced intrinsic information};
+\node [position label] (rinf) at (4,0) {\footnotesize reduced intrinsic information};
 \node [position label] (inf) at (7,0) {\footnotesize intrinsic information};
 \node [position label] (iof) at (9,0) {\footnotesize information of formation};
 

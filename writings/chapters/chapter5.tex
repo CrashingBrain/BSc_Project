@@ -1,10 +1,29 @@
+The question of the existence of an analog to bound entanglement was firstly posed in \cite{GisWolf00} by Gisin and Wolf, where they analysed the comparisons and correspondences between quantum and classical protocols for key agreement. 
+The rise of bound information was a consequence of these correspondences.\\
+Since then the topic was picked up by the scientific community of quantum cryptography and a couple more observation were made.
+A probability distribution that presents bound information has not been found yet. Neverthenless 	a case for asymptotic bound information was proposed again by Wolf together with Renner \cite{RW03}.
+
 \section{Tripartite Bound Information}
     %[1]
 \section{The gaps between the bounds can be arbitrarily large}
-    %[3]
+    To distinguish and analyse the case of bound information some information theoretical measures are needed. 
+    We already saw the secret key rate (section \ref{seckeyrate}) and the intrinsic information (section \ref{intrininfo}) and we already presented the question of bound information in terms of them. \\
+    In \cite{RW03} a new measure of \emph{reduced intrinsic information} is introduced as an upper bound on secret key rate, lower than just the normal intrinsic information.
+    For every $P_{XYZ}$ it holds
+    \begin{equation}
+    	\keyrate{X}{Y}{Z} \leq \redintrinfo{X}{Y}{Z} \leq \intrinfo{X}{Y}{Z}
+    \end{equation}
+    	Reduced intrinsic information is a strictly stronger upper bound on secret key rate than intrinsic information.
+    	More importantly, Renner and Wolf prove that the gap between reduced and normal intrinsic information can be arbitrarily large, implying the existence of asymptotic bound information.
+    	\begin{figure}
+    		\input{images/bounds}
+    		\caption{The different measures for $P_{XYZ}$ and how they bound each other.}
+    	\end{figure}
 \section{A candidate probability distribution}
-    Wolf and Renner proposed in \cite{RW03} for the first time a tripartite distribution which is a good candidate for the classical analysis of \emph{bound entanglement}. 
-	\begin{table}
+    Wolf and Renner proposed in \cite{RW03} for the first time a probability distribution which is a good candidate for the classical analogy of \emph{bound entanglement}. 
+    In fact, they propose a probability distribution that asymptotically has bound information. 
+    They also show, for such a distribution, that $\keyrate{X}{Y}{Z} \neq \intrinfo{X}{Y}{Z}$ and they emphasize that this is the first time that equality does not hold.
+	\begin{figure}[h!]
 	\begin{center}
 		\begin{tabular}{|l r||c|c|c|c|}
 		    \hline 
@@ -42,7 +61,33 @@
 	    $$Z \equiv X + Y\; (mod\: 2)\; \text{ if } X,Y \in \{ 0,1\}$$ 
 	    $$Z \equiv X\; (mod\: 2)\; \text{ if } X \in \{ 2,3\}$$ 
 	    $$U \equiv \lfloor X/2 \rfloor $$
-	    \caption{Candidate tripartite probability distribution proposed by Renner and Wolf in \cite{RW03}}
+	    \caption{Probability distribution proposed by Renner, Wolf and Skripsky in \cite{RW03} for which it holds that $\keyrate{X}{Y}{Z} \neq \intrinfo{X}{Y}{Z}$}
 	    \label{Tab:candidate}
-	\end{table}	    
+	\end{figure}	    
+	
+	\begin{figure}
+		\begin{center}
+		\begin{tabular}{|l r||c|c|c|c|}
+		    \hline 
+		    		 &	$X$ & $0$ & $1$ & $2$ & $3$ \\ 
+		    $Y$ &		  &		&			&			&		\\
+		    \hline 
+		    \hline
+		    $0$ &		   & $1/8$ & $1/8$ & $a$ & $a$ \\ 
+		    \hline 
+		    $1$ &		   & $1/8$ & $1/8$ & $a$ & $a$ \\ 
+		    \hline 
+		    $2$ &		   & $a$ & $a$ & $1/4$ & $0$ \\ 
+		    \hline 
+		    $3$ &		   & $a$ & $a$ & $0$ & $1/4$ \\ 
+		    \hline 
+		  \end{tabular} 
+	\end{center}
+	
+			$$Z \equiv X + Y\; (mod\: 2)\; \text{ if } X,Y \in \{ 0,1\}$$ 
+	    	$$Z \equiv X\; (mod\: 2)\; \text{ if } X,Y \in \{ 2,3\}$$ 
+	    	$$Z = (X,Y) \text{ otherwise} $$
+	    	
+	    	\caption{A candidate probability distribution for bound information, for $a\geq 0$ (and renormalized).}
+	\end{figure}
     
