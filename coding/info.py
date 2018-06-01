@@ -1,6 +1,14 @@
 import numpy as np
 import prob as pr
 
+def normalizeChannel(PC):
+    ax = tuple([i+1 for i in range(len(PC.shape))])
+    factor = np.sum(PC, axis=ax)
+    for i in range(len(factor)):
+        PC[:,i] = factor[i] * PC[:,i]
+    
+    return PC
+
 def coeffOfNo( no, mixedBasis):
     coeffs = ()
     for k in range(0, len(mixedBasis)):
@@ -26,21 +34,31 @@ def randChannelMultipart( dim_out, dim_in):
     for k in range(0, np.prod(dim_in)):
         factor = 0.
         inCoeffs = coeffOfNo( k, dim_in)
-        # for l in range(0, np.prod(dim_out)):
-        #     #print(coeffOfNo( l, dim_out))
-        #     # print(coeffOfNo( l, dim_out) + coeffOfNo( k, dim_in))
-        #     factor += PC[coeffOfNo( l, dim_out) + inCoeffs]
-        factor = np.sum(PC[:,:,inCoeffs])
+        #version 1
+        for l in range(0, np.prod(dim_out)):
+            outCoeff = coeffOfNo( l, dim_out)
+            #print(coeffOfNo( l, dim_out))
+            factor += PC[coeffOfNo( l, dim_out) + inCoeffs]
+
+        #version2
+        # j = len(PC.shape) - len(inCoeffs)
+        # ax = tuple([i+j for i in range(len(inCoeffs))])
+        # # print(inCoeffs)
+        # # print(PC.shape)
+        # factor = np.sum(PC, axis=ax)
+
         if factor > eps:
             norm = 1./factor
-            print(inCoeffs)
-            print(PC[:,:,inCoeffs].shape)
-            print(np.sum(PC[:,:,inCoeffs]))
-            # for l in range(0, np.prod(dim_out)):
-            #     PC[coeffOfNo( l, dim_out) + inCoeffs] *= norm
-            PC[:,:,inCoeffs] = norm*PC[:,:,inCoeffs]
-            print(np.sum(PC[:,:,inCoeffs]))
-            print("--------")
+            # print(inCoeffs)
+            # print(PC[:,:,inCoeffs].shape)
+            # print(np.sum(PC, axis=ax))
+            # version 1
+            for l in range(0, np.prod(dim_out)):
+                PC[coeffOfNo( l, dim_out) + inCoeffs] *= norm
+            # version 2
+            # PC[:,:,inCoeffs] = norm*PC[:,:,inCoeffs]
+            # print(np.sum(PC, axis=ax))
+            # print("--------")
     # print("************")
     # print(np.sum(PC[:,0,0,0]))
     # print("------------")
@@ -127,24 +145,28 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         Encode the extra dimensions and flattens them in the third component.
         Then estimate a bound on the intrinsic information.
     """
+    # P has shape UXYZ
     minVal = np.finfo(float).max
     sh = P.shape
+    Hu = entropy(np.sum(P, (1,2,3)))
     for i in range(noIter):
         PC_UZ = randChannelMultipart( (sh[0], sh[3]), (sh[0], sh[3]))
 
         # apply channel
         Pprime = np.tensordot( P, PC_UZ, ( (0,3), (0,1)))
         # Pprime has form P_XYUZ because of reordering of tensordot
-        # P_UZ = np.sum( Pprime, (0,1))
-        # val = 0.
-        # for u in range(P_UZ.shape[0]):
-        #     for z in range(P_UZ.shape[1]):
-        #         val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
+        P_UZ = np.sum( Pprime, (0,1))
+        val = 0.
+        for u in range(P_UZ.shape[0]):
+            for z in range(P_UZ.shape[1]):
+                val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
         
-        val = condMutInf_(Pprime, 0,1,(3,2))
+        # val = condMutInf_(Pprime, 0,1,(3,2))
         # print("condI: %.4f" % val)
+        print("cond_I: %.3f\t Entropy: %.3f" % (val, Hu))
         # add entropy 
         val += entropy(np.sum(Pprime, (0,1,3)))
+        # val += Hu
         if val < minVal:
             minVal = val
     return minVal
@@ -167,7 +189,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         for k in range(0, noIterInner):
             PC_UZ = randChannelMultipart( (P_UXYZ.shape[0], P_UXYZ.shape[3]), (P_UXYZ.shape[0], P_UXYZ.shape[3]))
-            #print('----')
+            # print('----')
             # print(PC_UZ.shape)
             # print(P_UXYZ.shape)
             # Pprime has form P_XYUZ because of reordering of tensordot
@@ -180,9 +202,10 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
                 for z in range(0,Pprime.shape[3]):
                     I += P_UZ[u,z] * mutInf( np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
             Pu = pr.marginal(P_UXYZ, (1,2,3))
+            Puz = pr.marginal(P_UZ, (0,))
             # print(Pu)
-            # print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Pu)))
-            I -= entropy( np.sum( P_UZ, (0)))
+            # print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Puz)))
+            I += entropy( np.sum( P_UZ, (1)))
             if (i == 0 and k == 0):
                 minVal = I
             elif I < minVal:

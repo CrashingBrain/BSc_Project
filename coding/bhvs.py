@@ -61,6 +61,7 @@ def ThreePDstrbN(n=4):
 def ThreePDstrEx3(alpha=4):
     # for alpha <= 4 it seems that S(X;Y||Z) = 0
     # for alpha <= 3 I(X;Y|Z) = 0
+    assert(alpha>=2)
     P = np.zeros(2,2,3)
     P[0,0,0] = P[1,1,0] = 2*(9/(2*alpha+4))
     P[0,0,2] = P[1,1,2] = alpha * 9/(2*alpha+4) * (2*alpha-5)/(2*alpha+4)
