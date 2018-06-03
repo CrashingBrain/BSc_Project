@@ -1,6 +1,32 @@
+Towards the end of the project we decided to implement a python module to do testing and analysis on some candidate probability distributions.
 \section{Analysis design and goals}
-    %{4}
+    To visualize and motivate the scope of this analysis we expand Eq. \ref{eq:bounds} as follow
+    \begin{equation}
+    	\keyrate{X}{Y}{Z} \leq \redintrinfo{X}{Y}{Z} \leq \intrinfo{X}{Y}{Z} \leq I_{form} (X;Y|Z)
+    \end{equation}
+    including also the information of formation.\\
+    It is tricky to get direct values for the secret key rate and information of formation --- the fundamental quantities for key agreement --- since they are defined over a \textit{possible protocol}. 
+    For their bounds --- i.e. the central parts of the inequality --- we can obtain direct numerical values. \\
+    The aim of this part of the project is then to take the candidate given in Fig. \ref{Tab:candidate2} and map the values of the reduced and normal intrinsic information for various variation of said probability distribution.\\
+    
+    A good result we hope to obtain is a probability distribution for which the reduced measures tend to $0$, while the intrinsic information remains larger than $0$. This will lead to a new candidate for bound information.\\
+    
+    In order to perform analysis on those measures we firstly had to implement a library of modules that dealt with the probability and information theory aspects.
+    Following criteria for separability of quantum states, a quantum mechanics module was also implemented to translate and later tests the distributions from the quantum to classical regime.\\
+    The intrinsic information (and the reduced counterpart) is defined as an \emph{infimum}. 
+    To find a correct value it will be required to solve an optimization problem. 
+    The definition given in section \ref{intrininfo} however does not allow us to formulate the problem as convex.
+    We decided then to adopt a Monte-Carlo method find them.\\
+     
+    For each step --- i.e. for each variation --- of the candidate base probability, the values of 
+    \begin{itemize}
+    	\item	mutual information
+    	\item	intrinsic information
+    	\item	reduced intrinsic information
+    	\item	trace over quantum state witness given in \cite{DPS04}
+    \end{itemize}
+    are measured.
 \section{Different noises analysis}
-    %{3}
+    % results
 \section{Scaling up dimensions}
-    %{2}
+    % results
