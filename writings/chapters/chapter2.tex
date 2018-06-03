@@ -1,10 +1,12 @@
 \section{What is a shared key?}
     	\subsection{Common Secret} \label{commonsecret}%here?
 	Let $X,Y,Z,S$ be random variables on the same range $\mathcal{X}$. Let $X$ be owned by Alice, $Y$ by Bob and $Z$ by Eve. Then
-  \begin{align}
-	 & P[X=Y=S] > 1 - \epsilon\label{eqn:common}\tag{common} \\ 
-	 & I(X;Z) = 0 \: \wedge \: I(Y;Z) = 0 \label{eqn:secret}\tag{secret}
-  \end{align}
+  \begin{equation} \label{eq:common}
+	  P[X=Y=S] > 1 - \epsilon \tag{common}
+	\end{equation}
+	\begin{equation} \label{eq:secret}
+	  \I(X;Z) = 0 \: \wedge \: \I(Y;Z) = 0 \tag{secret}
+  \end{equation}
 for all $\epsilon > 0 $. \\
 The first part defines the \textit{common} property: $X$ and $Y$ must be asymptotically the same. 
 The second part states that the amount of information Eve can gather about $X$ and $Y$, through it's realization of $Z$, is $0$.

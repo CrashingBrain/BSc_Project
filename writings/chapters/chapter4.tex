@@ -2,18 +2,24 @@
     Mutual information can be used as a measure of correlation between random variables. 
 	
 	Mutual information is defined as
-	$$ I(X;Y) = \sum_{y\in\mathcal{Y}}\sum_{x\in\mathcal{X}} p(x,y) \log\left(\frac{p(x,y)}{p(x)p(y)}\right) $$
+	\begin{equation}
+		\I(X;Y) = \sum_{y\in\mathcal{Y}}\sum_{x\in\mathcal{X}} p(x,y) \log\left(\frac{p(x,y)}{p(x)p(y)}\right) 
+	\end{equation}
 	or equivalently, showing its relation to the entropies of the random variables
-	$$ I(X;Y) = H(X) - H(X\mid Y) = H(X,Y) - H(X\mid Y) - H(Y\mid X) $$
+	\begin{equation}
+		\I(X;Y) = \Ent(X) - \Ent(X\mid Y) = \Ent(X,Y) - \Ent(X\mid Y) - \Ent(Y\mid X)
+	\end{equation}
 	This relation can be seen more directly in Fig. \ref{fig:mutual_info}.\\
 	Mutual information is nonnegative and bounded by the entropy of random variable $X$
-	$$ 0 \leq I(X;Y) \leq H(X) $$
+	\begin{equation}
+		0 \leq \I(X;Y) \leq \Ent(X)
+	\end{equation}
 	In this sense mutual information can also be interpreted as how much measuring one variable reduces the uncertainty of the other, thus being bounded by its uncertainty itself.
 	
 	\begin{figure}[h]
 		\centering
 		\input{images/mutual-info}
-		\caption{Representation of mutual information $I(X;Y)$ in relation with entropies $H(X)$ and $H(Y)$ and joint entropy $H(X,Y)$ of the random variables .
+		\caption{Representation of mutual information $\I(X;Y)$ in relation with entropies $\Ent(X)$ and $\Ent(Y)$ and joint entropy $\Ent(X,Y)$ of the random variables .
 		\label{fig:mutual_info}}
 	\end{figure}	
 \section{An eavesdropper that can choose the best channel to listen to}
