@@ -14,6 +14,9 @@ A probability distribution that presents bound information has not been found ye
     To distinguish and analyze the case of bound information some information theoretical measures are needed. 
     We already saw the secret key rate (section \ref{seckeyrate}) and the intrinsic information (section \ref{intrininfo}) and we already presented the question of bound information in terms of such measures. \\
     In \cite{RW03} a new measure of \emph{reduced intrinsic information} $\redintrinfo{X}{Y}{Z}$ is introduced as an upper bound on secret key rate, lower than just the normal intrinsic information.
+    \begin{equation}
+    	\redintrinfo{X}{Y}{Z} := \inf_{P_{U|XYZ}} (\intrinfo{X}{Y}{ZU} + \Ent (U))
+    \end{equation}
     For every $P_{XYZ}$ it holds
     \begin{equation} \label{eq:bounds}
     	\keyrate{X}{Y}{Z} \leq \redintrinfo{X}{Y}{Z} \leq \intrinfo{X}{Y}{Z}
