@@ -235,5 +235,8 @@ coding/examples
 /planning/*.pdf
 /planning/gantt/*.pdf
 
+# generated images
+writings/PNG/
+
 ## vscode files
 */.vscode/
