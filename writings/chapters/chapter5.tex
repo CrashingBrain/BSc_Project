@@ -36,42 +36,7 @@ A probability distribution that presents bound information has not been found ye
      and they emphasize that this is the first time that equality does not hold.\\
      
 	\begin{figure}[h!]
-	\begin{center}
-		\begin{tabular}{|l r||c|c|c|c|}
-		    \hline 
-		    		 &	$X$ & $0$ & $1$ & $2$ & $3$ \\ 
-		    $Y$ &		  &		&			&			&		\\
-		    \hline 
-		    \hline
-		    $0$ &		   & $1/8$ & $1/8$ & $0$ & $0$ \\ 
-		    \hline 
-		    $1$ &		   & $1/8$ & $1/8$ & $0$ & $0$ \\ 
-		    \hline 
-		    $2$ &		   & $0$ & $0$ & $1/4$ & $0$ \\ 
-		    \hline 
-		    $3$ &		   & $0$ & $0$ & $0$ & $1/4$ \\ 
-		    \hline 
-		  \end{tabular} 
-	\end{center}		
-
-%\begin{table}[pos]
-%\centering
-%\caption{My caption}
-%\label{my-label}
-%\begin{tabular}{|l|l|l|l|l|l|}
-%\hline
-%\multicolumn{2}{|r|}{$X$} & \multirow{2}{*}{0} & \multirow{2}{*}{1} & \multirow{2}{*}{2} & \multirow{2}{*}{3} \\
-%\multicolumn{2}{|l|}{Y}   &                    &                    &                    &                    \\ \hline
-%\multicolumn{2}{|l|}{0}   & 1/8                & 1/8                & 0                  & 0                  \\ \hline
-%\multicolumn{2}{|l|}{1}   & 1/8                & 1/8                & 0                  & 0                  \\ \hline
-%\multicolumn{2}{|l|}{2}   & 0                  & 0                  & 1/4                & 0                  \\ \hline
-%\multicolumn{2}{|l|}{3}   & 0                  & 0                  & 0                  & 1/4                \\ \hline
-%\end{tabular}
-%\end{table}
-		
-	    $$Z \equiv X + Y\; (mod\: 2)\; \text{ if } X,Y \in \{ 0,1\}$$ 
-	    $$Z \equiv X\; (mod\: 2)\; \text{ if } X \in \{ 2,3\}$$ 
-	    $$U \equiv \lfloor X/2 \rfloor $$
+		\input{images/tabCandidate1}
 	    \caption{Probability distribution proposed by Renner, Wolf and Skripsky in \cite{RW03} for which it holds that $\keyrate{X}{Y}{Z} \neq \intrinfo{X}{Y}{Z}$}
 	    \label{Tab:candidate}
 	\end{figure}	 
@@ -82,27 +47,7 @@ A probability distribution that presents bound information has not been found ye
 	
 	
 	\begin{figure}
-		\begin{center}
-		\begin{tabular}{|l r||c|c|c|c|}
-		    \hline 
-		    		 &	$X$ & $0$ & $1$ & $2$ & $3$ \\ 
-		    $Y$ &		  &		&			&			&		\\
-		    \hline 
-		    \hline
-		    $0$ &		   & $1/8$ & $1/8$ & $a$ & $a$ \\ 
-		    \hline 
-		    $1$ &		   & $1/8$ & $1/8$ & $a$ & $a$ \\ 
-		    \hline 
-		    $2$ &		   & $a$ & $a$ & $1/4$ & $0$ \\ 
-		    \hline 
-		    $3$ &		   & $a$ & $a$ & $0$ & $1/4$ \\ 
-		    \hline 
-		  \end{tabular} 
-	\end{center}
-	
-			$$Z \equiv X + Y\; (mod\: 2)\; \text{ if } X,Y \in \{ 0,1\}$$ 
-	    	$$Z \equiv X\; (mod\: 2)\; \text{ if } X,Y \in \{ 2,3\}$$ 
-	    	$$Z = (X,Y) \text{ otherwise} $$
+		\input{images/tabCandidate2}
 	    	
 	    	\caption{A candidate probability distribution for bound information, for $a\geq 0$ (and renormalized).}
 	    	\label{Tab:candidate2}
