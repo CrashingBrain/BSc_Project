@@ -1,0 +1,38 @@
+% Image showing intuition process
+% Sort of justify how and why 
+% bound entanglement and bound information
+% should share analogies
+
+\begin{tikzpicture}
+\tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
+   1 with {\arrow[semithick]{open triangle 60}}},
+   double distance=1.4pt, shorten >= 5.5pt,
+   preaction = {decorate},
+   postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
+\tikzstyle{fancyArrow} = [<->,very thick,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}]
+
+	\coordinate (center) at (0,0);
+	\draw[thick,dashed,rounded corners=.7cm] (-1.20,-1.) rectangle (1.20, 2.2);
+	\node[colorbox=yellow] (cst) at (-3,1.7) {\strut cost};
+	\node[colorbox=yellow, baseline=(cst.baseline)] (dst) at (3,1.7) {\strut distillate};
+	\node[colorbox=magenta, baseline=(cst.baseline)] (rsc) at (0.0, 2.4) {\strut resource};
+	\node[anchor=center, left] (ecost) at (-3,0.5) {$E_{\text{cost}}$};
+	\node[anchor=center] (rho) at (0.0,0.5) {$\rho_{AB}$};
+	\node[anchor=center, right] (distilled) at (3,0.5) {$\ketbra{\psi^{-}}{\psi^{-}}^{\otimes n}\otimes \rho_E$};
+	\node[colorbox=white, right=of distilled, anchor=east] (edist) {$E_{dist}$};
+	
+	\node[anchor=center, left] (kcost) at (-3,-0.5) {$M_{\text{KeyCost}}$};
+	\node[anchor=center] (prob) at (0.0,-0.5) {$P_{ABE}$};
+	\node[anchor=center, right] (ckey) at (3,-0.5) {$P''_{AB}P_E$};
+	\node[colorbox=white, right=of ckey.center] (skr) {$\keyrate{X}{Y}{Z}$};
+	
+	\node[thick, baseline=(cst.baseline)] (bul) at (0.0, 1.7) {\strut\textbullet};
+%	\node[above=of bul] (res) {Resource (fixed)}; 
+	
+
+	\draw[vecArrow] (cst.east) to (bul.west);
+	\draw[vecArrow] (bul.east) to (dst.west);
+	\draw[->] (ecost) to node[above left]{$LOCC$} (rho); \draw[->] (rho) to node[above right]{$LOCC$} (distilled);
+	\draw[->] (kcost) to node[above left]{$LOPC$} (prob); \draw[->] (prob) to node[above right]{$LOPC$} (ckey);
+
+\end{tikzpicture}
