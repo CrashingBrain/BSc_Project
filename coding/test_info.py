@@ -2,6 +2,7 @@ import bhvs as bv
 import info as inf
 import numpy as np
 import prob as pr
+import matplotlib.pyplot as plt
 
 PC = inf.randChannel(3,2)
 print(PC.shape)
@@ -33,6 +34,7 @@ print( CMulti.shape )
 print( CMulti.min()) 
 print( np.sum( CMulti , axis=(0,1)))
 
+# Test deterministic and general uniform behaviors and then the respective entropy
 print( bv.determBhv( (2,2), 3 ) )
 print( bv.determBhv( (2,2), 2 ) )
 print( bv.determBhv( (4,), 2 ) )
@@ -44,3 +46,10 @@ print( bv.unifBhv( (2,) ))
 print( inf.entropy(bv.unifBhv( (2,4)) ))
 print( inf.entropy(bv.unifBhv( (2,2)) ))
 print( inf.entropy(bv.unifBhv( (2,)) ))
+
+values = []
+for p in np.arange(0, 1, 0.01):
+    values.append( inf.entropy( bv.coin( p )))
+
+plt.plot(values)
+plt.show()

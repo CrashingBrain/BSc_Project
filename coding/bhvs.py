@@ -12,6 +12,9 @@ def unifBhv( dims):
     bhv *= 1./np.sum( bhv)
     return bhv
 
+def coin( p):
+    return np.array( [p, 1.-p])
+
 # Four partite distrib
 def FourPDstrb():
     Ptable = np.zeros((4,4,2,2))
