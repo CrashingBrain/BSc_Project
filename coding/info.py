@@ -44,8 +44,10 @@ def randChannelMultipart( dim_out, dim_in):
         # j = len(PC.shape) - len(inCoeffs)
         # ax = tuple([i+j for i in range(len(inCoeffs))])
         # # print(inCoeffs)
-        # # print(PC.shape)
+        # pr.PrintFourPDstrb(PC)
         # factor = np.sum(PC, axis=ax)
+        # print(factor.shape)
+        # print(factor)
 
         if factor > eps:
             norm = 1./factor
@@ -148,25 +150,37 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
     # P has shape UXYZ
     minVal = np.finfo(float).max
     sh = P.shape
+    print(sh)
     Hu = entropy(np.sum(P, (1,2,3)))
     for i in range(noIter):
-        PC_UZ = randChannelMultipart( (sh[0], sh[3]), (sh[0], sh[3]))
+        # considering now a binarization channel ZU -> {0,1}
+        PC_UZ = randChannelMultipart( (sh[3],), (sh[0], sh[3]))
+        # pr.PrintFourPDstrb(PC_UZ)
 
         # apply channel
-        Pprime = np.tensordot( P, PC_UZ, ( (0,3), (0,1)))
+        # Pprime = np.tensordot( P, PC_UZ, ( (0,3), (0,1)))
+        Pprime = np.zeros((sh[1],sh[2],PC_UZ.shape[0]))
+        for u in range(sh[0]):
+            for x in range(sh[1]):
+                for y in range(sh[2]):
+                    for z in range(sh[3]):
+                        Pprime[x,y,0] = P[u,x,y,z] * PC_UZ[0,u,z]
+                        Pprime[x,y,1] = P[u,x,y,z] * PC_UZ[1,u,z]
+
         # Pprime has form P_XYUZ because of reordering of tensordot
-        P_UZ = np.sum( Pprime, (0,1))
-        val = 0.
-        for u in range(P_UZ.shape[0]):
-            for z in range(P_UZ.shape[1]):
-                val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
+        # P_UZ = np.sum( Pprime, (0,1))
+        # val = 0.
+        # for u in range(P_UZ.shape[0]):
+        #     for z in range(P_UZ.shape[1]):
+        #         val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
+        val = condMutInf( Pprime)
         
         # val = condMutInf_(Pprime, 0,1,(3,2))
         # print("condI: %.4f" % val)
         print("cond_I: %.3f\t Entropy: %.3f" % (val, Hu))
         # add entropy 
-        val += entropy(np.sum(Pprime, (0,1,3)))
-        # val += Hu
+        # val += entropy(np.sum(Pprime, (0,1,3)))
+        val += Hu
         if val < minVal:
             minVal = val
     return minVal
