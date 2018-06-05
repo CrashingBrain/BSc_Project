@@ -38,7 +38,7 @@
 \usepackage{arydshln}
 
 % Biblatex
-\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage[backend=biber,style=numeric,sorting=nty]{biblatex}
 \nocite{*}
 \addbibresource{bib/references.bib}
 
@@ -65,7 +65,7 @@
 \DeclareMathOperator{\Tr}{Tr} % Trace
 \DeclareMathOperator{\Ent}{H} % Entropy
 \DeclareMathOperator{\I}{I} % Mutual Information
-\newcommand{\keyrate}[3]{S(#1;#2\parallel#3)} % secret key rate
+\newcommand{\keyrate}[3]{S(#1;#2||#3)} % secret key rate
 \newcommand{\intrinfo}[3]{\I(#1;#2\downarrow#3)} % intrinsic information
 \newcommand{\redintrinfo}[3]{\I(#1;#2\downdownarrows#3)} %reduced intrinsic information
 
@@ -95,14 +95,14 @@
 %\chapter{Information Theoretical model of cryptography: random variables}
 %\input{chapters/chapter3}
 % empty
-%\chapter{Measures of correlation and their bounds}
-%\input{chapters/chapter4}
+\chapter{Measures of correlation and their bounds}
+\input{chapters/chapter4}
 % empty
  \chapter{State of research}
  \input{chapters/chapter5}
 % empty
-% \chapter{A practical analysis of a candidate distribution}
-% \input{chapters/chapter6}
+ \chapter{A practical analysis of a candidate distribution}
+ \input{chapters/chapter6}
 % empty
 % \chapter{Conclusion}
 % \input{chapters/Conclusion}
