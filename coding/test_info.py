@@ -31,6 +31,7 @@ print("---")
 # Loop over different random channels
 loops = False
 if loops:
+    print("### LOOPS ###")
     for k in range(0, 10):
         PC = inf.randChannel(2,2)
         print(PC)
@@ -43,33 +44,44 @@ if loops:
         # Test the new RedIntrinInfo function
         print( inf.MCupperBoundRedIntrinInf_( pr.marginal( P, 3), 10, 10))
         pass
+    print("*** END LOOPS ***")
 
 # Test random bipartite channel
 cCMulti = True
 if cCMulti:
+    print("### CHANNEL MULTIPARTITE ###")
     CMulti = inf.randChannelMultipart( (4,2), (2,2))
     print( CMulti.shape )
     print( CMulti.min()) 
     print( np.sum( CMulti , axis=(0,1)))
+    print("---")
 
     # Test deterministic and general uniform behaviors and then the respective entropy
     print( bv.determBhv( (2,2), 3 ) )
+    print("---")
     print( bv.determBhv( (2,2), 2 ) )
+    print("---")
     print( bv.determBhv( (4,), 2 ) )
+    print("---")
     print( inf.entropy(bv.determBhv( (4,), 2 ) ))
+    print("---")
 
     print( bv.unifBhv( (2,2) ))
+    print("---")
     print( bv.unifBhv( (4,2) ))
+    print("---")
     print( bv.unifBhv( (2,) ))
+    print("---")
     print( inf.entropy(bv.unifBhv( (2,4)) ))
     print( inf.entropy(bv.unifBhv( (2,2)) ))
     print( inf.entropy(bv.unifBhv( (2,)) ))
+    print("*** END CHANNEL MULTIPARTITE ***")
 
 # Test the entropy
 cEntr = True
 if cEntr:
     values = []
-    for p in np.arange(0, 1, 0.01):
+    for p in np.linspace(0,1,num=100):
         values.append( inf.entropy( bv.coin( p )))
 
     plt.plot(values)
@@ -89,6 +101,7 @@ if cEntr:
 # Test the application of a channel
 cApplChannel = True
 if cApplChannel:
+    print("### APPLY CHANNEL ###")
     #dimsChn = tuple(3,4)
     bhv = bv.randBhv( (2,2,2,2) )
     rChn = inf.randChannelMultipart( (3,4), (2,2))
@@ -136,3 +149,4 @@ if cApplChannel:
                             bhvAfterChn1[ y,z,x,u ] += bhv[xp,y,z,up]*rChn[x, u, xp, up] 
     bhvAfterChn = inf.applyChannel( bhv, rChn, (0,3))
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
+    print("*** END APPLY CHANNEL ***")
