@@ -10,10 +10,10 @@ print(PC)
 
 P = bv.FourPDstrb()
 print(P.shape)
-print(inf.applyChannel(P, PC, 2).shape)
-print(inf.applyChannel(P, PC, 3).shape)
-print(inf.applyChannel(P, PC, 2))
-print(inf.applyChannel(P, PC, 3))
+print(inf.applyChannel(P, PC, (2)).shape)
+print(inf.applyChannel(P, PC, (3)).shape)
+print(inf.applyChannel(P, PC, (2)))
+print(inf.applyChannel(P, PC, (3)))
 print(inf.mutInf(pr.marginal(P, (2,3))))
 
 # Loop over different random channels
@@ -75,16 +75,50 @@ if cEntr:
 # Test the application of a channel
 cApplChannel = True
 if cApplChannel:
+    #dimsChn = tuple(3,4)
     bhv = bv.randBhv( (2,2,2,2) )
-    rChn = inf.randChannelMultipart( (4,4), (2,2))
+    rChn = inf.randChannelMultipart( (3,4), (2,2))
     # Apply the channel to the first two parties
-    bhvAfterChn = inf.applyChannel( bhv, PC, (0,1))
-    bhvAfterChn1 = np.zeros( (2,2,4,4))
-    for x in range(0,2):
-        for y in range(0,4):
-            for z in range(0,4):
+    bhvAfterChn1 = np.zeros( (2,2,3,4))
+    for x in range(0,3):
+        for y in range(0, 4):
+            for z in range(0,2):
                 for u in range(0,2):
                     for xp in range(0,2):
                         for yp in range(0,2):
                             bhvAfterChn1[ z,u,x,y ] += bhv[xp,yp,z,u]*rChn[x,y,xp, yp] 
+    bhvAfterChn = inf.applyChannel( bhv, rChn, (0,1))
+    print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
+    # Apply the channel to the first and the third party
+    bhvAfterChn1 = np.zeros( (2,2,3,4))
+    for x in range(0,3):
+        for z in range(0, 4):
+            for y in range(0,2):
+                for u in range(0,2):
+                    for xp in range(0,2):
+                        for zp in range(0,2):
+                            bhvAfterChn1[ y,u,x,z ] += bhv[xp,y,zp,u]*rChn[x, z, xp, zp] 
+    bhvAfterChn = inf.applyChannel( bhv, rChn, (0,2))
+    print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
+    # Apply the channel to the second and the third party
+    bhvAfterChn1 = np.zeros( (2,2,3,4))
+    for y in range(0,3):
+        for z in range(0, 4):
+            for x in range(0,2):
+                for u in range(0,2):
+                    for yp in range(0,2):
+                        for zp in range(0,2):
+                            bhvAfterChn1[ x,u,y,z ] += bhv[x,yp,zp,u]*rChn[y, z, yp, zp] 
+    bhvAfterChn = inf.applyChannel( bhv, rChn, (1,2))
+    print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
+    # Apply the channel to the first and the fourth party
+    bhvAfterChn1 = np.zeros( (2,2,3,4))
+    for x in range(0,3):
+        for u in range(0, 4):
+            for y in range(0,2):
+                for z in range(0,2):
+                    for xp in range(0,2):
+                        for up in range(0,2):
+                            bhvAfterChn1[ y,z,x,u ] += bhv[xp,y,z,up]*rChn[x, u, xp, up] 
+    bhvAfterChn = inf.applyChannel( bhv, rChn, (0,3))
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
