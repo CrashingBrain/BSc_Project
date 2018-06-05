@@ -15,6 +15,10 @@ def unifBhv( dims):
 def coin( p):
     return np.array( [p, 1.-p])
 
+def randBhv( dims):
+    bhv = np.random.rand( *dims)
+    return pr.normalize( bhv)
+
 # Four partite distrib
 def FourPDstrb():
     Ptable = np.zeros((4,4,2,2))

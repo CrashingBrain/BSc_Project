@@ -239,3 +239,4 @@ coding/examples
 
 # Ignore test pdf
 /writings/pgfplot_doc.pdf
+/coding/*.pdf
