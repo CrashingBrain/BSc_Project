@@ -18,8 +18,6 @@ def randChannel( dim_out, dim_in):
 # -> dim_out, dim_in are lists
 # (No easy way of fixing the last (dim_in) indeces to perform sum etc on the resulting array...)
 def randChannelMultipart( dim_out, dim_in):
-    #print( dim_out)
-    #print( dim_in)
     PC = np.random.random_sample( dim_out+dim_in);
     for k in range(0, np.prod(dim_in)):
         factor = 0.
@@ -38,9 +36,11 @@ def applyChannel( P, PC, toParty):
     return np.tensordot(P,PC,(toParty,1))
 
 def entropy( P):
+    P = P.flatten()    
     E = 0
     for x in range(0,len(P)):
-        E += -P[x] * np.log2(P[x])
+        if P[x] > 0:
+            E += -P[x] * np.log2(P[x])
     return E
 
 def mutInf(P):

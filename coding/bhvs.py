@@ -1,5 +1,16 @@
 import numpy as np
 import prob as pr
+from info import coeffOfNo
+
+def determBhv( dims, no=0):
+    bhv = np.zeros( dims)
+    bhv[ coeffOfNo( no, dims) ] = 1.0
+    return bhv
+
+def unifBhv( dims):
+    bhv = np.ones( dims)
+    bhv *= 1./np.sum( bhv)
+    return bhv
 
 # Four partite distrib
 def FourPDstrb():
