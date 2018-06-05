@@ -39,6 +39,9 @@
 \node [position label] (inf) at (7,0) {\footnotesize intrinsic information};
 \node [position label] (iof) at (9,0) {\footnotesize information of formation};
 
+\node (eqrinf) at ($(rinf.north) + (0,0.4)$) {\footnotesize $\redintrinfo{X}{Y}{Z}$};
+\node (eqinf) at ($(inf.north) + (0,0.4)$) {\footnotesize $\intrinfo{X}{Y}{Z}$};
+
 %\draw [brace] (skr.north) -- node [blabel] {\footnotesize arbitrarily large} (inf.north);
 \draw [->, thick, magenta] ($(skr.north)+(0,0.3)$) -- node [above] {wanted} ($(Start.north)+(0,0.3)$);
 %\draw [->, thick, magenta, dashed] ($(rinf.north)+(0,0.3)$) to [out=10,in=90] ($(Start.north)+(0,0.3)$);

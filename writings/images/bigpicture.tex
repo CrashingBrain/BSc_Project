@@ -2,6 +2,7 @@
 % discussed also for initial presentation
 % should show the "track" that goes from
 % QM(bound entanglement) to Classical bound information
+\usetikzlibrary{calc}
 \begin{tikzpicture}
 \tikzstyle{vecArrow} = [thick, decoration={markings,mark=at position
    1 with {\arrow[semithick]{open triangle 60}}},
@@ -10,15 +11,30 @@
    postaction = {draw,line width=1.4pt, white,shorten >= 4.5pt}]
 \tikzstyle{fancyArrow} = [<->,very thick,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1.5mm, pre length=1.5mm}]
 
-  \draw[thick,dashed] (-5,-3.24) rectangle (-0.7, 3.74);
-  \draw[thick, dashed] (0.7,-3.24) rectangle (5, 3.74);
+	\coordinate (top) at (0.0,2.3);
+	\coordinate (bottom) at (0.0,-2.3);
+	\coordinate (width) at (5.3,0);
+	\coordinate (vspace) at (0,0.2);
+	
+	\coordinate (pos1) at ($(-5,0) + (bottom)$);
+	\coordinate (pos2) at ($(0.7,0) + (bottom)$);
+	\path (pos1) +($(width) + 2*(top)$) coordinate (rcorn1);
+	\path (pos2) +($(width) + 2*(top)$) coordinate (rcorn2);
+	
+	\node (dummytop1) at ($(pos1)+2*(top)+0.5*(width)$) {};
+	\node (dummytop2) at ($(pos2)+2*(top)+0.5*(width)$) {};
+	\node (dummybott1) at ($(pos1)+0.5*(width)$) {};
+	\node (dummybott2) at ($(pos2)+0.5*(width)$) {};
 
-  \node[ below right,  anchor=center] (en) at (-2.85, 3)  {\textbf{ENTANGLEMENT}};
-  \node[below right, anchor=center] (pr) at (2.85, 3)  {\textbf{PRIVACY}};
-  \node[below right, anchor=center] (dist) at (-2.85, 2)  {Entanglement distillation};
-  \node[below right, anchor=center] (cka) at (2.85, 2)  {Classical key agreement};
-  \node[below right, anchor=center] (be) at (-2.85, -2)  {Bound Entanglement};
-  \node[below right, anchor=center] (bi) at (2.85, -2)  {Bound Information};
+  \draw[thick,dashed] (pos1) rectangle (rcorn1);
+  \draw[thick, dashed] (pos2) rectangle (rcorn2);
+
+  \node (en) at ($(dummytop1.south)-(vspace)$)  {\textbf{ENTANGLEMENT}};
+  \node (pr) at ($(dummytop2.south)-(vspace)$)  {\textbf{PRIVACY}};
+  \node (dist) at ($(en.south) - (0,0.7)$)  {Entanglement distillation};
+  \node (cka) at ($(pr.south) - (0,0.7)$)  {Classical key agreement};
+  \node (be) at ($(dummybott1.north) + (vspace)$)  {Bound Entanglement};
+  \node (bi) at ($(dummybott2.north) + (vspace)$)  {Bound Information};
   \draw[vecArrow] (dist) to (be);
   \draw[vecArrow] (cka) to (bi);
   \draw[fancyArrow] (dist) to (cka);
