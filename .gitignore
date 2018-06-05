@@ -240,4 +240,9 @@ coding/examples
 
 ## vscode files
 */.vscode/
+
+# gnore poster stuff
 writings/poster/images
+
+# Ignore test pdf
+/writings/pgfplot_doc.pdf

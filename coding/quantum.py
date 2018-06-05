@@ -89,3 +89,15 @@ def rho_a(alpha=0.):
     for k in range(0,8):
         rho_s += 1./8.*proj( sigma[k, :])
     return ( 1./(2+alpha)*(rho+alpha*rho_s))
+
+def bell_phi_minus():
+    return proj( np.array([1./np.sqrt(2.), 0,0, -1./np.sqrt(2.) ]))
+
+def bell_phi_plus():
+    return proj( np.array([1./np.sqrt(2.), 0,0, 1./np.sqrt(2.) ]))
+
+def bell_psi_minus():
+    return proj( np.array([0, 1./np.sqrt(2.), -1./np.sqrt(2.), 0]))
+
+def bell_phi_plus():
+    return proj( np.array([0, 1./np.sqrt(2.), 1./np.sqrt(2.), 0]))

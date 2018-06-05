@@ -10,6 +10,7 @@ mkdir -p PNG
 
 ctr=1;
 for i in "${files[@]}"; do 
+  rm imagegenerator.*
 
   echo "
 \documentclass[preview,border=4mm]{standalone}
@@ -91,7 +92,7 @@ for i in "${files[@]}"; do
 
   sips -s format png "PNG/${i/\.tex/}.pdf" --out "PNG/${i/\.tex/}.png"
 
-  rm imagegenerator.*
+  # rm imagegenerator.*
 
   ((ctr++))
 done

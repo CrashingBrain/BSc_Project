@@ -71,11 +71,12 @@ def applyChannel( P, PC, toParty):
     return np.tensordot(P,PC,(toParty,1))
 
 def entropy( P):
-    res = 0.0
-    for p in P:
-        if p != 0:
-            res += p*np.log2(p)
-    return -res
+    P = P.flatten()    
+    E = 0
+    for x in range(0,len(P)):
+        if P[x] > 0:
+            E += -P[x] * np.log2(P[x])
+    return E
 
 def entropy_(P):
     """
@@ -150,7 +151,7 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
     # P has shape UXYZ
     minVal = np.finfo(float).max
     sh = P.shape
-    print(sh)
+    # print(sh)
     Hu = entropy(np.sum(P, (1,2,3)))
     for i in range(noIter):
         # considering now a binarization channel ZU -> {0,1}
@@ -177,7 +178,7 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         
         # val = condMutInf_(Pprime, 0,1,(3,2))
         # print("condI: %.4f" % val)
-        print("cond_I: %.3f\t Entropy: %.3f" % (val, Hu))
+        # print("cond_I: %.3f\t Entropy: %.3f" % (val, Hu))
         # add entropy 
         # val += entropy(np.sum(Pprime, (0,1,3)))
         val += Hu
