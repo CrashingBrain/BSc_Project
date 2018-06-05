@@ -68,7 +68,10 @@ def randChannelMultipart( dim_out, dim_in):
 
 # Seems to swap "channelled" party always to the very end
 def applyChannel( P, PC, toParty):
-    return np.tensordot(P,PC,(toParty,1))
+    #print("List with conditioning parts in channel")
+    #print( PC.shape)
+    #print(list(range( len(PC.shape)//2, len(PC.shape))))
+    return np.tensordot(P,PC,(toParty,list(range( len(PC.shape)//2, len(PC.shape)))))
 
 def entropy( P):
     P = P.flatten()    
@@ -135,7 +138,7 @@ def MCupperBoundIntrinInf(P, noIter):
     minVal = 0.
     for i in range(0, noIter):
         PC = randChannel( P.shape[2], P.shape[2])
-        Pprime = applyChannel( P, PC, 2)
+        Pprime = applyChannel( P, PC, (2))
         val = condMutInf( Pprime)
         if i == 0:
             minVal = val

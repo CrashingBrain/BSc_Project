@@ -246,3 +246,4 @@ writings/poster/images
 
 # Ignore test pdf
 /writings/pgfplot_doc.pdf
+/coding/*.pdf
