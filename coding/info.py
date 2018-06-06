@@ -34,36 +34,15 @@ def randChannelMultipart( dim_out, dim_in):
     for k in range(0, np.prod(dim_in)):
         factor = 0.
         inCoeffs = coeffOfNo( k, dim_in)
-        #version 1
+        
         for l in range(0, np.prod(dim_out)):
-            outCoeff = coeffOfNo( l, dim_out)
-            #print(coeffOfNo( l, dim_out))
             factor += PC[coeffOfNo( l, dim_out) + inCoeffs]
-
-        #version2
-        # j = len(PC.shape) - len(inCoeffs)
-        # ax = tuple([i+j for i in range(len(inCoeffs))])
-        # # print(inCoeffs)
-        # pr.PrintFourPDstrb(PC)
-        # factor = np.sum(PC, axis=ax)
-        # print(factor.shape)
-        # print(factor)
 
         if factor > eps:
             norm = 1./factor
-            # print(inCoeffs)
-            # print(PC[:,:,inCoeffs].shape)
-            # print(np.sum(PC, axis=ax))
-            # version 1
+
             for l in range(0, np.prod(dim_out)):
                 PC[coeffOfNo( l, dim_out) + inCoeffs] *= norm
-            # version 2
-            # PC[:,:,inCoeffs] = norm*PC[:,:,inCoeffs]
-            # print(np.sum(PC, axis=ax))
-            # print("--------")
-    # print("************")
-    # print(np.sum(PC[:,0,0,0]))
-    # print("------------")
     return PC
 
 # Seems to swap "channelled" party always to the very end
@@ -147,10 +126,6 @@ def MCupperBoundIntrinInf(P, noIter):
     return minVal
 
 def MCupperBoundIntrinInfMultipart(P, noIter):
-    """ Takes a joint probability of any size. 
-        Encode the extra dimensions and flattens them in the third component.
-        Then estimate a bound on the intrinsic information.
-    """
     # P has shape UXYZ
     minVal = np.finfo(float).max
     sh = P.shape
@@ -163,6 +138,7 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
 
         # apply channel
         # Pprime = np.tensordot( P, PC_UZ, ( (0,3), (0,1)))
+        # Pprime = applyChannel(P, PC_UZ, (0,3))
         Pprime = np.zeros((sh[1],sh[2],PC_UZ.shape[0]))
         for u in range(sh[0]):
             for x in range(sh[1]):
@@ -171,6 +147,7 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
                         Pprime[x,y,0] = P[u,x,y,z] * PC_UZ[0,u,z]
                         Pprime[x,y,1] = P[u,x,y,z] * PC_UZ[1,u,z]
 
+        # print(Pprime.shape)
         # Pprime has form P_XYUZ because of reordering of tensordot
         # P_UZ = np.sum( Pprime, (0,1))
         # val = 0.
