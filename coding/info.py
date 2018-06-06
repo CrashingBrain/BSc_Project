@@ -14,6 +14,13 @@ def randChannel( dim_out, dim_in):
         PC[:,i] = np.multiply( factor, PC[:,i])
     return PC
 
+# Map the input dimensions to an encoding in an additional party
+def detChannel( dim_in):
+    PC = np.zeros( (np.prod(dim_in))+dim_in)
+    for k in range(0, np.prod(dim_in)):
+        PC[ (k)+coeffOfNo(k, dim_in)] = 1.
+    return PC
+
 # Assume now that there are multiple parties for inputs and outputs
 # -> dim_out, dim_in are lists
 # (No easy way of fixing the last (dim_in) indeces to perform sum etc on the resulting array...)
@@ -90,6 +97,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
         for u in range(0,PC_UXYZ.shape[0]):
             P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
         print(P_UXYZ.shape)
+        E_U = entropy( np.sum( P_UZ, (1,2,3)))
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         for k in range(0, noIterInner):
             PC_UZ = randChannelMultipart( (P_UXYZ.shape[0], P_UXYZ.shape[3]), (P_UXYZ.shape[0], P_UXYZ.shape[3]))
@@ -110,7 +118,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
                 for z in range(0,Pprime.shape[3]):
                     I += P_UZ[u,z] * mutInf( np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
             print("MCupperBoundRedIntrinInf: cond mut inf I(X;Y|ZU) = %f" % I)
-            I += entropy( np.sum( P_UZ, (1)))
+            I += E_U
             if (i == 0 and k == 0):
                 minVal = I
             elif I < minVal:

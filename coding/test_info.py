@@ -35,6 +35,28 @@ if redIntrInf:
                 for z in range(0, P.shape[2]):
                     P_UXYZ_prime[u,x,y,z] = PC_UXYZ[u,x,y,z]*P[x,y,z]
     print("Diff between P_UXYZ_prime and P_UXYZ: %f" % np.amax(np.absolute( P_UXYZ- P_UXYZ_prime)))
+    print("Diff: marginal(PC_UXYZ*P_XYZ,U) - P_XYZ %f" % np.amax(np.absolute( pr.marginal( P_UXYZ, (0)) - P)))
+    print("Diff: marginal(PC_UXYZ*P_XYZ,U) - P_XYZ %f" % np.amax(np.absolute( pr.marginal( P_UXYZ_prime, (0)) - P)))
+    P_UZ = np.sum( P_UXYZ, (1,2))
+    print("Diff: P_Z from P_UZ and from P_XYZ %f" % np.amax(np.absolute( pr.marginal( P_UZ, (0)) - pr.marginal( P, (0,1)))))
+    # Compute the intrinsic information I(X;Y\d UZ)
+    P = bv.FourPDstrb()
+    I_rd = 100.
+    for k in range(0, 10000):
+        PC_UZ = inf.randChannelMultipart( (P.shape[2:]), (P.shape[2:]))
+        P_XYZU_p = inf.applyChannel( P, PC_UZ, (2,3))
+        P_ZU = np.sum( P_XYZU_p, (0,1))
+        I = 0.
+        for z in range(0, P_XYZU_p.shape[2]):
+            for u in range(0,P_XYZU_p.shape[3]):
+                I += P_ZU[z,u] * inf.mutInf( np.multiply( 1./P_ZU[z,u], P_XYZU_p[:,:, z,u]))
+        if (I_rd > I):
+            I_rd = I
+    # Alternatively: join the parties ZU to a new one and apply MCupperBoundIntrinInf directly
+    P
+    print("Intrinsic information I(X;Y\d ZU) = %f (should go down to zero)" % I_rd)
+                
+        
     #print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 2, 2))
     
 # Loop over different random channels
