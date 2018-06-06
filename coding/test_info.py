@@ -78,9 +78,7 @@ if redIntrInf:
     # Use the channel from the paper
     P3 = inf.applyChannel( P, inf.zuChannel2(), (2,3))
     print("Conditional mutual information I(X;Y|bar{UZ}) %f" % inf.condMutInf( P3))
-    print("Entropy of P_ZU = %f" % inf.entropy( pr.marginal( P3, (0,1))))
     P4 = inf.applyChannel( P, inf.zuChannel(), (2,3))
-    print("Entropy of P_U = %f" % inf.entropy( pr.marginal( P4, (0,1,2))))
     I = 0.
     P4_ZU = pr.marginal( P4, (0,1))
     for z in range(0, P4.shape[2]):
@@ -88,6 +86,7 @@ if redIntrInf:
             if P4_ZU[z,u] > 0: 
                 I += P4_ZU[z,u] * inf.mutInf( np.multiply( 1./P4_ZU[z,u], P4[:,:, z,u]))
     print("Conditional mutual information I(X;Y|bar{UZ}) %f" % I)
+    print("Entropy of P_U %f" % inf.entropy( pr.marginal(P, (0,1,2))))
 
 
     #print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 2, 2))
