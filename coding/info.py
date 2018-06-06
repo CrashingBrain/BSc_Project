@@ -29,7 +29,7 @@ def noisyChannel( dim_out, dim_in):
 # Assume now that there are multiple parties for inputs and outputs
 # -> dim_out, dim_in are lists
 # (No easy way of fixing the last (dim_in) indeces to perform sum etc on the resulting array...)
-def randChannelMultipart( dim_out, dim_in):
+def randChannelMP( dim_out, dim_in):
     PC = np.random.random_sample( dim_out+dim_in);
     for k in range(0, np.prod(dim_in)):
         factor = 0.
@@ -95,7 +95,7 @@ def MCupperBoundIntrinInfMP(P, dimBZU, noIter):
     if dimBZU ==0:
         dimBZU = np.prod(P.shape[2:])
     for i in range(0, noIter):
-        PC = randChannelMultipart( (dimBZU,), P.shape[2:])
+        PC = randChannelMP( (dimBZU,), P.shape[2:])
         Pprime = applyChannel( P, PC, tuple(range(2,len(P.shape))))
         val = condMutInf( Pprime)
         if i == 0:
@@ -111,7 +111,7 @@ def MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, noIterOuter, noIterInner):
     minVal = 0.
     for k in range(0, noIterOuter):
         # Setup random channel XY->U and compute P_UXYZ
-        PC_U_XY = randChannelMultipart( (dimU,), P.shape[0:2])
+        PC_U_XY = randChannelMP( (dimU,), P.shape[0:2])
         P_XYZU = np.zeros( P.shape+(dimU,))
         #print(PC_UXYZ.shape)
         for u in range(0,PC_U_XY.shape[0]):
@@ -132,7 +132,7 @@ def MCupperBoundRedIntrinInfX( P, dimU, dimBZU, noIterOuter, noIterInner):
     minVal = 0.
     for k in range(0, noIterOuter):
         # Setup random channel XY->U and compute P_UXYZ
-        PC_U_XY = randChannelMultipart( (dimU,), P.shape[0:1])
+        PC_U_XY = randChannelMP( (dimU,), P.shape[0:1])
         P_XYZU = np.zeros( P.shape+(dimU,))
         #print(PC_UXYZ.shape)
         for u in range(0,PC_U_XY.shape[0]):
