@@ -21,6 +21,11 @@ def detChannel( dim_in):
         PC[ (k)+coeffOfNo(k, dim_in)] = 1.
     return PC
 
+def noisyChannel( dim_out, dim_in):
+    PC = np.ones( dim_out, dim_in)
+    PC *= 1./np.prod(dim_out)
+    return PC
+
 # Assume now that there are multiple parties for inputs and outputs
 # -> dim_out, dim_in are lists
 # (No easy way of fixing the last (dim_in) indeces to perform sum etc on the resulting array...)
@@ -66,7 +71,8 @@ def condMutInf(P):
     Pz = np.sum(P, (0,1))
     I = 0.
     for z in range(0, P.shape[2]):
-        I += Pz[z] * mutInf( np.multiply(1./Pz[z], P[:,:,z]))
+        if Pz[z] > 0.:
+            I += Pz[z] * mutInf( np.multiply(1./Pz[z], P[:,:,z]))
     return I
 
 # Monte Carlo way of computing an upper bound on the intrinsic information
@@ -124,5 +130,20 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
             elif I < minVal:
                 minVal = I
     return minVal
-                
+ 
+# Channel from the proof of Lemma7
+def zuChannel():
+    PC_zu = np.zeros( (2,2,2,2))
+    PC_zu[0,0,0,0] = 1.
+    PC_zu[0,0,1,0] = 1.
+    PC_zu[0,1,0,1] = 1.
+    PC_zu[1,0,1,1] = 1.
+    return PC_zu
 
+def zuChannel2():
+    PC_zu = np.zeros( (4,2,2))
+    PC_zu[0,0,0] = 1.
+    PC_zu[0,1,0] = 1.
+    PC_zu[1,0,1] = 1.
+    PC_zu[2,1,1] = 1.
+    return PC_zu

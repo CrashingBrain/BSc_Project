@@ -42,7 +42,8 @@ if redIntrInf:
     # Compute the intrinsic information I(X;Y\d UZ)
     P = bv.FourPDstrb()
     I_rd = 100.
-    for k in range(0, 10000):
+    no_iter = 1 
+    for k in range(0, no_iter):
         PC_UZ = inf.randChannelMultipart( (P.shape[2:]), (P.shape[2:]))
         P_XYZU_p = inf.applyChannel( P, PC_UZ, (2,3))
         P_ZU = np.sum( P_XYZU_p, (0,1))
@@ -52,11 +53,43 @@ if redIntrInf:
                 I += P_ZU[z,u] * inf.mutInf( np.multiply( 1./P_ZU[z,u], P_XYZU_p[:,:, z,u]))
         if (I_rd > I):
             I_rd = I
-    # Alternatively: join the parties ZU to a new one and apply MCupperBoundIntrinInf directly
-    P
     print("Intrinsic information I(X;Y\d ZU) = %f (should go down to zero)" % I_rd)
-                
-        
+    # Compute the intrinsic information I(X;Y\d UZ)
+    # Replace the channel by one that goes to joint variable
+    P = bv.FourPDstrb()
+    I_rd = 100.
+    for k in range(0, no_iter):
+        PC_UZ = inf.randChannelMultipart( (np.prod(P.shape[2:]),), (P.shape[2:]))
+        P_XYZU_p = inf.applyChannel( P, PC_UZ, (2,3))
+        P_ZU = np.sum( P_XYZU_p, (0,1))
+        I = 0.
+        for z in range(0, P_XYZU_p.shape[2]):
+                I += P_ZU[z] * inf.mutInf( np.multiply( 1./P_ZU[z], P_XYZU_p[:,:, z]))
+        if (I_rd > I):
+            I_rd = I
+    print("Intrinsic information I(X;Y\d ZU) = %f (should go down to zero)" % I_rd)
+    # Alternatively: join the parties ZU to a new one and apply MCupperBoundIntrinInf directly
+    P_prime = np.zeros( (P.shape[0], P.shape[1], P.shape[2]*P.shape[3]))
+    for x in range(0,P.shape[0]):
+        for y in range(0,P.shape[1]):
+            for zu in range(0, P.shape[2]*P.shape[3]):
+                P_prime[x,y,zu] = P[ (x,y)+inf.coeffOfNo(zu,(P.shape[2],P.shape[3]))]
+    print("Intrinsic information I(X;Y\d ZU) after joining Z and U = %f" % inf.MCupperBoundIntrinInf(P_prime, no_iter))
+    # Use the channel from the paper
+    P3 = inf.applyChannel( P, inf.zuChannel2(), (2,3))
+    print("Conditional mutual information I(X;Y|bar{UZ}) %f" % inf.condMutInf( P3))
+    print("Entropy of P_ZU = %f" % inf.entropy( pr.marginal( P3, (0,1))))
+    P4 = inf.applyChannel( P, inf.zuChannel(), (2,3))
+    print("Entropy of P_U = %f" % inf.entropy( pr.marginal( P4, (0,1,2))))
+    I = 0.
+    P4_ZU = pr.marginal( P4, (0,1))
+    for z in range(0, P4.shape[2]):
+        for u in range(0, P4.shape[3]):
+            if P4_ZU[z,u] > 0: 
+                I += P4_ZU[z,u] * inf.mutInf( np.multiply( 1./P4_ZU[z,u], P4[:,:, z,u]))
+    print("Conditional mutual information I(X;Y|bar{UZ}) %f" % I)
+
+
     #print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 2, 2))
     
 # Loop over different random channels

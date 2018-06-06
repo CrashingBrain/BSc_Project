@@ -19,7 +19,7 @@ def randBhv( dims):
     bhv = np.random.rand( *dims)
     return pr.normalize( bhv)
 
-# Four partite distrib
+# Four partite distrib P_XYZU
 def FourPDstrb():
     Ptable = np.zeros((4,4,2,2))
     Ptable[0,0,0,0] = Ptable[1,1,0,0] = Ptable[0,1,1,0] = Ptable[1,0,1,0] = 1.0/8.0
