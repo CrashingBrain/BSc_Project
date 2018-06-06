@@ -89,35 +89,35 @@ def MCupperBoundIntrinInf(P, noIter):
     return minVal
 
 # Computes an upper bound on the BoundIntrinInf taking all but the first two parties to be in Eve's possesion
-def MCupperBoundIntrinInfMP(P, dimBZU, noIter):
+def MCupperBoundIntrinInfMP(P, dimBZU, noIter, verbose=False):
     minVal = 0.
     # If dimBZU is zero: set dim to prod of dimU and dimZ
     if dimBZU ==0:
         dimBZU = np.prod(P.shape[2:])
-    for i in range(0, noIter):
+    for k in range(0, noIter):
         PC = randChannelMP( (dimBZU,), P.shape[2:])
         Pprime = applyChannel( P, PC, tuple(range(2,len(P.shape))))
         val = condMutInf( Pprime)
-        if i == 0:
+        if k == 0:
             minVal = val
         elif val < minVal:
             minVal = val
+            if verbose:
+                print( "[MCupperBoundIntrinInfMP] k = %d, val = %f" % (k,val))
     return minVal
             
 # Monte Carlo way of computing an upper bound on the reduced intrinsic information
 # -> need to choose 2 channels at random
 # the channel is chosen as XY->U
-def MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, noIterOuter, noIterInner):
+def MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, noIterOuter, noIterInner, verbose=False):
     minVal = 0.
     for k in range(0, noIterOuter):
         # Setup random channel XY->U and compute P_UXYZ
         PC_U_XY = randChannelMP( (dimU,), P.shape[0:2])
         P_XYZU = np.zeros( P.shape+(dimU,))
-        #print(PC_UXYZ.shape)
         for u in range(0,PC_U_XY.shape[0]):
             for z in range(0, P.shape[2]):
                 P_XYZU[ :, :, z, u] = np.multiply( P[:,:,z], PC_U_XY[ u,:,:])
-        print(P_XYZU.shape)
         E_U = entropy( np.sum( P_XYZU, (0,1,2)))
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
@@ -125,21 +125,21 @@ def MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, noIterOuter, noIterInner):
             minVal = I
         elif I < minVal:
             minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
     return minVal
  
 # the channel is chosen as X->U
-def MCupperBoundRedIntrinInfX( P, dimU, dimBZU, noIterOuter, noIterInner):
+def MCupperBoundRedIntrinInfX( P, dimU, dimBZU, noIterOuter, noIterInner, verbose=False):
     minVal = 0.
     for k in range(0, noIterOuter):
         # Setup random channel XY->U and compute P_UXYZ
         PC_U_XY = randChannelMP( (dimU,), P.shape[0:1])
         P_XYZU = np.zeros( P.shape+(dimU,))
-        #print(PC_UXYZ.shape)
         for u in range(0,PC_U_XY.shape[0]):
             for y in range(0, P.shape[1]):
                 for z in range(0, P.shape[2]):
                     P_XYZU[ :, y, z, u] = np.multiply( P[:,y,z], PC_U_XY[ u,:])
-        print(P_XYZU.shape)
         E_U = entropy( np.sum( P_XYZU, (0,1,2)))
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
@@ -147,6 +147,8 @@ def MCupperBoundRedIntrinInfX( P, dimU, dimBZU, noIterOuter, noIterInner):
             minVal = I
         elif I < minVal:
             minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
     return minVal
  
 # Channel from the proof of Lemma7

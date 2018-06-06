@@ -4,21 +4,23 @@ import numpy as np
 import prob as pr
 import matplotlib.pyplot as plt
 
-PC = inf.randChannel(3,2)
-print(PC.shape)
-print(PC)
+chnTsts = False
+if chnTsts:
+    PC = inf.randChannel(3,2)
+    print(PC.shape)
+    print(PC)
 
-P = bv.FourPDstrb()
-print(P.shape)
-print(inf.applyChannel(P, PC, (2)).shape)
-print(inf.applyChannel(P, PC, (3)).shape)
-print(inf.applyChannel(P, PC, (2)))
-print(inf.applyChannel(P, PC, (3)))
-print(inf.mutInf(pr.marginal(P, (2,3))))
+    P = bv.FourPDstrb()
+    print(P.shape)
+    print(inf.applyChannel(P, PC, (2)).shape)
+    print(inf.applyChannel(P, PC, (3)).shape)
+    print(inf.applyChannel(P, PC, (2)))
+    print(inf.applyChannel(P, PC, (3)))
+    print(inf.mutInf(pr.marginal(P, (2,3))))
 
 # Check the reduced intrinsic information upper bound
-redIntrInf = True
-if redIntrInf:
+redIntrInf1 = False
+if redIntrInf1:
     P = pr.marginal(P,(3))
     PC_UXYZ = inf.randChannelMultipart( (np.prod(P.shape),), P.shape)
     print( np.sum( PC_UXYZ, axis=(0)))
@@ -88,9 +90,32 @@ if redIntrInf:
     print("Conditional mutual information I(X;Y|bar{UZ}) %f" % I)
     print("Entropy of P_U %f" % inf.entropy( pr.marginal(P, (0,1,2))))
 
-
-    #print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 2, 2))
-    
+redIntrInf2 = True
+if redIntrInf2:
+    P = bv.FourPDstrb()
+    P = pr.marginal(P, 3)
+    print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
+    for dimBZU in range(2,5):
+        print( inf.MCupperBoundIntrinInfMP( P, dimBZU, 200))
+ 
+redIntrInf3 = True
+if redIntrInf3:
+    P = bv.FourPDstrb()
+    print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
+    for dimBZU in range(2,5):
+        print( inf.MCupperBoundIntrinInfMP( P, dimBZU, 200))
+ 
+redIntrInf4 = True
+if redIntrInf4:
+    P = bv.FourPDstrb()
+    P = pr.marginal(P, 3)
+    print( "Test MCupperBoundRedIntrinInfX(Y) with FourPDstrb()")
+    for dimU in range(2,5):
+        for dimBZU in range(2,5):
+            print( "dimBZU = ", dimBZU, ", dimU = ", dimU)
+            print( inf.MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, 200, 200))
+            print( inf.MCupperBoundRedIntrinInfX ( P, dimU, dimBZU, 200, 200))
+        
 # Loop over different random channels
 loops = False
 if loops:
