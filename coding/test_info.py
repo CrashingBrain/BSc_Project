@@ -94,16 +94,16 @@ redIntrInf2 = True
 if redIntrInf2:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
-    print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
+    print( "Test MCupperBoundIntrinInfMP with Marginal over U of FourPDstrb()")
     for dimBZU in range(2,5):
-        print( inf.MCupperBoundIntrinInfMP( P, dimBZU, 200))
+        print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 200))
  
 redIntrInf3 = True
 if redIntrInf3:
     P = bv.FourPDstrb()
     print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
     for dimBZU in range(2,5):
-        print( inf.MCupperBoundIntrinInfMP( P, dimBZU, 200))
+        print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 2000))
  
 redIntrInf4 = True
 if redIntrInf4:
