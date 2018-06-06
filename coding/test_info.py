@@ -75,13 +75,13 @@ if cEntr:
 # Test the application of a channel
 cApplChannel = True
 if cApplChannel:
-    #dimsChn = tuple(3,4)
+    dimsChn = (4,5)
     bhv = bv.randBhv( (2,2,2,2) )
-    rChn = inf.randChannelMultipart( (3,4), (2,2))
+    rChn = inf.randChannelMultipart( dimsChn, (2,2))
     # Apply the channel to the first two parties
-    bhvAfterChn1 = np.zeros( (2,2,3,4))
-    for x in range(0,3):
-        for y in range(0, 4):
+    bhvAfterChn1 = np.zeros( (2,2)+dimsChn)
+    for x in range(0,dimsChn[0]):
+        for y in range(0, dimsChn[1]):
             for z in range(0,2):
                 for u in range(0,2):
                     for xp in range(0,2):
@@ -90,9 +90,9 @@ if cApplChannel:
     bhvAfterChn = inf.applyChannel( bhv, rChn, (0,1))
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
     # Apply the channel to the first and the third party
-    bhvAfterChn1 = np.zeros( (2,2,3,4))
-    for x in range(0,3):
-        for z in range(0, 4):
+    bhvAfterChn1 = np.zeros( (2,2)+dimsChn)
+    for x in range(0,dimsChn[0]):
+        for z in range(0, dimsChn[1]):
             for y in range(0,2):
                 for u in range(0,2):
                     for xp in range(0,2):
@@ -101,9 +101,9 @@ if cApplChannel:
     bhvAfterChn = inf.applyChannel( bhv, rChn, (0,2))
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
     # Apply the channel to the second and the third party
-    bhvAfterChn1 = np.zeros( (2,2,3,4))
-    for y in range(0,3):
-        for z in range(0, 4):
+    bhvAfterChn1 = np.zeros( (2,2)+dimsChn)
+    for y in range(0,dimsChn[0]):
+        for z in range(0, dimsChn[1]):
             for x in range(0,2):
                 for u in range(0,2):
                     for yp in range(0,2):
@@ -112,9 +112,9 @@ if cApplChannel:
     bhvAfterChn = inf.applyChannel( bhv, rChn, (1,2))
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
     # Apply the channel to the first and the fourth party
-    bhvAfterChn1 = np.zeros( (2,2,3,4))
-    for x in range(0,3):
-        for u in range(0, 4):
+    bhvAfterChn1 = np.zeros( (2,2)+dimsChn)
+    for x in range(0,dimsChn[0]):
+        for u in range(0, dimsChn[1]):
             for y in range(0,2):
                 for z in range(0,2):
                     for xp in range(0,2):
