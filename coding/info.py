@@ -90,40 +90,37 @@ def MCupperBoundIntrinInf(P, noIter):
             
 # Monte Carlo way of computing an upper bound on the reduced intrinsic information
 # -> need to choose 2 channels at random
-# -> choose size of U as product of 3 dimensions X,Y,Z
-def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
+# the channel is chosen as XY->U
+def MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, noIterOuter, noIterInner):
     minVal = 0.
     for i in range(0, noIterOuter):
-        # Setup random channel XYZ->U and compute P_UXYZ
-        #print('----')
-        #print(P.shape)
-        PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
-        P_UXYZ = np.zeros_like(PC_UXYZ)
+        # Setup random channel XY->U and compute P_UXYZ
+        PC_U_XY = randChannelMultipart( (dimU,), P.shape[0:2])
+        P_XYZU = np.zeros( P.shape+(dimU,))
         #print(PC_UXYZ.shape)
-        for u in range(0,PC_UXYZ.shape[0]):
-            P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
-        print(P_UXYZ.shape)
-        E_U = entropy( np.sum( P_UZ, (1,2,3)))
+        for u in range(0,PC_U_XY.shape[0]):
+            for z in range(0, P.shape[2]):
+                P_XYZU[ :, :, z, u] = np.multiply( P[:,:,z], PC_U_XY[ u,:,:])
+        print(P_XYZU.shape)
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         for k in range(0, noIterInner):
-            PC_UZ = randChannelMultipart( (P_UXYZ.shape[0], P_UXYZ.shape[3]), (P_UXYZ.shape[0], P_UXYZ.shape[3]))
+            # If dimBZU is zero: set dim to prod of dimU and dimZ
+            if dimBZU ==0:
+                dimBZU = dimU*P.shape[2]
+            PC_ZU = randChannelMultipart( (dimBZU,), (dimU, P.shape[2]))
             #print('----')
             #print(PC_UZ.shape)
             #print(P_UXYZ.shape)
             # Pprime has form P_XYUZ because of reordering of tensordot
-            Pprime = np.tensordot( P_UXYZ, PC_UZ, ( (0,3), (2,3)))
-            Ppp = applyChannel( P_UXYZ, PC_UZ, (0,3))
+            Pprime = np.tensordot( P_XYZU, PC_ZU, ( (2,3), (1,)))
+            Ppp = applyChannel( P_XYZU, PC_ZU, (0,3))
             if ( np.amax(np.absolute( Pprime - Ppp)) > 10e-10):
                 print("MCupperBoundRedIntrinInf: Diff between the Pprime and Ppp %f" % np.amax(np.absolute( Pprime - Ppp)))
             if ( np.absolute(np.sum( Pprime) - 1.0) > 10e-10):
                 print("MCupperBoundRedIntrinInf: check normalization after applying the channel: %f" % np.sum(Pprime))
             #print(Pprime.shape)
-            P_UZ = np.sum( Pprime, (0,1))
-            I = 0.
-            for u in range(0,Pprime.shape[2]):
-                for z in range(0,Pprime.shape[3]):
-                    I += P_UZ[u,z] * mutInf( np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
-            print("MCupperBoundRedIntrinInf: cond mut inf I(X;Y|ZU) = %f" % I)
+            I = condMutInf( Pprime)
             I += E_U
             if (i == 0 and k == 0):
                 minVal = I
