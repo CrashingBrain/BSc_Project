@@ -16,6 +16,27 @@ print(inf.applyChannel(P, PC, (2)))
 print(inf.applyChannel(P, PC, (3)))
 print(inf.mutInf(pr.marginal(P, (2,3))))
 
+# Check the reduced intrinsic information upper bound
+redIntrInf = True
+if redIntrInf:
+    P = pr.marginal(P,(3))
+    PC_UXYZ = inf.randChannelMultipart( (np.prod(P.shape),), P.shape)
+    print( np.sum( PC_UXYZ, axis=(0)))
+    print( PC_UXYZ.shape)
+    P_UXYZ = np.zeros_like(PC_UXYZ)
+    P_UXYZ_prime = np.zeros_like(PC_UXYZ)
+    print(P_UXYZ.shape)
+    print(P_UXYZ_prime.shape)
+    for u in range(0,PC_UXYZ.shape[0]):
+        P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
+    for u in range(0,np.prod(P.shape)):
+        for x in range(0, P.shape[0]):
+            for y in range(0, P.shape[1]):
+                for z in range(0, P.shape[2]):
+                    P_UXYZ_prime[u,x,y,z] = PC_UXYZ[u,x,y,z]*P[x,y,z]
+    print("Diff between P_UXYZ_prime and P_UXYZ: %f" % np.amax(np.absolute( P_UXYZ- P_UXYZ_prime)))
+    #print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 2, 2))
+    
 # Loop over different random channels
 loops = False
 if loops:
@@ -31,7 +52,7 @@ if loops:
         pass
 
 # Test random bipartite channel
-cCMulti = True
+cCMulti = False
 if cCMulti:
     CMulti = inf.randChannelMultipart( (4,2), (2,2))
     print( CMulti.shape )
@@ -52,7 +73,7 @@ if cCMulti:
     print( inf.entropy(bv.unifBhv( (2,)) ))
 
 # Test the entropy
-cEntr = True
+cEntr = False
 if cEntr:
     values = []
     for p in np.arange(0, 1, 0.01):
@@ -73,7 +94,7 @@ if cEntr:
     plt.savefig("randomlySampledBinEntropy.pdf")
 
 # Test the application of a channel
-cApplChannel = True
+cApplChannel = False
 if cApplChannel:
     dimsChn = (4,5)
     bhv = bv.randBhv( (2,2,2,2) )

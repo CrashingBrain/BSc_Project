@@ -89,7 +89,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
         #print(PC_UXYZ.shape)
         for u in range(0,PC_UXYZ.shape[0]):
             P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
-        #print(P_UXYZ.shape)
+        print(P_UXYZ.shape)
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         for k in range(0, noIterInner):
             PC_UZ = randChannelMultipart( (P_UXYZ.shape[0], P_UXYZ.shape[3]), (P_UXYZ.shape[0], P_UXYZ.shape[3]))
@@ -97,14 +97,20 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
             #print(PC_UZ.shape)
             #print(P_UXYZ.shape)
             # Pprime has form P_XYUZ because of reordering of tensordot
-            Pprime = np.tensordot( P_UXYZ, PC_UZ, ( (0,3), (0,1)))
+            Pprime = np.tensordot( P_UXYZ, PC_UZ, ( (0,3), (2,3)))
+            Ppp = applyChannel( P_UXYZ, PC_UZ, (0,3))
+            if ( np.amax(np.absolute( Pprime - Ppp)) > 10e-10):
+                print("MCupperBoundRedIntrinInf: Diff between the Pprime and Ppp %f" % np.amax(np.absolute( Pprime - Ppp)))
+            if ( np.absolute(np.sum( Pprime) - 1.0) > 10e-10):
+                print("MCupperBoundRedIntrinInf: check normalization after applying the channel: %f" % np.sum(Pprime))
             #print(Pprime.shape)
             P_UZ = np.sum( Pprime, (0,1))
             I = 0.
             for u in range(0,Pprime.shape[2]):
                 for z in range(0,Pprime.shape[3]):
                     I += P_UZ[u,z] * mutInf( np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
-            I -= entropy( np.sum( P_UZ, (0)))
+            print("MCupperBoundRedIntrinInf: cond mut inf I(X;Y|ZU) = %f" % I)
+            I += entropy( np.sum( P_UZ, (1)))
             if (i == 0 and k == 0):
                 minVal = I
             elif I < minVal:
