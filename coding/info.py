@@ -35,10 +35,20 @@ def detChannel( dim_out, dim_in, k):
         PC[ (coeffs[k],)+coeffOfNo(k,dim_in)] = 1
     return PC
 
+def identityChannel( dims):
+    PC = np.zeros( dims, dims)
+    for k in range(0, np.prod(dims)):
+        coeffs = coeffOfNo( k, dims)
+        PC[ coeffs, coeffs] = 1.
+    return PC
+        
 def noisyChannel( dim_out, dim_in):
     PC = np.ones( dim_out, dim_in)
     PC *= 1./np.prod(dim_out)
     return PC
+
+def epsilonNoiseChannel( epsilon, dims):
+    return epsilon*noisyChannel(dims, dims)+(1.-epsilon)*identityChannel(dims)
 
 # Assume now that there are multiple parties for inputs and outputs
 # -> dim_out, dim_in are lists
@@ -77,7 +87,7 @@ def mutInf(P):
     I = 0.
     for x in range(0,P.shape[0]):
         for y in range(0,P.shape[1]):
-            if P[x,y] > 0.:
+            if P[x,y] > 1e-15 and Pprod[x,y] > 1e-15:
                 I += P[x,y]*np.log2( P[x,y]/Pprod[x,y] )
     return I
 

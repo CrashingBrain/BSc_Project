@@ -140,7 +140,7 @@ if False:
             print( inf.MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, 200, 200))
             print( inf.MCupperBoundRedIntrinInfX ( P, dimU, dimBZU, 200, 200))
 
-# RedIntrInf
+# RedIntrInfDet
 if False:
     P.bv.FourPDstrb()
     P = pr.marginal(P, 3)
@@ -150,6 +150,17 @@ if False:
             print( "dimBZU = ", dimBZU, ", dimU = ", dimU)
             print( inf.MCupperBoundRedIntrinInfXYDet( P, dimU, dimBZU, 200))
             print( inf.MCupperBoundRedIntrinInfXDet ( P, dimU, dimBZU, 200))
+        
+# RedIntrInfDD
+if True:
+    P = bv.FourPDstrb()
+    P = pr.marginal(P, 3)
+    print( "Test MCupperBoundRedIntrinInfX(Y)DD with FourPDstrb()")
+    for dimU in range(2,5):
+        for dimBZU in range(2,5):
+            print( "dimBZU = ", dimBZU, ", dimU = ", dimU)
+            print( inf.MCupperBoundRedIntrinInfXYDD( P, dimU, dimBZU))
+            print( inf.MCupperBoundRedIntrinInfXDD ( P, dimU, dimBZU))
         
 # Loop over different random channels
 if False:
