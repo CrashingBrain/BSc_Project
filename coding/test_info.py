@@ -18,7 +18,7 @@ if chnTsts:
     print(inf.applyChannel(P, PC, (3)))
     print(inf.mutInf(pr.marginal(P, (2,3))))
 
-detChnTsts = True
+detChnTsts = False
 if detChnTsts:
     dim_in = (2,2)
     dim_out = 3
@@ -100,22 +100,22 @@ if redIntrInf1:
     print("Conditional mutual information I(X;Y|bar{UZ}) %f" % I)
     print("Entropy of P_U %f" % inf.entropy( pr.marginal(P, (0,1,2))))
 
-redIntrInf2 = False#True
+redIntrInf2 = True
 if redIntrInf2:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundIntrinInfMP with Marginal over U of FourPDstrb()")
     for dimBZU in range(2,5):
-        print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 200))
+        print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 20))
  
-redIntrInf3 = False#True
+redIntrInf3 = True
 if redIntrInf3:
     P = bv.FourPDstrb()
     print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
     for dimBZU in range(2,5):
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 2000))
  
-redIntrInf4 = False#True
+redIntrInf4 = True
 if redIntrInf4:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)

@@ -165,6 +165,47 @@ def MCupperBoundRedIntrinInfX( P, dimU, dimBZU, noIterOuter, noIterInner, verbos
                 print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
     return minVal
  
+def MCupperBoundRedIntrinInfXYDet( P, dimU, dimBZU, noIterInner, verbose=False):
+    minVal = 0.
+    for k in range(0, dimU**(np.prod(P.shape[0:2]))):
+        # Setup deterministic channel XY->U and compute P_UXYZ
+        PC_U_XY = detChannel( dimU, P.shape[0:2], k)
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for z in range(0, P.shape[2]):
+                P_XYZU[ :, :, z, u] = np.multiply( P[:,:,z], PC_U_XY[ u,:,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+
+def MCupperBoundRedIntrinInfXDet( P, dimU, dimBZU, noIterOuter, noIterInner, verbose=False):
+    minVal = 0.
+    for k in range(0, dimU**(np.prod(P.shape[0:1]))):
+        # Setup deterministic channel XY->U and compute P_UXYZ
+        PC_U_XY = detChannel( dimU, P.shape[0:1], k)
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for y in range(0, P.shape[1]):
+                for z in range(0, P.shape[2]):
+                    P_XYZU[ :, y, z, u] = np.multiply( P[:,y,z], PC_U_XY[ u,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+
 # Channel from the proof of Lemma7
 def zuChannel():
     PC_zu = np.zeros( (2,2,2,2))
