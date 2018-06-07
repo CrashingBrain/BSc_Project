@@ -99,7 +99,7 @@ if cEntr:
     plt.savefig("randomlySampledBinEntropy.pdf")
 
 # Test the application of a channel
-cApplChannel = True
+cApplChannel = False
 if cApplChannel:
     print("### APPLY CHANNEL ###")
     #dimsChn = tuple(3,4)

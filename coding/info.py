@@ -47,9 +47,6 @@ def randChannelMultipart( dim_out, dim_in):
 
 # Seems to swap "channelled" party always to the very end
 def applyChannel( P, PC, toParty):
-    #print("List with conditioning parts in channel")
-    #print( PC.shape)
-    #print(list(range( len(PC.shape)//2, len(PC.shape))))
     return np.tensordot(P,PC,(toParty,list(range( len(PC.shape)//2, len(PC.shape)))))
 
 def entropy( P):
@@ -140,6 +137,9 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         # Pprime = np.tensordot( P, PC_UZ, ( (0,3), (0,1)))
         # Pprime = applyChannel(P, PC_UZ, (0,3))
         Pprime = np.zeros((sh[1],sh[2],PC_UZ.shape[0]))
+        # print("input shape:\t" + str(P.shape))
+        # print("Channel shape:\t" + str(PC_UZ.shape))
+        # print("Pprime shape:\t" + str(Pprime.shape))
         for u in range(sh[0]):
             for x in range(sh[1]):
                 for y in range(sh[2]):
@@ -155,12 +155,7 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         #     for z in range(P_UZ.shape[1]):
         #         val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
         val = condMutInf( Pprime)
-        
-        # val = condMutInf_(Pprime, 0,1,(3,2))
-        # print("condI: %.4f" % val)
-        # print("cond_I: %.3f\t Entropy: %.3f" % (val, Hu))
-        # add entropy 
-        # val += entropy(np.sum(Pprime, (0,1,3)))
+        print("val: %.3f\tHu: %.3f" % (val, Hu))
         val += Hu
         if val < minVal:
             minVal = val
@@ -197,10 +192,10 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
                 for z in range(0,Pprime.shape[3]):
                     I += P_UZ[u,z] * mutInf( np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
             Pu = pr.marginal(P_UXYZ, (1,2,3))
-            Puz = pr.marginal(P_UZ, (0,))
+            Puz = pr.marginal(P_UZ, (1,))
             # print(Pu)
-            # print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Puz)))
-            I += entropy( np.sum( P_UZ, (1)))
+            print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Puz)))
+            I += entropy( np.sum( P_UZ, (1,)))
             if (i == 0 and k == 0):
                 minVal = I
             elif I < minVal:
