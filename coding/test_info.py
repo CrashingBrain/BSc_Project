@@ -46,7 +46,7 @@ if False:
 # Check the reduced intrinsic information upper bound
 if False:
     P = pr.marginal(P,(3))
-    PC_UXYZ = inf.randChannelMultipart( (np.prod(P.shape),), P.shape)
+    PC_UXYZ = inf.randChannelMP( (np.prod(P.shape),), P.shape)
     print( np.sum( PC_UXYZ, axis=(0)))
     print( PC_UXYZ.shape)
     P_UXYZ = np.zeros_like(PC_UXYZ)
@@ -70,7 +70,7 @@ if False:
     I_rd = 100.
     no_iter = 1 
     for k in range(0, no_iter):
-        PC_UZ = inf.randChannelMultipart( (P.shape[2:]), (P.shape[2:]))
+        PC_UZ = inf.randChannelMP( (P.shape[2:]), (P.shape[2:]))
         P_XYZU_p = inf.applyChannel( P, PC_UZ, (2,3))
         P_ZU = np.sum( P_XYZU_p, (0,1))
         I = 0.
@@ -85,7 +85,7 @@ if False:
     P = bv.FourPDstrb()
     I_rd = 100.
     for k in range(0, no_iter):
-        PC_UZ = inf.randChannelMultipart( (np.prod(P.shape[2:]),), (P.shape[2:]))
+        PC_UZ = inf.randChannelMP( (np.prod(P.shape[2:]),), (P.shape[2:]))
         P_XYZU_p = inf.applyChannel( P, PC_UZ, (2,3))
         P_ZU = np.sum( P_XYZU_p, (0,1))
         I = 0.
@@ -115,7 +115,7 @@ if False:
     print("Entropy of P_U %f" % inf.entropy( pr.marginal(P, (0,1,2))))
 
 # IntrInf ThreePDstrb from FourPDstrb
-if True:
+if False:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundIntrinInfMP with Marginal over U of FourPDstrb()")
@@ -123,14 +123,14 @@ if True:
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 20))
  
 # IntrInf FourPDstrb
-if True:
+if False:
     P = bv.FourPDstrb()
     print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
     for dimBZU in range(2,5):
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 2000))
  
 # IntrInfDet ThreePDstrb from FourPDstrb
-if True:
+if False:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundIntrinInfMPDet with Marginal over U of FourPDstrb()")
@@ -138,7 +138,7 @@ if True:
         print( dimBZU, inf.MCupperBoundIntrinInfMPDet( P, dimBZU))
  
 # IntrInfDet FourPDstrb
-if True:
+if False:
     P = bv.FourPDstrb()
     print( "Test MCupperBoundIntrinInfMPDet with FourPDstrb()")
     for dimBZU in range(2,5):
@@ -167,7 +167,7 @@ if False:
             print( inf.MCupperBoundRedIntrinInfXDet ( P, dimU, dimBZU, 200))
         
 # RedIntrInfDD
-if True:
+if False:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundRedIntrinInfX(Y)DD with FourPDstrb()")
@@ -178,7 +178,8 @@ if True:
             print( inf.MCupperBoundRedIntrinInfXDD ( P, dimU, dimBZU))
         
 # Loop over different random channels
-if False:
+if True:
+    P = bv.FourPDstrb()
     for k in range(0, 10):
         PC = inf.randChannel(2,2)
         print(PC)
@@ -187,7 +188,7 @@ if False:
         print( pr.marginal( inf.applyChannel( P, PC, 3), (0,1,2)))
         print( inf.mutInf( pr.marginal( inf.applyChannel(P, PC, 3), (2,3))))
         print( inf.MCupperBoundIntrinInf( pr.marginal(P, 3), 100))
-        print( inf.MCupperBoundRedIntrinInf( pr.marginal( P, 3), 10, 10))
+        print( inf.MCupperBoundRedIntrinInfXY(pr.marginal(P,3), 2, 2, 10, 10))
         # Test the new RedIntrinInfo function
         print( inf.MCupperBoundRedIntrinInf_( pr.marginal( P, 3), 10, 10))
         pass
@@ -195,7 +196,7 @@ if False:
 
 # Test random bipartite channel
 if False:
-    CMulti = inf.randChannelMultipart( (4,2), (2,2))
+    CMulti = inf.randChannelMP( (4,2), (2,2))
     print( CMulti.shape )
     print( CMulti.min()) 
     print( np.sum( CMulti , axis=(0,1)))
@@ -245,7 +246,7 @@ if False:
 if False:
     dimsChn = (4,5)
     bhv = bv.randBhv( (2,2,2,2) )
-    rChn = inf.randChannelMultipart( dimsChn, (2,2))
+    rChn = inf.randChannelMP( dimsChn, (2,2))
     # Apply the channel to the first two parties
     bhvAfterChn1 = np.zeros( (2,2)+dimsChn)
     for x in range(0,dimsChn[0]):
@@ -291,7 +292,7 @@ if False:
     bhvAfterChn = inf.applyChannel( bhv, rChn, (0,3))
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
     # Test on binarization channel
-    rChnB = inf.randChannelMultipart((2,),(2,2))
+    rChnB = inf.randChannelMP((2,),(2,2))
     bhvAfterChn1 = np.zeros( (2,2,2))
     for x in range(0,2):
         for z in range(0,2):
@@ -303,7 +304,7 @@ if False:
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
     # Test as in MCupperBoundIntrInfMP
     bhvFoo = bv.randBhv( (32,4,4,2) )
-    rChnFoo = inf.randChannelMultipart((2,),(32,2))
+    rChnFoo = inf.randChannelMP((2,),(32,2))
     bhvAfterChn1 = np.zeros( (4,4,2))
     for x in range(0,2):
         for y in range(0,4):
