@@ -4,8 +4,8 @@ import numpy as np
 import prob as pr
 import matplotlib.pyplot as plt
 
-chnTsts = False
-if chnTsts:
+# Test channels
+if False:
     PC = inf.randChannel(3,2)
     print(PC.shape)
     print(PC)
@@ -18,8 +18,8 @@ if chnTsts:
     print(inf.applyChannel(P, PC, (3)))
     print(inf.mutInf(pr.marginal(P, (2,3))))
 
-detChnTsts = False
-if detChnTsts:
+# Test deterministic channels
+if False:
     dim_in = (2,2)
     dim_out = 3
     for l in range(0, dim_out**(np.prod(dim_in))):
@@ -29,8 +29,7 @@ if detChnTsts:
             print(PC[:, coefftpl[0], coefftpl[1]])
 
 # Check the reduced intrinsic information upper bound
-redIntrInf1 = False
-if redIntrInf1:
+if False:
     P = pr.marginal(P,(3))
     PC_UXYZ = inf.randChannelMultipart( (np.prod(P.shape),), P.shape)
     print( np.sum( PC_UXYZ, axis=(0)))
@@ -100,23 +99,38 @@ if redIntrInf1:
     print("Conditional mutual information I(X;Y|bar{UZ}) %f" % I)
     print("Entropy of P_U %f" % inf.entropy( pr.marginal(P, (0,1,2))))
 
-redIntrInf2 = True
-if redIntrInf2:
+# IntrInf ThreePDstrb from FourPDstrb
+if True:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundIntrinInfMP with Marginal over U of FourPDstrb()")
     for dimBZU in range(2,5):
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 20))
  
-redIntrInf3 = True
-if redIntrInf3:
+# IntrInf FourPDstrb
+if True:
     P = bv.FourPDstrb()
     print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
     for dimBZU in range(2,5):
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 2000))
  
-redIntrInf4 = True
-if redIntrInf4:
+# IntrInfDet ThreePDstrb from FourPDstrb
+if True:
+    P = bv.FourPDstrb()
+    P = pr.marginal(P, 3)
+    print( "Test MCupperBoundIntrinInfMPDet with Marginal over U of FourPDstrb()")
+    for dimBZU in range(2,5):
+        print( dimBZU, inf.MCupperBoundIntrinInfMPDet( P, dimBZU))
+ 
+# IntrInfDet FourPDstrb
+if True:
+    P = bv.FourPDstrb()
+    print( "Test MCupperBoundIntrinInfMPDet with FourPDstrb()")
+    for dimBZU in range(2,5):
+        print( dimBZU, inf.MCupperBoundIntrinInfMPDet( P, dimBZU))
+
+# RedIntrInf
+if False:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundRedIntrinInfX(Y) with FourPDstrb()")
@@ -125,10 +139,20 @@ if redIntrInf4:
             print( "dimBZU = ", dimBZU, ", dimU = ", dimU)
             print( inf.MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, 200, 200))
             print( inf.MCupperBoundRedIntrinInfX ( P, dimU, dimBZU, 200, 200))
+
+# RedIntrInf
+if False:
+    P.bv.FourPDstrb()
+    P = pr.marginal(P, 3)
+    print( "Test MCupperBoundRedIntrinInfX(Y)Det with FourPDstrb()")
+    for dimU in range(2,5):
+        for dimBZU in range(2,5):
+            print( "dimBZU = ", dimBZU, ", dimU = ", dimU)
+            print( inf.MCupperBoundRedIntrinInfXYDet( P, dimU, dimBZU, 200))
+            print( inf.MCupperBoundRedIntrinInfXDet ( P, dimU, dimBZU, 200))
         
 # Loop over different random channels
-loops = False
-if loops:
+if False:
     for k in range(0, 10):
         PC = inf.randChannel(2,2)
         print(PC)
@@ -141,8 +165,7 @@ if loops:
         pass
 
 # Test random bipartite channel
-cCMulti = False
-if cCMulti:
+if False:
     CMulti = inf.randChannelMultipart( (4,2), (2,2))
     print( CMulti.shape )
     print( CMulti.min()) 
@@ -162,8 +185,7 @@ if cCMulti:
     print( inf.entropy(bv.unifBhv( (2,)) ))
 
 # Test the entropy
-cEntr = False
-if cEntr:
+if False:
     values = []
     for p in np.arange(0, 1, 0.01):
         values.append( inf.entropy( bv.coin( p )))
@@ -183,8 +205,7 @@ if cEntr:
     plt.savefig("randomlySampledBinEntropy.pdf")
 
 # Test the application of a channel
-cApplChannel = False
-if cApplChannel:
+if False:
     dimsChn = (4,5)
     bhv = bv.randBhv( (2,2,2,2) )
     rChn = inf.randChannelMultipart( dimsChn, (2,2))
