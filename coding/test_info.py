@@ -29,10 +29,10 @@ print("time Mio: %.8f" % (end - start))
 print("---")
 
 # Loop over different random channels
-loops = False
+loops = True
 if loops:
     print("### LOOPS ###")
-    for k in range(0, 10):
+    for k in range(0, 2):
         PC = inf.randChannel(2,2)
         print(PC)
         # Print P_Z after channel.
@@ -47,7 +47,7 @@ if loops:
     print("*** END LOOPS ***")
 
 # Test random bipartite channel
-cCMulti = True
+cCMulti = False
 if cCMulti:
     print("### CHANNEL MULTIPARTITE ###")
     CMulti = inf.randChannelMultipart( (4,2), (2,2))
@@ -78,7 +78,7 @@ if cCMulti:
     print("*** END CHANNEL MULTIPARTITE ***")
 
 # Test the entropy
-cEntr = True
+cEntr = False
 if cEntr:
     values = []
     for p in np.linspace(0,1,num=100):
@@ -149,4 +149,29 @@ if cApplChannel:
                             bhvAfterChn1[ y,z,x,u ] += bhv[xp,y,z,up]*rChn[x, u, xp, up] 
     bhvAfterChn = inf.applyChannel( bhv, rChn, (0,3))
     print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
+    # Test on binarization channel
+    rChnB = inf.randChannelMultipart((2,),(2,2))
+    bhvAfterChn1 = np.zeros( (2,2,2))
+    for x in range(0,2):
+        for z in range(0,2):
+            for u in range(0,2):
+                for xp in range(0,2):
+                    for yp in range(0,2):
+                        bhvAfterChn1[z,u,x] += bhv[xp,yp,z,u]*rChnB[x,xp,yp] 
+    bhvAfterChn = inf.applyChannel( bhv, rChnB, (0,1))
+    print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
+    # Test as in MCupperBoundIntrInfMP
+    bhvFoo = bv.randBhv( (32,4,4,2) )
+    rChnFoo = inf.randChannelMultipart((2,),(32,2))
+    bhvAfterChn1 = np.zeros( (4,4,2))
+    for x in range(0,2):
+        for y in range(0,4):
+            for z in range(0,4):
+                for xp in range(0,32):
+                    for up in range(0,2):
+                        bhvAfterChn1[ y,z,x ] += bhvFoo[xp,y,z,up]*rChnFoo[x, xp, up] 
+    bhvAfterChn = inf.applyChannel( bhvFoo, rChnFoo, (0,3))
+    print( np.amax(np.absolute(bhvAfterChn-bhvAfterChn1)))
+
+
     print("*** END APPLY CHANNEL ***")
