@@ -140,13 +140,13 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
         # print("input shape:\t" + str(P.shape))
         # print("Channel shape:\t" + str(PC_UZ.shape))
         # print("Pprime shape:\t" + str(Pprime.shape))
+
         for u in range(sh[0]):
             for x in range(sh[1]):
                 for y in range(sh[2]):
                     for z in range(sh[3]):
-                        Pprime[x,y,0] = P[u,x,y,z] * PC_UZ[0,u,z]
-                        Pprime[x,y,1] = P[u,x,y,z] * PC_UZ[1,u,z]
-
+                        Pprime[x,y,0] += P[u,x,y,z] * PC_UZ[0,u,z]
+                        Pprime[x,y,1] += P[u,x,y,z] * PC_UZ[1,u,z]
         # print(Pprime.shape)
         # Pprime has form P_XYUZ because of reordering of tensordot
         # P_UZ = np.sum( Pprime, (0,1))
