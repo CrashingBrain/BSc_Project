@@ -21,7 +21,10 @@ def detChannel( dim_in):
         PC[ (k)+coeffOfNo(k, dim_in)] = 1.
     return PC
 
-# Add function to generate all possible determ channels!!
+# More general deterministic channel
+def detChannel( dim_in, dim_out, k):
+    PC = np.ones( (dim_out,)+ dim_in)
+    # ... to be done
 
 def noisyChannel( dim_out, dim_in):
     PC = np.ones( dim_out, dim_in)
