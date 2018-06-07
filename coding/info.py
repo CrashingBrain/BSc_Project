@@ -244,6 +244,29 @@ def MCupperBoundRedIntrinInf_( P, noIterOuter, noIterInner):
             
     return minVal
 
+def MCupperBoundRedIntrinInfDet_(P, dimU, dimBZU, noIterOuter, noIterInner, verbose=False):
+    minVal = np.finfo(float).max
+    for i in range(noIterOuter):
+        #setup random channel XYZ->U and compute P_UXYZ
+        PC_UXYZ = randChannelMP( (dimU,), P.shape)
+        shpc = PC_UXYZ.shape
+        P_XYZU = np.zeros((shpc[1:] + (shpc[0],)))
+        for u in range(PC_UXYZ.shape[-1]):
+            P_XYZU[:,:,:,u] = np.multiply( PC_UXYZ[u,:,:,:], P)
+        
+        #get entropy
+        Hu = entropy_( pr.marginal(P_XYZU, tuple(range(len(P_XYZU.shape)))[:-1]))
+        # get the bound on intrInf of X;Y|ZU with detChannel
+        val = MCupperBoundIntrinInfMPDet(P_XYZU, dimBZU)
+        #check for min
+        if val < minVal:
+            minVal = val
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfDet_] I = %f, E_U = %f" % (val, Hu))
+    
+    return minVal
+
+
 def MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, noIterOuter, noIterInner, verbose=False):
     minVal = 0.
     for k in range(0, noIterOuter):
