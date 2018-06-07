@@ -194,7 +194,7 @@ if True:
         # Test the new RedIntrinInfo function
         print( inf.MCupperBoundRedIntrinInf_( pr.marginal( P, 3), 10, 10))
         # New deterministic function
-        print( inf.MCupperBoundRedIntrinInfDet_(pr.marginal( P, 3), 2, 4, 100, 100, True))
+        print( inf.MCupperBoundRedIntrinInfDet_(pr.marginal( P, 3), 2, 4, 300, 100, True))
         pass
     print("*** END LOOPS ***")
 

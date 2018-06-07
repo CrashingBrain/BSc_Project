@@ -258,12 +258,14 @@ def MCupperBoundRedIntrinInfDet_(P, dimU, dimBZU, noIterOuter, noIterInner, verb
         Hu = entropy_( pr.marginal(P_XYZU, tuple(range(len(P_XYZU.shape)))[:-1]))
         # get the bound on intrInf of X;Y|ZU with detChannel
         val = MCupperBoundIntrinInfMPDet(P_XYZU, dimBZU)
+
+        # temp I
+        I = val + Hu
         #check for min
-        if val < minVal:
-            minVal = val
+        if I < minVal:
+            minVal = I
             if verbose:
                 print( "[MCupperBoundRedIntrinInfDet_] I = %f, E_U = %f" % (val, Hu))
-    
     return minVal
 
 
