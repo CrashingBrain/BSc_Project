@@ -131,12 +131,10 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
     for i in range(noIter):
         # considering now a binarization channel ZU -> {0,1}
         PC_UZ = randChannelMultipart( (sh[3],), (sh[0], sh[3]))
-        # pr.PrintFourPDstrb(PC_UZ)
-
         # apply channel
-        # Pprime = np.tensordot( P, PC_UZ, ( (0,3), (0,1)))
         # Pprime = applyChannel(P, PC_UZ, (0,3))
         Pprime = np.zeros((sh[1],sh[2],PC_UZ.shape[0]))
+
         # print("input shape:\t" + str(P.shape))
         # print("Channel shape:\t" + str(PC_UZ.shape))
         # print("Pprime shape:\t" + str(Pprime.shape))
@@ -147,15 +145,8 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
                     for z in range(sh[3]):
                         Pprime[x,y,0] += P[u,x,y,z] * PC_UZ[0,u,z]
                         Pprime[x,y,1] += P[u,x,y,z] * PC_UZ[1,u,z]
-        # print(Pprime.shape)
-        # Pprime has form P_XYUZ because of reordering of tensordot
-        # P_UZ = np.sum( Pprime, (0,1))
-        # val = 0.
-        # for u in range(P_UZ.shape[0]):
-        #     for z in range(P_UZ.shape[1]):
-        #         val += P_UZ[u,z] * mutInf(np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
         val = condMutInf( Pprime)
-        print("val: %.3f\tHu: %.3f" % (val, Hu))
+        # print("val: %.3f\tHu: %.3f" % (val, Hu))
         val += Hu
         if val < minVal:
             minVal = val
@@ -168,20 +159,14 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
     minVal = 0.
     for i in range(0, noIterOuter):
         # Setup random channel XYZ->U and compute P_UXYZ
-        #print('----')
-        #print(P.shape)
         PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
         P_UXYZ = np.zeros_like(PC_UXYZ)
         # print(PC_UXYZ.shape)
         for u in range(0,PC_UXYZ.shape[0]):
             P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
-        # print(P_UXYZ.shape)
         # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
         for k in range(0, noIterInner):
             PC_UZ = randChannelMultipart( (P_UXYZ.shape[0], P_UXYZ.shape[3]), (P_UXYZ.shape[0], P_UXYZ.shape[3]))
-            # print('----')
-            # print(PC_UZ.shape)
-            # print(P_UXYZ.shape)
             # Pprime has form P_XYUZ because of reordering of tensordot
             Pprime = np.tensordot( P_UXYZ, PC_UZ, ( (0,3), (0,1)))
             # print(Pprime.shape)
@@ -194,7 +179,7 @@ def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
             Pu = pr.marginal(P_UXYZ, (1,2,3))
             Puz = pr.marginal(P_UZ, (1,))
             # print(Pu)
-            print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Puz)))
+            # print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Puz)))
             I += entropy( np.sum( P_UZ, (1,)))
             if (i == 0 and k == 0):
                 minVal = I
