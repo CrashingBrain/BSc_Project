@@ -18,6 +18,16 @@ if chnTsts:
     print(inf.applyChannel(P, PC, (3)))
     print(inf.mutInf(pr.marginal(P, (2,3))))
 
+detChnTsts = True
+if detChnTsts:
+    dim_in = (2,2)
+    dim_out = 3
+    for l in range(0, dim_out**(np.prod(dim_in))):
+        PC = inf.detChannel( dim_out, dim_in, l)
+        for k in range(0, np.prod(dim_in)):
+            coefftpl = inf.coeffOfNo(k, dim_in)
+            print(PC[:, coefftpl[0], coefftpl[1]])
+
 # Check the reduced intrinsic information upper bound
 redIntrInf1 = False
 if redIntrInf1:
@@ -90,7 +100,7 @@ if redIntrInf1:
     print("Conditional mutual information I(X;Y|bar{UZ}) %f" % I)
     print("Entropy of P_U %f" % inf.entropy( pr.marginal(P, (0,1,2))))
 
-redIntrInf2 = True
+redIntrInf2 = False#True
 if redIntrInf2:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
@@ -98,14 +108,14 @@ if redIntrInf2:
     for dimBZU in range(2,5):
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 200))
  
-redIntrInf3 = True
+redIntrInf3 = False#True
 if redIntrInf3:
     P = bv.FourPDstrb()
     print( "Test MCupperBoundIntrinInfMP with FourPDstrb()")
     for dimBZU in range(2,5):
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 2000))
  
-redIntrInf4 = True
+redIntrInf4 = False#True
 if redIntrInf4:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)

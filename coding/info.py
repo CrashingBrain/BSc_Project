@@ -1,6 +1,8 @@
 import numpy as np
 
 def coeffOfNo( no, mixedBasis):
+    if no > np.prod(mixedBasis):
+        print("[inf.coeffOfNo] No is out of range of mixed basis")
     coeffs = ()
     for k in range(0, len(mixedBasis)):
         coeffs = coeffs + ( no%mixedBasis[k],)
