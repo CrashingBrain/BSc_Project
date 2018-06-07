@@ -10,6 +10,8 @@ def normalizeChannel(PC):
     return PC
 
 def coeffOfNo( no, mixedBasis):
+    if no > np.prod(mixedBasis):
+        print("[inf.coeffOfNo] No is out of range of mixed basis")
     coeffs = ()
     for k in range(0, len(mixedBasis)):
         coeffs = coeffs + ( no%mixedBasis[k],)
@@ -23,12 +25,44 @@ def randChannel( dim_out, dim_in):
         PC[:,i] = np.multiply( factor, PC[:,i])
     return PC
 
+# Map the input dimensions to an encoding in an additional party
+def detChannel( dim_in):
+    PC = np.zeros( (np.prod(dim_in))+dim_in)
+    for k in range(0, np.prod(dim_in)):
+        PC[ (k)+coeffOfNo(k, dim_in)] = 1.
+    return PC
+
+# More general deterministic channel
+# Expects dim_out as an integer, and dim_in as a tuple
+# k is the number of the deterministic channel
+def detChannel( dim_out, dim_in, k):
+    PC = np.zeros( (dim_out,)+ dim_in)
+    # Get k-th deterministic channel: in a coefficient term
+    coeffs = coeffOfNo( k, tuple( [dim_out] * np.prod(dim_in)))
+    #print( coeffs)
+    for k in range(0, len(coeffs)):
+        PC[ (coeffs[k],)+coeffOfNo(k,dim_in)] = 1
+    return PC
+
+def identityChannel( dims):
+    PC = np.zeros( dims, dims)
+    for k in range(0, np.prod(dims)):
+        coeffs = coeffOfNo( k, dims)
+        PC[ coeffs, coeffs] = 1.
+    return PC
+        
+def noisyChannel( dim_out, dim_in):
+    PC = np.ones( dim_out, dim_in)
+    PC *= 1./np.prod(dim_out)
+    return PC
+
+def epsilonNoiseChannel( epsilon, dims):
+    return epsilon*noisyChannel(dims, dims)+(1.-epsilon)*identityChannel(dims)
+
 # Assume now that there are multiple parties for inputs and outputs
 # -> dim_out, dim_in are lists
 # (No easy way of fixing the last (dim_in) indeces to perform sum etc on the resulting array...)
-def randChannelMultipart( dim_out, dim_in):
-    #print( dim_out)
-    #print( dim_in)
+def randChannelMP( dim_out, dim_in):
     eps = np.finfo(float).eps
     PC = np.random.random_sample( dim_out+dim_in);
     for k in range(0, np.prod(dim_in)):
@@ -76,7 +110,7 @@ def mutInf(P):
     I = 0.
     for x in range(0,P.shape[0]):
         for y in range(0,P.shape[1]):
-            if P[x,y] > 0.:
+            if P[x,y] > 1e-15 and Pprod[x,y] > 1e-15:
                 I += P[x,y]*np.log2( P[x,y]/Pprod[x,y] )
     return I
 
@@ -84,7 +118,8 @@ def condMutInf(P):
     Pz = np.sum(P, (0,1))
     I = 0.
     for z in range(0, P.shape[2]):
-        I += Pz[z] * mutInf( np.multiply(1./Pz[z], P[:,:,z]))
+        if Pz[z] > 0.:
+            I += Pz[z] * mutInf( np.multiply(1./Pz[z], P[:,:,z]))
     return I
 
 def condMutInf_(P, dimX, dimY, dimZ):
@@ -122,7 +157,7 @@ def MCupperBoundIntrinInf(P, noIter):
             minVal = val
     return minVal
 
-def MCupperBoundIntrinInfMultipart(P, noIter):
+def MCupperBoundIntrinInfMP_(P, noIter):
     # P has shape UXYZ
     minVal = np.finfo(float).max
     sh = P.shape
@@ -130,7 +165,8 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
     Hu = entropy(np.sum(P, (1,2,3)))
     for i in range(noIter):
         # considering now a binarization channel ZU -> {0,1}
-        PC_UZ = randChannelMultipart( (sh[3],), (sh[0], sh[3]))
+        PC_UZ = randChannelMP( (sh[3],), (sh[0], sh[3]))
+
         # apply channel
         # Pprime = applyChannel(P, PC_UZ, (0,3))
         Pprime = np.zeros((sh[1],sh[2],PC_UZ.shape[0]))
@@ -152,54 +188,201 @@ def MCupperBoundIntrinInfMultipart(P, noIter):
             minVal = val
     return minVal
             
+# Computes an upper bound on the BoundIntrinInf taking all but the first two parties to be in Eve's possesion
+def MCupperBoundIntrinInfMP(P, dimBZ, noIter, verbose=False):
+    minVal = 0.
+    # If dimBZ is zero: set dim to prod of dimensions Eve's systems
+    if dimBZ ==0:
+        dimBZ = np.prod(P.shape[2:])
+    for k in range(0, noIter):
+        PC = randChannelMP( (dimBZ,), P.shape[2:])
+        Pprime = applyChannel( P, PC, tuple(range(2,len(P.shape))))
+        val = condMutInf( Pprime)
+        if k == 0:
+            minVal = val
+        elif val < minVal:
+            minVal = val
+            if verbose:
+                print( "[MCupperBoundIntrinInfMP] k = %d, val = %f" % (k,val))
+    return minVal
+
+def MCupperBoundIntrinInfMPDet(P, dimBZ, verbose=False):
+    minVal = 0.
+    # If dimBZ is zero: set dim to prod of dimensions Eve's systems
+    if dimBZ ==0:
+        dimBZ = np.prod(P.shape[2:])
+    for k in range(0, dimBZ**(np.prod(P.shape[2:]))):
+        # get deterministic channel and compute primed behavior
+        PC = detChannel( dimBZ, P.shape[2:], k)
+        Pprime = applyChannel( P, PC, tuple(range(2,len(P.shape))))
+        val = condMutInf( Pprime)
+        if k == 0:
+            minVal = val
+        elif val < minVal:
+            minVal = val
+            if verbose:
+                print( "[MCupperBoundIntrinInfMP] k = %d, val = %f" % (k,val))
+    return minVal
+
 # Monte Carlo way of computing an upper bound on the reduced intrinsic information
 # -> need to choose 2 channels at random
-# -> choose size of U as product of 3 dimensions X,Y,Z
-def MCupperBoundRedIntrinInf( P, noIterOuter, noIterInner):
-    minVal = 0.
-    for i in range(0, noIterOuter):
-        # Setup random channel XYZ->U and compute P_UXYZ
-        PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
-        P_UXYZ = np.zeros_like(PC_UXYZ)
-        # print(PC_UXYZ.shape)
-        for u in range(0,PC_UXYZ.shape[0]):
-            P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
-        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
-        for k in range(0, noIterInner):
-            PC_UZ = randChannelMultipart( (P_UXYZ.shape[0], P_UXYZ.shape[3]), (P_UXYZ.shape[0], P_UXYZ.shape[3]))
-            # Pprime has form P_XYUZ because of reordering of tensordot
-            Pprime = np.tensordot( P_UXYZ, PC_UZ, ( (0,3), (0,1)))
-            # print(Pprime.shape)
-            P_UZ = np.sum( Pprime, (0,1))
-            # print(P_UZ.shape)
-            I = 0.
-            for u in range(0,Pprime.shape[2]):
-                for z in range(0,Pprime.shape[3]):
-                    I += P_UZ[u,z] * mutInf( np.multiply(1./P_UZ[u,z], Pprime[:,:,u,z]))
-            Pu = pr.marginal(P_UXYZ, (1,2,3))
-            Puz = pr.marginal(P_UZ, (1,))
-            # print(Pu)
-            # print("Temp_I: %.3f\t Entropy: %.3f" % (I, entropy(Puz)))
-            I += entropy( np.sum( P_UZ, (1,)))
-            if (i == 0 and k == 0):
-                minVal = I
-            elif I < minVal:
-                minVal = I
-    return minVal
-                
+# the channel is chosen as XY->U
 def MCupperBoundRedIntrinInf_( P, noIterOuter, noIterInner):
     minVal = np.finfo(float).max
     for i in range(0, noIterOuter):
         # Setup random channel XYZ->U and compute P_UXYZ
-        PC_UXYZ = randChannelMultipart( (np.prod(P.shape),), P.shape)
+        PC_UXYZ = randChannelMP( (np.prod(P.shape),), P.shape)
         P_UXYZ = np.zeros_like(PC_UXYZ)
         for u in range(0,PC_UXYZ.shape[0]):
             P_UXYZ[u,:,:,:] = np.multiply( PC_UXYZ[u,:,:,:], P)
         
         # call MCupperBoundIntrinInfMultipart to get intrInf
-        val = MCupperBoundIntrinInfMultipart(P_UXYZ, noIterInner)
+        val = MCupperBoundIntrinInfMP_(P_UXYZ, noIterInner)
         # check for min
         if val<minVal:
             minVal = val
             
     return minVal
+
+def MCupperBoundRedIntrinInfXY( P, dimU, dimBZU, noIterOuter, noIterInner, verbose=False):
+    minVal = 0.
+    for k in range(0, noIterOuter):
+        # Setup random channel XY->U and compute P_UXYZ
+        PC_U_XY = randChannelMP( (dimU,), P.shape[0:2])
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for z in range(0, P.shape[2]):
+                P_XYZU[ :, :, z, u] = np.multiply( P[:,:,z], PC_U_XY[ u,:,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+ 
+# the channel is chosen as X->U
+def MCupperBoundRedIntrinInfX( P, dimU, dimBZU, noIterOuter, noIterInner, verbose=False):
+    minVal = 0.
+    for k in range(0, noIterOuter):
+        # Setup random channel XY->U and compute P_UXYZ
+        PC_U_XY = randChannelMP( (dimU,), P.shape[0:1])
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for y in range(0, P.shape[1]):
+                for z in range(0, P.shape[2]):
+                    P_XYZU[ :, y, z, u] = np.multiply( P[:,y,z], PC_U_XY[ u,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+ 
+def MCupperBoundRedIntrinInfXYDet( P, dimU, dimBZU, noIterInner, verbose=False):
+    minVal = 0.
+    for k in range(0, dimU**(np.prod(P.shape[0:2]))):
+        # Setup deterministic channel XY->U and compute P_UXYZ
+        PC_U_XY = detChannel( dimU, P.shape[0:2], k)
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for z in range(0, P.shape[2]):
+                P_XYZU[ :, :, z, u] = np.multiply( P[:,:,z], PC_U_XY[ u,:,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+
+def MCupperBoundRedIntrinInfXDet( P, dimU, dimBZU, noIterInner, verbose=False):
+    minVal = 0.
+    for k in range(0, dimU**(np.prod(P.shape[0:1]))):
+        # Setup deterministic channel XY->U and compute P_UXYZ
+        PC_U_XY = detChannel( dimU, P.shape[0:1], k)
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for y in range(0, P.shape[1]):
+                for z in range(0, P.shape[2]):
+                    P_XYZU[ :, y, z, u] = np.multiply( P[:,y,z], PC_U_XY[ u,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMP( P_XYZU, dimBZU, noIterInner) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+
+# Loop over the deterministic channels in both, the outer *and* the inner loop
+def MCupperBoundRedIntrinInfXYDD( P, dimU, dimBZU, verbose=False):
+    minVal = 0.
+    for k in range(0, dimU**(np.prod(P.shape[0:2]))):
+        # Setup deterministic channel XY->U and compute P_UXYZ
+        PC_U_XY = detChannel( dimU, P.shape[0:2], k)
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for z in range(0, P.shape[2]):
+                P_XYZU[ :, :, z, u] = np.multiply( P[:,:,z], PC_U_XY[ u,:,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMPDet( P_XYZU, dimBZU) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+
+# Loop over the deterministic channels in both, the outer *and* the inner loop
+def MCupperBoundRedIntrinInfXDD( P, dimU, dimBZU, verbose=False):
+    minVal = 0.
+    for k in range(0, dimU**(np.prod(P.shape[0:1]))):
+        # Setup deterministic channel XY->U and compute P_UXYZ
+        PC_U_XY = detChannel( dimU, P.shape[0:1], k)
+        P_XYZU = np.zeros( P.shape+(dimU,))
+        for u in range(0,PC_U_XY.shape[0]):
+            for y in range(0, P.shape[1]):
+                for z in range(0, P.shape[2]):
+                    P_XYZU[ :, y, z, u] = np.multiply( P[:,y,z], PC_U_XY[ u,:])
+        E_U = entropy( np.sum( P_XYZU, (0,1,2)))
+        # Inner Loop: get random channel UZ->bar(UZ) and compute the cond mutual information
+        I = MCupperBoundIntrinInfMPDet( P_XYZU, dimBZU) + E_U
+        if k == 0:
+            minVal = I
+        elif I < minVal:
+            minVal = I
+            if verbose:
+                print( "[MCupperBoundRedIntrinInfXY] I = %f, E_U = %f" % (I, E_U))
+    return minVal
+
+# Channel from the proof of Lemma7
+def zuChannel():
+    PC_zu = np.zeros( (2,2,2,2))
+    PC_zu[0,0,0,0] = 1.
+    PC_zu[0,0,1,0] = 1.
+    PC_zu[0,1,0,1] = 1.
+    PC_zu[1,0,1,1] = 1.
+    return PC_zu
+
+def zuChannel2():
+    PC_zu = np.zeros( (4,2,2))
+    PC_zu[0,0,0] = 1.
+    PC_zu[0,1,0] = 1.
+    PC_zu[1,0,1] = 1.
+    PC_zu[2,1,1] = 1.
+    return PC_zu
