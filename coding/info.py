@@ -22,9 +22,16 @@ def detChannel( dim_in):
     return PC
 
 # More general deterministic channel
-def detChannel( dim_in, dim_out, k):
-    PC = np.ones( (dim_out,)+ dim_in)
-    # ... to be done
+# Expects dim_out as an integer, and dim_in as a tuple
+# k is the number of the deterministic channel
+def detChannel( dim_out, dim_in, k):
+    PC = np.zeros( (dim_out,)+ dim_in)
+    # Get k-th deterministic channel: in a coefficient term
+    coeffs = coeffOfNo( k, tuple( [dim_out] * np.prod(dim_in)))
+    print( coeffs)
+    for k in range(0, len(coeffs)):
+        PC[ (coeffs[k],)+coeffOfNo(k,dim_in)] = 1
+    return PC
 
 def noisyChannel( dim_out, dim_in):
     PC = np.ones( dim_out, dim_in)
