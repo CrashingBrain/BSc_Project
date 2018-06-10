@@ -30,15 +30,31 @@ Towards the end of the project we decided to implement a python module to do tes
     \end{itemize}
     are measured.
 \section{Different noises analysis}
-	Following the candidate distribution showed in Fig. \ref{Tab:candidate2} we also utilised a noise function that operates on the non-correlated part for Alice and Bob.
-	The main feature that this noise offers is 
+	Following the idea of candidate distribution showed in Fig. \ref{Tab:candidate2} we utilised a noise function that operates on the non-correlated part for Alice and Bob.
+	 
 	\begin{figure}
 		\begin{subfigure}{0.5\textwidth}
-			\input{images/tabCandidate1}
+			\input{images/noise1}
+			\subcaption{lalalalal}
 		\end{subfigure}
 		\begin{subfigure}{0.5\textwidth}
-			\input{images/tabCandidate2}
+			\input{images/noise2}
+			\subcaption{lalalalal}
 		\end{subfigure}
+		\caption{Diferent noises}
+		\label{Fig:noises}
 	\end{figure}
 \section{The problem with the reduced intrinsic information}
+    During the implementation of the module we were confronted with some issues on the measure of the reduced intrinsic information.
+    Recalling Eq. \ref{eq:reducedintrinfo}, we first generate a channel $XYZ \rightarrow U$ to get the conditional probability $P_{U|XYZ}$. 
+%    In some cases, also a channel $X\rightarrow U$, or $XY \rightarrow U$ can be used.
+    The intrinsic information is minimized then over all possible channels $ZU \rightarrow \bar{ZU}$.\\
+    Ideally, we want to show how the reduced intrinsic information goes to $0$, so that the secret key rate also sinks to $0$. 
+    Thus, $\Ent{U}$ is a lower bound on the value of the reduced intrinsic information.
+    Since $U$ is generated through an arbitrary channel, however, it will not have $\Ent{U} = 0$.
+    In order to sink this lower bound, $U$ should be deduced from a \emph{deterministic} channel.
+    This puts some sort of conditioning on the choice of $U$.\\
+    
+    Observing this, we questioned the usefulness of the reduced intrinsic information as a measure to demonstrate the existence of bound information, contrary to what proposed in \cite{RW03}. 
+    
     
