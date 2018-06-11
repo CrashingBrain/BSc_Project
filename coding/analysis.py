@@ -22,7 +22,7 @@ def allTests(P, inIter=10, outIter=10):
     intrInf = inf.MCupperBoundIntrinInf(P, inIter)
     results.append(intrInf)
     # print('#Done intrInf')
-    redIntrInf = inf.MCupperBoundRedIntrinInf(P, inIter, outIter)
+    redIntrInf = inf.MCupperBoundRedIntrinInf_(P, inIter, outIter)
     results.append(redIntrInf)
     # print('#Done redIntrInf')
     # redIntrInf = 0.0
@@ -56,7 +56,8 @@ def allInfoTests(P, inIter=10, outIter=10):
     intrInf = inf.MCupperBoundIntrinInf(P, inIter)
     results.append(intrInf)
     # print('#Done intrInf')
-    redIntrInf = inf.MCupperBoundRedIntrinInf_(P, inIter, outIter)
+    # redIntrInf = inf.MCupperBoundRedIntrinInf_(P, inIter, outIter)
+    redIntrInf = inf.MCupperBoundRedIntrinInfXDD(P, 2, 4)
     results.append(redIntrInf)
 
     return results
@@ -96,7 +97,7 @@ def testInfoAlongPath(P1,P2,iter=100):
     for alpha in np.linspace(0,1,num=iter):
         newP = pr.mixBhvs(P1, P2, alpha=alpha)
 
-        results = tuple(allInfoTests(newP, 2, 2))
+        results = tuple(allInfoTests(newP, 10, 10))
         results = (alpha,)+results
         outStr = str()
         outStr += str('%.3f\t\t%.4f\t\t%.4f\t\t%.4f' % results)
