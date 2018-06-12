@@ -46,7 +46,7 @@ def FourPDstrb3():
     return P
 
 def FourPDistribN(n=4):
-    h = n//2
+    h = (n+1)//2
     P = np.zeros((n,n,h,h))
     for x in range(0,h):
         for y in range(0,h):
