@@ -5,7 +5,7 @@ import analysis as alys
 
 # compute `iter` steps towards the uniform distribution
 # test for different range until endDim
-iter = 10
+iter = 25
 endDim = 10
 
 for dim in range(4,endDim):
