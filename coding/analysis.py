@@ -104,3 +104,25 @@ def testInfoAlongPath(P1,P2,iter=100):
         print(outStr)
     print('#-----')
     pass
+
+def PtestInfoAlongPath(P1,P2,iter=100):
+    """
+        Parallel-safe implementation of testInfoAlongPath
+        return string of results instead of print.
+    """
+
+    outStr = str()
+    outStr += str('#Testing for %d iters\n' % iter)
+    outStr += str('#alpha\t\tI(X,Y)\t\tintrInf\t\tredIntr\n')
+    # print(outStr)
+    for alpha in np.linspace(0,1,num=iter):
+        newP = pr.mixBhvs(P1, P2, alpha=alpha)
+
+        results = tuple(allInfoTests(newP, 10, 10))
+        results = (alpha,)+results
+        outStr += "\n"
+        outStr += str('%.3f\t\t%.4f\t\t%.4f\t\t%.4f' % results)
+        # print(outStr)
+    # print('#-----')
+    outStr += '#-----'
+    return outStr
