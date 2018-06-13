@@ -2,11 +2,12 @@
 % contains also abstract explanation on theoretic secure key distribution
 
 %\lipsum[3]
-%The problem of secure and private communication between parties is as old as it can be complicated. 
-%\\
 
-There are nonetheless distributions of probabilities that can hold a value of privacy and can therefore used in cryptographic systems. These joint probabilities have the properties
-\\
+To solve the task for Alice and Bob to establish a secure, private channel is the goal of key exchange.
+For two parties to communicate confidentially, it is first needed to share some secret key between them, so that each party can encrypt and decrypt the communication.
+If two parties could not establish a secure initial key exchange, they cannot communicate securely without the risk of an eavesdropper Eve listening to them.
+The ultimate goal of Alice and Bob is to achieve a level of privacy, such that no other Eve could have information about the communication.\\
+The tools or \emph{resources} to obtain such secret key can have many shapes and forms in modern telecommunication, often relying on computer science.\\
 
 It has been noticed that these concepts of privacy also appear in nature and the strongest analogy comes from quantum mechanics.\footnotemark 
 From this theory arises the famous \emph{quantum entanglement} that appears to be the equivalent of privacy in many ways.
@@ -20,7 +21,7 @@ This can be seen as Alice and Bob holding a secret that Eve can not get to know.
 	 		quantum entanglement & secret classical correlations \\ 
 	 		quantum communication & secret classical communication \\ 
 	 		classical communication & public classical communication \\ 
-	 		entanglement distillation & classical key agreement (CKA) \\ %TODO doubt here
+	 		entanglement distillation & classical key agreement (CKA) \\ 
 	 		local actions & local actions \\ 
 	 		bound entanglement & bound information ? \\
 	 	\end{tabular} 
@@ -33,20 +34,15 @@ This can be seen as Alice and Bob holding a secret that Eve can not get to know.
 From table \ref{Tab:analogy} we see that some of the resources and operations of QM have a one-to-one analog in classical information theory. 
 Such a close relation suggests that the two theories can be viewed together and to use one to better understand the other. 
 It is important however to point out that quantum entanglement and its effects \emph{are not} a quantum manifestation of classical effects and one theory does not explain the other. \\
-For example there is no known instance --- and it is believed to not exist -- of a classical correspondence to super-dense coding (a quantum effect). Other entities like a classical correspondence to bound entanglement, \emph{bound information}, are not excluded a priori and remain yet to be observed or disproved.
+For example there is no known instance --- and it is believed to not exist -- of a classical correspondence to super-dense coding (a quantum effect). Other entities like a classical correspondence to bound entanglement, \emph{bound information}, are not excluded a priori and remain yet to be observed or disproved.\\
 
-\paragraph*{Common Secret}
-Intuitively a common secret is a piece of information (i.e. \textit{bits} of information) known to trusted parties --- for example Alice and Bob --- and to none else. 
-In an environment where we allow the presence of an eavesdropper Eve, reaching such state is not always trivial. \\
-There exist methods and protocols to generate such secrets, even from nothing, although they differ at different levels of secrecy. A notable one is the famous Diffie-Hellman method to generate a common cryptographic key \cite{DH76} .
-%Add line about Shannon maybe?
-
-A more formal and precise definition --- one that we may also use in calculations -- of a common secret is given later in section \ref{commonsecret}.
-\\
+An open question has remained over the years asking whether bound information should exists in the classical regime.
+Should this resource exists, it would be --- by definition --- unusable to generate any key from it.
+While at first this might looks worthless, it will however set interesting bounds on information theoretical key exchange.\\
 
 \paragraph*{The Question}
 \begin{itemize}
-		\item Is there a tripartite probability $P_{ABE}$, that has some \textbf{cost} associated to it to create it, but has $0$ possible key bits distillable from it? 
+		\item[] Is there a tripartite probability $P_{ABE}$, that has some \textbf{cost} associated to it to create it, but has $0$ possible key bits extractable from it? 
 \end{itemize}
 
 
