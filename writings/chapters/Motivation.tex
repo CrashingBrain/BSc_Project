@@ -3,11 +3,11 @@
 
 %\lipsum[3]
 
-To solve the task for Alice and Bob to establish a secure, private channel is the goal of key exchange.
+The goal of key exchange is to allow Alice and Bob to establish a secure, private channel for communication.
 For two parties to communicate confidentially, it is first needed to share some secret key between them, so that each party can encrypt and decrypt the communication.
 If two parties could not establish a secure initial key exchange, they cannot communicate securely without the risk of an eavesdropper Eve listening to them.
-The ultimate goal of Alice and Bob is to achieve a level of privacy, such that no other Eve could have information about the communication.\\
-The tools or \emph{resources} to obtain such secret key can have many shapes and forms in modern telecommunication, often relying on computer science.\\
+The ultimate goal of Alice and Bob is to achieve a level of privacy, such that no other Eve could have information about the communication, even partially.\\
+The tools or \emph{resources} to obtain such initial common secret can have many shapes and forms in modern telecommunication, often relying on computer science.\\
 
 It has been noticed that these concepts of privacy also appear in nature and the strongest analogy comes from quantum mechanics.\footnotemark 
 From this theory arises the famous \emph{quantum entanglement} that appears to be the equivalent of privacy in many ways.
@@ -38,11 +38,12 @@ For example there is no known instance --- and it is believed to not exist -- of
 
 An open question has remained over the years asking whether bound information should exists in the classical regime.
 Should this resource exists, it would be --- by definition --- unusable to generate any key from it.
-While at first this might looks worthless, it will however set interesting bounds on information theoretical key exchange.\\
+While at first this might looks worthless, 
+following the intuition from bound entanglement might lead to interesting bounds on information theoretical key exchange.\\
 
 \paragraph*{The Question}
 \begin{itemize}
-		\item[] Is there a tripartite probability $P_{ABE}$, that has some \textbf{cost} associated to it to create it, but has $0$ possible key bits extractable from it? 
+		\item[] Is there a tripartite probability $P_{ABE}$, corresponding to Alice and Bob wanting to establish a key unknown to Eve, that has some \emph{cost} associated to it to create it, but has $0$ possible key bits extractable from it? 
 \end{itemize}
 
 
