@@ -6,9 +6,9 @@ Towards the end of the project we decided to implement a python module to do tes
     	\keyrate{X}{Y}{Z} \leq \redintrinfo{X}{Y}{Z} \leq \intrinfo{X}{Y}{Z} \leq I_{form} (X;Y|Z)
     \end{equation}
     including also the information of formation.\\
-    As mentioned before, it is not well defined how to get direct values for the secret key rate and information of formation --- the fundamental quantities for key agreement --- since they are defined asymptotically over a \textit{possible} protocol. 
-    For their bounds --- i.e. the central parts of the inequality --- we can obtain direct numerical values. \\
-    The aim of this part of the project is then to take a candidate as given in Fig. \ref{Tab:candidate2} and map the values of the reduced and normal intrinsic information for various variation of said probability distribution.\\
+    As mentioned before, it is not well defined how to get direct values for the secret key rate and information of formation --- the fundamental quantities for key agreement --- from the distribution, since they are defined asymptotically over a \textit{possible} protocol. 
+    For their bounds (i.e. the central parts of the inequality) we can obtain direct numerical values from the probability distribution alone. \\
+    The aim of this part of the project is then to take a candidate as given in Fig. \ref{Tab:candidate2} and map the values of the reduced and normal intrinsic information for various variation of the probability distribution.\\
     
     A good result we hope to obtain is a probability distribution for which the reduced measure tend to $0$, while the intrinsic information remains larger than $0$, maintaining a level of correlation between of Alice and Bob. 
     Due to the strictness of the bounds, this will constrain the value for the secret key rate down to (possibly) $0$, while keeping a non-zero key cost ($I_{\text{form}}$).
@@ -18,8 +18,8 @@ Towards the end of the project we decided to implement a python module to do tes
     Following criteria for separability of quantum states, a quantum mechanics module was also implemented to translate and later tests the distributions from the quantum to classical regime.\\
     The intrinsic information (and the reduced counterpart) is defined as an \emph{infimum} over the set of tripartite probability distributions. 
     To find a correct value it would require to solve an optimization problem. 
-    The definition given in section \ref{intrininfo} however does not allow us to formulate the problem as convex, or, at least, not a trivial one.
-    We decided then to adopt a Monte-Carlo method estimate them.\\
+    The definition given in section \ref{intrininfo} however does not allow us to formulate the problem as convex, or, at least, not a trivial one, since the mutual information is only convex for a fixed term.
+    We decided then to adopt a Monte-Carlo method to estimate them.\\
      
     For each step --- i.e. for each variation --- of the candidate base probability, the values of 
     \begin{itemize}
@@ -30,30 +30,45 @@ Towards the end of the project we decided to implement a python module to do tes
     \end{itemize}
     are measured.
 \section{Different noises analysis}
-	Following the idea of candidate distribution showed in Fig. \ref{Tab:candidate2} we utilised a noise function that operates on the non-correlated part for Alice and Bob.
+
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=0.5]{images/analysis-path}
+		\caption{From the set $S$ of tripartite distributions we create a "path"
+towards distributions with zero key cost (cyan), going through the ones without extractable key (magenta). The distributions that holds bound information reside in the cyan$\setminus$magenta part.}
+		\label{Fig:analysis-path}
+	\end{figure}
+	The variations of the distribution mentioned above are linear steps toward a noise distribution we define.
+	The first and obvious noise function we tested is the uniform distribution, which acts on all values of $P_{XYZ}$.
+	Following the idea of the candidate distribution showed in Fig. \ref{Tab:candidate2} we  also utilised a noise function that operates on the non-correlated part for Alice and Bob.\\
+	
+	This method of simulating noise added to a known distribution takes also inspiration from the quantum world. 
+	A method to look for bound entangled states applies a noise channel to a known entangled state and then the new state is tested on different separability criteria.
+	
 	 
 	\begin{figure}
 		\begin{subfigure}{0.5\textwidth}
 			\input{images/noise1}
-			\subcaption{lalalalal}
+			\subcaption{Noise1}
 		\end{subfigure}
 		\begin{subfigure}{0.5\textwidth}
 			\input{images/noise2}
-			\subcaption{lalalalal}
+			\subcaption{Noise2}
 		\end{subfigure}
-		\caption{Diferent noises}
+		\caption{Diferent noises disturbs different parts of the correlation between $X$ and $Y$}
 		\label{Fig:noises}
 	\end{figure}
+	
 \section{The problem with the reduced intrinsic information}
     During the implementation of the module we were confronted with some issues on the measure of the reduced intrinsic information.
-    Recalling Eq. \ref{eq:reducedintrinfo}, we first generate a channel $XYZ \rightarrow U$ to get the conditional probability $P_{U|XYZ}$. 
+    Recalling Eq. \ref{eq:reducedintrinfo}, we first generate random channels $XYZ \rightarrow U$ to get the conditional probability $P_{U|XYZ}$. 
 %    In some cases, also a channel $X\rightarrow U$, or $XY \rightarrow U$ can be used.
-    The intrinsic information is minimized then over all possible channels $ZU \rightarrow \bar{ZU}$.\\
+    Then the intrinsic information is minimized over all possible channels $ZU \rightarrow \bar{ZU}$.\\
     Ideally, we want to show how the reduced intrinsic information goes to $0$, so that the secret key rate also sinks to $0$. 
-    Thus, $\Ent{U}$ is a lower bound on the value of the reduced intrinsic information.
-    Since $U$ is generated through an arbitrary channel, however, it will not have $\Ent{U} = 0$.
-    In order to sink this lower bound, $U$ should be deduced from a \emph{deterministic} channel.
-    This puts some sort of conditioning on the choice of $U$.\\
+    Thus, $\Ent (U)$ is a lower bound on the value of the reduced intrinsic information.
+    Since $U$ is generated through an arbitrary channel, however, it will not have $\Ent (U) = 0$.
+    In order to sink this lower bound, $U$ should be deduced from a \emph{deterministic} channel instead.\\
+    This puts some sort of conditioning on the choice of $U$ in the calculations of the reduced intrinsic information.\\
     
     Observing this, we questioned the usefulness of the reduced intrinsic information as a measure to demonstrate the existence of bound information, contrary to what proposed in \cite{RW03}. 
     

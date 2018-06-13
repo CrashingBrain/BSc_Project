@@ -29,8 +29,11 @@
 \draw[->] (0,0) -- (11,0);
 
 %draw vertical lines
-\foreach \x in {0,2,4,7,9}
+\foreach \x in {0,2,9}
    \draw (\x cm,3pt) -- (\x cm,-3pt);
+   
+\node (foo) at (4cm,0) {\scalebox{0.9}{]}};
+\node (bar) at (7cm,0) {\scalebox{0.9}{[}};
 
 %labels
 \node [position label] (Start) at (0,0) {$0$};
