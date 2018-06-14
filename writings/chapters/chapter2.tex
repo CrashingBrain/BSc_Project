@@ -60,15 +60,15 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 		\item Both parties exchange \emph{publicly} their result. Each party now know both the result of the other and their own.
 		\item Each party applies their secret to the received $R$. The outputs are equal for Alice and Bob so they can use this result as a common secret to create a key.
 	\end{enumerate}	 
+	
 	The parts exchanged over the public channel --- the ones that Eve knows --- are only the mutually agreed base and the two partial mixtures. 
 	It can be proven that those two elements alone give no information about the complete final shared secret and that it is virtually impossible to obtain the correct final product with only those two.\\  
 	
-	The security in this method relies mainly in step 3. 
-	Here an action as $ R_A = g^{s_A} \bmod p $ is performed, where $g$ and $p$ are the public common basis agreed beforehand. 
-	To get back to $s_A$  one will need to find the prime factors of $R_A$, which is a known hard problem. 
-	It is not impossible however. 
-	The difficulty of breaking this step is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
 	\subsection{The BB84 protocol}
+	Protocols for the exchange of keys over a quantum channel have been invented.
+	These protocols work on the underlying physics of quantum mechanics.
+	Alice and Bob need then to have access to a quantum channel to exchange quantum states
+	\footnote{A quantum channel is anything that can carry quantum states between two points. For example an optical fiber that carries photons.}.\\
 	Here follows the BB84 protocol as described in \cite{NC10} :
 		\begin{enumerate}
 			\item Alice chooses $(4+\delta )n$ data bits.
@@ -81,7 +81,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 			\item Alice and Bob announce \emph{publicly} and compare the values of the $n$ check bits. If more than an acceptable number disagree, they abort the protocol.
 			\item Alice and Bob perform information reconciliation and privacy amplification on the remaining $n$ bits to obtain $m$ shared key bits.
 		\end{enumerate}
-		
+
 	\subsection{The One-time Pad}
 		%this is not really a method to share a common secret, since you have 
 		% to already start with a secret.. <- point that out!
@@ -93,7 +93,37 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
     The majority of cryptographic systems used are built on computational complexity security. 
     The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.\\
     
+    This is the case for example for the Diffie-Hellman method. 
+	The security in this method relies mainly on step 3.    
+    Here an action as $ R_A = g^{s_A} \bmod p $ is performed, where $g$ and $p$ are the public common basis agreed beforehand. 
+	To get back to $s_A$  one will need to find the prime factors of $R_A$, which is a known hard problem. 
+	It is not impossible however. 
+	The difficulty of breaking this step is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
+	The access to the correlation between Alice and Bob is then shielded against Eve only by the assumption that she does not have enough computational power to break it.\\
+	
+	The BB84 works differently. 
+	It takes advantage of the monogamy of entanglement. 
+	If Eve was able to wire-tap the quantum channel, she would disrupt the correlation between Alice and Bob.
+	Despite this protocol seems impossible to break, ...
+	
+    
 \section{The equivalent of CKA in QM}
+	What we were trying to do was to factor out Eve from Alice and Bob's point of view.
+	The goal of classical key agreement (CKA) is also to create a private correlation between Alice and Bob, from one that also includes Eve.\\
+	We already stated that entangled states can provide this level of privacy.
+	However pure entangled states are very fragile and do not occur in nature.
+	The more general quantum state is a mixed state.
+	A mixed state is a composition of pure states with their probability.
+	\begin{equation}
+		\rho = \sum_i p_i \ketbra{\psi_i}{\psi_i} ,\quad \ket{\psi_i}: \text{ state with probability } p_i
+	\end{equation}
+	Assume that Alice and Bob start with a state $\rho$ which is also mixed with a part owned by Eve. 
+	Is there a way to factor her out the state?
+	Quantum distillation is a process that allows that. 
+%	Through a series of local operations and classic (public) communication, Alice and Bob can indeed reach a new state $\rho_{AB}$ that has the state $\rho_E$ of Eve factored out.
+	Maximally entangled states held between Alice and Bob after a distillation protocol are --- by the monogamy of entanglement --- not entangled with the environment. 
+	In other words, the state Alice and Bob have is product with the environment.\\
+	The joint probability distribution $P_{ABE}$ falls similarly into a product $P_{AB}\cdot P_E$ after a CKA protocol.\\
     
     \begin{figure}[h]
     	\centering
@@ -101,3 +131,13 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
     	\caption{Entanglement distillation and CKA utilise a resource (mixed state or probability distribution) to produce a distillate that factors out Eve.}
     	\label{Fig:intuition}
     \end{figure}
+    
+    To measure entanglement one might consider the least number of maximally entangled bipartite quantum states required to prepare a density matrix $\rho$ by local operations and classical communication. 
+    Similarly one might measure entanglement by the maximal number of singlets that can be obtained form $\rho$ by local operations and classical communication. 
+    These measures are not the same. 
+    The first is called \emph{entanglement cost} or entanglement of formation; the second describes the distilled state. 
+    The classical counterpart would be the \emph{information of formation} and the \emph{secret-key rate}.\\
+    Figure \ref{Fig:intuition} illustrates the analogy between the resource, distillate and cost.
+    This is part of the intuition that leads to bound information.
+    
+    
