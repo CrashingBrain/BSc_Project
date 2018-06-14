@@ -1,5 +1,15 @@
 \section{What is a shared key?}
-    	\subsection{Common Secret} \label{commonsecret}%here?
+	The first step towards understanding \emph{bound information} is looking at the end product of a key exchange. 
+	The secret key is what we want to obtain from a protocol, so we must understand what we are after.
+	What is then a shared key? 
+	How do we define a common secret shared between Alice and Bob than can be used formally later on? \\
+%    	\subsection{Common Secret} \label{commonsecret}
+    	
+Intuitively a common secret is a piece of information (i.e. \textit{bits} of information) known to trusted parties --- for example Alice and Bob --- and to none else. 
+In an environment where we allow the presence of an eavesdropper Eve, reaching such state is not always trivial. \\
+There exist methods and protocols to generate such secrets, even from nothing, although they differ at different levels of secrecy. A notable one is the famous Diffie-Hellman method to generate a common cryptographic key \cite{DH76} .\\
+Here we provide a mathematical definition of a common secret that makes use of concepts that will be explained later in chapter \ref{ch:four}.\\
+    	
 	Let $X,Y,Z,S$ be random variables on the same range $\mathcal{X}$. Let $X$ be owned by Alice, $Y$ by Bob and $Z$ by Eve. Then
   \begin{equation} \label{eq:common}
 	  P[X=Y=S] > 1 - \epsilon \tag{common}
@@ -8,7 +18,7 @@
 	  \I(X;Z) = 0 \: \wedge \: \I(Y;Z) = 0 \tag{secret}
   \end{equation}
 for all $\epsilon > 0 $. \\
-The first part defines the \textit{common} property: $X$ and $Y$ must be asymptotically the same. 
+The first part defines the \textit{common} property: $X$ and $Y$ corresponding to Alice and Bob must be asymptotically the same. 
 The second part states that the amount of information Eve can gather about $X$ and $Y$, through it's realization of $Z$, is $0$.
 \section{The analogy with entanglement}
 	The most fascinating feature that arises from quantum mechanics is quantum entanglement. As Einstein, Podolsky and Rosen pointed out almost a century ago \cite{einstein1935}, 
@@ -26,33 +36,51 @@ The second part states that the amount of information Eve can gather about $X$ a
 This two aspects of quantum entanglement --- correlation and monogamy --- give a valid framework for the establishment of a private channel between parties.
 	
 	\footnotetext{A quantum state in quantum mechanics describes a single and isolated quantum system. This can be for example an electron or a photon. For our purposes, a quantum state is always abstracted as a \emph{qubit} or multiple qubits, as described in appendix \ref{App:appendixB}}
-   	 \begin{figure}[h]
-			\centering
-			\input{images/entanglement-origin}
-			\caption{origin of entanglement via linearity}
-		\end{figure}
+%   	 \begin{figure}[h]
+%			\centering
+%			\input{images/entanglement-origin}
+%			\caption{origin of entanglement via linearity}
+%		\end{figure}
 		
 \section{Examples of key exchange}
-	The majority of cryptographic systems used are built on computational complexity security. The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.
+	Exchanging keys for encryption was once done \textit{physically}, requiring the parties to meet and assure that no eavesdropper was present.
+	Modern cryptographic systems make use of protocols over telecommunication channels. 
+	In both cases the result at the end is that the trusted parties leave (or terminate the protocol) with a bit of information that they know it will be known only to them.\\
+	Here we present examples for both classical and quantum mechanical channels and compare them.
 		\subsection{The Diffie-Hellman key exchange}
-		% Explain only ho w the protocol works, what is based on, what are its bounds, how it can be attacked (ideally).
+		% Explain only how the protocol works, what is based on, what are its bounds, how it can be attacked (ideally).
 		% Don't dive into Maurer violations, that will be covered in chapter [3] (XX)
 	
-		A famous and widely used protocol for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.
+		A famous and widely used method for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.
 	The whole process can be summarized in five basic steps:
 	\begin{enumerate}
 		\item Alice and Bob \emph{publicly} communicate and agree on two numbers, that will serve as basis for the computations.
 		\item Each party generates \emph{locally} a personal and distinct secret ($s_A$ and $s_B$) without ever communicating it .
 		\item They mix their own secret with the common agreed basis, producing a result $R_A$ and $R_B$. The mathematical properties of this operation make it so it is computational infeasible to go back and retrieve the secrets $s$ from $R$.
-		\item Both parties exchange \emph{publicly} their result, so that they now posses the inseparable secret-base mixture of the other party.
-		\item Each party applies again their secret but to the received mixture this time. The outputs are equal for Alice and Bob so they can use this result as a common secret to create a key.
+		\item Both parties exchange \emph{publicly} their result. Each party now know both the result of the other and their own.
+		\item Each party applies their secret to the received $R$. The outputs are equal for Alice and Bob so they can use this result as a common secret to create a key.
 	\end{enumerate}	 
 	The parts exchanged over the public channel --- the ones that Eve knows --- are only the mutually agreed base and the two partial mixtures. 
 	It can be proven that those two elements alone give no information about the complete final shared secret and that it is virtually impossible to obtain the correct final product with only those two.\\  
 	
-	The security in this method relies mainly in step 3. Here an action as $ R_A = g^{s_A} \bmod p $ is performed, where $g$ and $p$ are the public common basis agreed beforehand. 
-	To get back to $s_A$  one will need to find the prime factors of $R_A$, which is a known hard problem. It is not impossible however. The difficulty of breaking this step is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
+	The security in this method relies mainly in step 3. 
+	Here an action as $ R_A = g^{s_A} \bmod p $ is performed, where $g$ and $p$ are the public common basis agreed beforehand. 
+	To get back to $s_A$  one will need to find the prime factors of $R_A$, which is a known hard problem. 
+	It is not impossible however. 
+	The difficulty of breaking this step is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
 	\subsection{The BB84 protocol}
+	Here follows the BB84 protocol as described in \cite{NC10} :
+		\begin{enumerate}
+			\item Alice chooses $(4+\delta )n$ data bits.
+			\item Alice chooses a random $(4+\delta )n$-bit string $b$. She encodes each data bit as $\{\ket{0},\ket{1}\}$ if the corresponding bit of $b$ is $0$ or with the diagonal basis if $b$ is $1$.
+			\item Alice sends the resulting state to Bob.
+			\item Bob receives the $(4+\delta )n$, announces \emph{publicly} this fact, and measures each qubit in the $X$ or $Z$ basis at random.
+			\item Alice announces \emph{publicly} $b$.
+			\item Alice and Bob discard any bits where Bob measured a different basis than Alice prepared. With high probability, there are at least $2n$ bits left (if not, abort the protocol and restart). They keep $2n$ bits.
+			\item Alice selects a subset of $n$ bits that will to serve as a check on Eve's interference, and tells Bob which basis she selected.
+			\item Alice and Bob announce \emph{publicly} and compare the values of the $n$ check bits. If more than an acceptable number disagree, they abort the protocol.
+			\item Alice and Bob perform information reconciliation and privacy amplification on the remaining $n$ bits to obtain $m$ shared key bits.
+		\end{enumerate}
 		
 	\subsection{The One-time Pad}
 		%this is not really a method to share a common secret, since you have 
@@ -61,6 +89,15 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 		% example of utilization of the key after generation
 		% info theoretical key exchanged with OTP over already existing channel
 \section{A comparison between securities}
-    %[7]
+    A point can be made comparing these different way of establishing privacy.
+    The majority of cryptographic systems used are built on computational complexity security. 
+    The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.\\
+    
 \section{The equivalent of CKA in QM}
-    %[1]
+    
+    \begin{figure}[h]
+    	\centering
+    	\input{images/intuition_poster}
+    	\caption{Entanglement distillation and CKA utilise a resource (mixed state or probability distribution) to produce a distillate that factors out Eve.}
+    	\label{Fig:intuition}
+    \end{figure}
