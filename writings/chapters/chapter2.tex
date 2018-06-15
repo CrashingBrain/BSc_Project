@@ -51,7 +51,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 		% Explain only how the protocol works, what is based on, what are its bounds, how it can be attacked (ideally).
 		% Don't dive into Maurer violations, that will be covered in chapter [3] (XX)
 	
-		A famous and widely used method for the exchange of cryptographic keys is the Diffie-Hellman key-exchange method.
+		A famous and widely used method for the exchange of cryptographic keys is the Diffie-Hellman (DH) key-exchange method.
 	The whole process can be summarized in five basic steps:
 	\begin{enumerate}
 		\item Alice and Bob \emph{publicly} communicate and agree on two numbers, that will serve as basis for the computations.
@@ -88,30 +88,51 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 		
 		% example of utilization of the key after generation
 		% info theoretical key exchanged with OTP over already existing channel
+		The one-time pad is not a key exchange method, but a technique to encrypt a message once the key is obtained.
+		Here is presented as an example of utilisation of a key exchanged with some other secure algorithm. 
+		The message obtained from the OTP is as secure as the method that produced the key.
+		This means that if the key is provided to be information theoretical secure, then Eve is \emph{completely factored out} from the information contained in the message.\\
+		Figure \ref{Fig:OTP} illustrates an example over a 5-bits string.
 		
 		\begin{figure}[h!]
 			\centering
 			\input{images/Otp}
-			\caption{Placeholder}
+			\caption{The Vernam cipher, called also One-time pad. In order to get true security the key should change each time for each message.}
 			\label{Fig:OTP}
 		\end{figure}
 \section{A comparison between securities}
     A point can be made comparing these different way of establishing privacy.
     The majority of cryptographic systems used are built on computational complexity security. 
-    The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.\\
-    
-    This is the case for example for the Diffie-Hellman method. 
-	The security in this method relies mainly on step 3.    
-    Here an action as $ R_A = g^{s_A} \bmod p $ is performed, where $g$ and $p$ are the public common basis agreed beforehand. 
-	To get back to $s_A$  one will need to find the prime factors of $R_A$, which is a known hard problem. 
-	It is not impossible however. 
-	The difficulty of breaking this step is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
-	The access to the correlation between Alice and Bob is then shielded against Eve only by the assumption that she does not have enough computational power to break it.\\
-	
-	The BB84 works differently. 
-	It takes advantage of the monogamy of entanglement. 
-	If Eve was able to wire-tap the quantum channel, she would disrupt the correlation between Alice and Bob.
-	Despite this protocol seems impossible to break, ...
+	When C. Shannon laid out the basis of information theory in \cite{Shannon49} in 1949, he affirmed that the highest level of security (information theoretical security) can only be achieved by sharing a secret key from the beginning.
+	 U. Maurer later expanded this concept saying that it is not possible to obtain an information theoretical secure key from just a protocol through local operations and public communications\cite{Maur93}. A starting initial correlation must be provided.\\
+	 
+	 Even though the Diffie-Hellman method does start from nothing, it does not violates Maurer's statement.
+	 The key produced by DH is not information theoretical secure. 
+	 Step $3$ enumerated above relies on computational complexity.
+	 The difficulty of breaking this step --- thus accessing the correlation between Alice and Bob --- is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
+	 This means, for example, that one cannot use a key obtained through Diffie-Hellman (DH) to generate an information theoretical secure key: 
+	 as DH starts from nothing, a protocol $R$ constructed to start as DH and producing information theoretical secure key with LOPC will violate the statement that no key can be crated by LOPC alone.\\
+	 The BB84 protocol works differently, but also does not violate Maurer.
+	 Albeit Alice and Bob share, at the end of the protocol, a key starting from nothing, and the secret is in thoery information theoretical secure --- it can be arbitrarily close ---, it does not so with public (classical) communication.
+	 Alice utilizes a quantum channel that is not a public channel because of the monogamy of entanglement.
+	 The communication part in BB84 serves only to check for the presence of an enemy Eve, not to modify the secret --- which is already transferred at this point.  
+	 Thus the key is created only through a quantum channel, which is not covered by Maurer claim.\\
+
+%    The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.\\
+%    This is the case for example for the Diffie-Hellman method. 
+%	The security in this method relies mainly on step 3 (listed above).    
+%    Here an action as $ R_A = g^{s_A} \bmod p $ is performed, where $g$ and $p$ are the public common basis agreed beforehand. 
+%	To get back to $s_A$  one will need to find the prime factors of $R_A$, which is a known hard problem. 
+%	It is not impossible nevertheless. 
+%	The difficulty of breaking this step --- thus accessing the correlation between Alice and Bob --- is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.\\
+%	
+%	The BB84 protocol works differently. 
+%	It takes advantage of the monogamy of entanglement. 
+%	If Eve was able to wire-tap the quantum channel, she would disrupt the correlation between Alice and Bob.
+%	In this sense the correlation between Alice and Bob is much more protected, since the eavesdropper Eve is factored out from the entangled state $\rho = \rho_{AB}\otimes\rho_E$.
+%	However, the entanglement in the protocol is only used to spot the presence of Eve over a large number of repetitions of the experiment.
+%	While the amount of information that Eve gets can be bounded by some $\epsilon$, she is not yet \emph{completely} factored out.\\
+	 
 	
     
 \section{The equivalent of CKA in QM}

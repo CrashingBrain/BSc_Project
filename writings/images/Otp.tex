@@ -1,7 +1,66 @@
 % OTP 
+
+
+\usetikzlibrary{calc}
 \begin{tikzpicture}
-\draw[thick,dashed,rounded corners=.7cm] (-2.5,-3.) rectangle (2.5, 3);
-\node[colorbox=white] (plc) at (0,0) {Placeholder};
+	
+	\coordinate (vspace) at (0,0.6);	
+	
+	\node[colorbox=white] (A1) at (	-0.5,2.4) {$0$};
+	\node[colorbox=white, right=of A1.west] (A2) {$1$};
+	\node[colorbox=white, right=of A2.west] (A3) {$1$};
+	\node[colorbox=white, right=of A3.west] (A4) {$0$};
+	\node[colorbox=white, right=of A4.west] (A5) {$1$};
+
+	\foreach \x in {1,2,3,4,5}
+		\node (Ap\x) at ($(A\x) - (vspace)$) {$\oplus$};
+	
+	\node[colorbox=white] (Ak1) at ($(Ap1) - (vspace)$) {$1$};
+	\node[colorbox=white, right=of Ak1.west] (Ak2) {$1$};
+	\node[colorbox=white, right=of Ak2.west] (Ak3) {$0$};
+	\node[colorbox=white, right=of Ak3.west] (Ak4) {$0$};
+	\node[colorbox=white, right=of Ak4.west] (Ak5) {$1$};
+	
+	\draw[dashed] (-2.5,0.6) -- (5.5,0.6);	
+	
+	\node[colorbox=white] (e1) at (-0.5, 0.) {$1$};
+	\node[colorbox=white, right=of e1.west] (e2) {$0$};
+	\node[colorbox=white, right=of e2.west] (e3) {$1$};
+	\node[colorbox=white, right=of e3.west] (e4) {$0$};
+	\node[colorbox=white, right=of e4.west] (e5) {$0$};
+	
+	\draw[dashed] (-2.5,-0.6) -- (5.5,-0.6);
+	
+	\foreach \x in {1,2,3,4,5}
+		\node (Bp\x) at ($(e\x) - 1.5*(vspace)$) {$\oplus$};
+	
+	\node[colorbox=white] (Bk1) at ($(Bp1) - (vspace)$) {$1$};
+	\node[colorbox=white, right=of Bk1.west] (Bk2) {$1$};
+	\node[colorbox=white, right=of Bk2.west] (Bk3) {$0$};
+	\node[colorbox=white, right=of Bk3.west] (Bk4) {$0$};
+	\node[colorbox=white, right=of Bk4.west] (Bk5) {$1$};
+		
+	\node[colorbox=white] (B1) at ($(Bk1) - 1.5*(vspace)$) {$0$};
+	\node[colorbox=white, right=of B1.west] (B2) {$1$};
+	\node[colorbox=white, right=of B2.west] (B3) {$1$};
+	\node[colorbox=white, right=of B3.west] (B4) {$0$};
+	\node[colorbox=white, right=of B4.west] (B5) {$1$};
+	
+	\draw[->] (4.0,0.9) -- node[right] {public channel} (4.0,-0.9);%
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\node (message) at (-2.5,2.4) {\strut message};
+	\node (key) at ($(-2.5,2.4)-2*(vspace)$) {\strut key};
+	\node (encrypted) at (-2.5, 0.) {\strut encrypted};
+	\node (keyB) at (-2.5,-1.5) {\strut key};
+	\node (messageB) at (-2.5,-2.4) {\strut message};
+	
+	
+	\node[anchor=west] (Alice) at (4.5, 1.8) {\strut Alice};
+%	\node[anchor=west] (Eve) at (4.5, 0.) {\strut Eve (public)};
+	\node[anchor=west] (Bob) at (4.5, -1.8) {\strut Bob};
+	
 \end{tikzpicture}
 
 
