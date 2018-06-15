@@ -1,6 +1,24 @@
 \section{The abstraction through random variables}
-    %[4]
+    We have used many times the idea of \textit{factoring out} the enemy in the previous chapter, but we never actually expressed what we meant with that.
+    In order to make reasoning like this it is needed to model the concepts of \textit{message} and \textit{information first} in a computationable way.\\
+    In classical information theory a message is defined as a repetition of an experiment on radon variables with a (joint) probability distribution $P_{X_1X_2\ldots X_n}$.
+    The range of the random variable $X$ is the size of the alphabet with which we are communicating.
+    For example if the message is written in English the alphabet is composed of $26$ letters, or $62$ if we include numbers and upper and lower case letters.
+    The probability of a word in a message can be given, for example, by the frequency of that word in the English language.
+    Moreover, the probability of a word (or letter) to follow another can be dependent on the previous realizations of $P$.\\
+    Probability theory provides rules and operations to manipulate and observe these probability distributions.
+    The most important for us are the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables or the marginal $P_X$ of joint probabilities $P_{XY}$.
+    
+    Now the idea of "factoring out Eve" takes the meaning of obtaining 
+    $$P_{XYZ} = P_{XY}\cdot P_Z$$
+    so that the marginal of $P_{XYZ}$ over $Z$ --- i.e. the part of the distribution owned by Eve --- is now \emph{independent} from variables $X$ and $Y$.
+    
 \section{Local operations and public communication}
-    %[3]
+    By local operations and public communication we mean operations carried out on $P_{XYZ}$ representing our variables.
+    We can mix different distributions together or trace out the marginal.
+    Communicating over a channel is, in nature, noisy. 
+    That noise is also a form of operations on the probability distribution.
+    
 \section{Secret key rate} \label{seckeyrate}
     %[1]
+    The secret key rate $\keyrate{X}{Y}{Z}$ is roughly the maximal amount of correlated bits between Alice and Bob extractable from an arbitrarily large number of realisations of a distribution $P_{XYZ}$.
