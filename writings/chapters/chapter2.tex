@@ -89,7 +89,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 		% example of utilization of the key after generation
 		% info theoretical key exchanged with OTP over already existing channel
 		The one-time pad is not a key exchange method, but a technique to encrypt a message once the key is obtained.
-		Here is presented as an example of utilisation of a key exchanged with some other secure algorithm. 
+		Here is presented as an example of utilization of a key exchanged with some other secure algorithm. 
 		The message obtained from the OTP is as secure as the method that produced the key.
 		This means that if the key is provided to be information theoretical secure, then Eve is \emph{completely factored out} from the information contained in the message.\\
 		Figure \ref{Fig:OTP} illustrates an example over a 5-bits string.
@@ -113,7 +113,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 	 This means, for example, that one cannot use a key obtained through Diffie-Hellman (DH) to generate an information theoretical secure key: 
 	 as DH starts from nothing, a protocol $R$ constructed to start as DH and producing information theoretical secure key with LOPC will violate the statement that no key can be crated by LOPC alone.\\
 	 The BB84 protocol works differently, but also does not violate Maurer.
-	 Albeit Alice and Bob share, at the end of the protocol, a key starting from nothing, and the secret is in thoery information theoretical secure --- it can be arbitrarily close ---, it does not so with public (classical) communication.
+	 Albeit Alice and Bob share, at the end of the protocol, a key starting from nothing, and the secret is in theory information theoretical secure --- it can be arbitrarily close ---, it does not so with public (classical) communication.
 	 Alice utilizes a quantum channel that is not a public channel because of the monogamy of entanglement.
 	 The communication part in BB84 serves only to check for the presence of an enemy Eve, not to modify the secret --- which is already transferred at this point.  
 	 Thus the key is created only through a quantum channel, which is not covered by Maurer claim.\\
@@ -156,7 +156,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
     \begin{figure}[h]
     	\centering
     	\input{images/intuition_poster}
-    	\caption{Entanglement distillation and CKA utilise a resource (mixed state or probability distribution) to produce a distillate that factors out Eve.}
+    	\caption{Entanglement distillation and CKA utilize a resource (mixed state or probability distribution) to produce a distillate that factors out Eve.}
     	\label{Fig:intuition}
     \end{figure}
     
