@@ -44,7 +44,7 @@ if False:
             print(PC[:, coefftpl[0], coefftpl[1]])
 
 # Check the reduced intrinsic information upper bound
-if True:
+if False:
     P = bv.FourPDstrb()
     P = pr.marginal(P,(3))
     PC_UXYZ = inf.randChannelMP( (np.prod(P.shape),), P.shape)
@@ -131,7 +131,7 @@ if False:
         print( dimBZU, inf.MCupperBoundIntrinInfMP( P, dimBZU, 2000))
  
 # IntrInfDet ThreePDstrb from FourPDstrb
-if True:
+if False:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundIntrinInfMPDet with Marginal over U of FourPDstrb()")
@@ -139,7 +139,7 @@ if True:
         print( dimBZU, inf.MCupperBoundIntrinInfMPDet( P, dimBZU))
  
 # IntrInfDet FourPDstrb
-if True:
+if False:
     P = bv.FourPDstrb()
     print( "Test MCupperBoundIntrinInfMPDet with FourPDstrb()")
     for dimBZU in range(2,5):
@@ -168,7 +168,7 @@ if False:
             print( inf.MCupperBoundRedIntrinInfXDet ( P, dimU, dimBZU, 200))
         
 # RedIntrInfDD
-if False:
+if True:
     P = bv.FourPDstrb()
     P = pr.marginal(P, 3)
     print( "Test MCupperBoundRedIntrinInfX(Y)DD with FourPDstrb()")
@@ -179,10 +179,10 @@ if False:
             print( inf.MCupperBoundRedIntrinInfXDD ( P, dimU, dimBZU))
         
 # Loop over different random channels
-if True:
+if False:
     P = bv.FourPDstrb()
     print("*** BEGIN LOOPS ***")
-    for k in range(0, 2):
+    for k in range(0, 10):
         PC = inf.randChannel(2,2)
         print(PC)
         # Print P_Z after channel.
@@ -194,7 +194,7 @@ if True:
         # Test the new RedIntrinInfo function
         print( inf.MCupperBoundRedIntrinInf_( pr.marginal( P, 3), 10, 10))
         # New deterministic function
-        print( inf.MCupperBoundRedIntrinInfDet_(pr.marginal( P, 3), 2, 4, 300, 100, True))
+        print( inf.MCupperBoundRedIntrinInfDet_(pr.marginal( P, 3), 2, 4, 1000, 1000, True))
         pass
     print("*** END LOOPS ***")
 
