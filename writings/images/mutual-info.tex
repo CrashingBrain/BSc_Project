@@ -2,16 +2,19 @@
 \tikzset{colorcircle/.style={circle, thick, minimum size=4cm, text height=1.7ex,text depth=.25ex, text width=3cm, draw=#1!70!black, fill=#1!30, fill opacity=0.33, text opacity=1.0}}
 
 \begin{tikzpicture}[scale=0.6]
-  \node[colorcircle=magenta] (Hx) at (-2,0)  {$ \Ent(X\mid Y) $ \hfill};
-  \node[colorcircle=blue] (Hy) at (2,0)  {\hfill $ \Ent(Y\mid X) $};
+  \node[colorcircle=magenta] (Hx) at (-2,0)  {$ \Ent(X|Y) $ \hfill};
+  \node[colorcircle=blue] (Hy) at (2,0)  {\hfill $ \Ent(Y|X) $};
   \node (mI) at (0,0) {$ \mathbf{\I(X;Y)} $};
   \node [left =of Hx.north] (HxL) {$ \Ent(X) $};
   \node [right =of Hy.north] (HyL) {$ \Ent(Y) $};
   \node (Hxy) at (0,-5.5) {$ \Ent(X,Y) $};
   \draw[->] (Hxy.north) -- ( Hx.south);
   \draw[->] (Hxy.north) -- (Hy.south);
-  \begin{scope}[shift={(8,2)}]
-    \draw[thick, draw=black, fill=white] (60:.75cm) arc (60:300:.75cm) (300:.75cm) arc (240:480:.75cm);
-    \node (Hxy) at (3,0) {$ \Ent(X,Y) $};
-  \end{scope}
+  
+  
+%  \begin{scope}[shift={(8,2)}]
+%    \draw[thick, draw=black, fill=white] (60:.75cm) arc (60:300:.75cm) (300:.75cm) arc (240:480:.75cm);
+%    \node (Hxy) at (3,0) {$ \Ent(X,Y) $};
+%  \end{scope}
+  
 \end{tikzpicture}
