@@ -48,6 +48,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 	In both cases the result at the end is that the trusted parties leave (or terminate the protocol) with a bit of information that they know it will be known only to them.\\
 	Here we present examples for both classical and quantum mechanical channels and compare them.
 		\subsection{The Diffie-Hellman key exchange}
+		\label{Diffie}
 		% Explain only how the protocol works, what is based on, what are its bounds, how it can be attacked (ideally).
 		% Don't dive into Maurer violations, that will be covered in chapter [3] (XX)
 	
@@ -89,9 +90,10 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 		% example of utilization of the key after generation
 		% info theoretical key exchanged with OTP over already existing channel
 		The one-time pad is not a key exchange method, but a technique to encrypt a message once the key is obtained.
-		Here is presented as an example of utilization of a key exchanged with some other secure algorithm. 
+		Here is presented as an example of utilization of a key previously exchanged with some other secure algorithm. 
 		The message obtained from the OTP is as secure as the method that produced the key.
-		This means that if the key is provided to be information theoretical secure, then Eve is \emph{completely factored out} from the information contained in the message.\\
+		This means that if the key is provided to be information theoretical secure, then Eve is \emph{completely factored out} from the information contained in the message.
+		Shannon proved in \cite{Shannon49} the perfect security of OTP.
 		Figure \ref{Fig:OTP} illustrates an example over a 5-bits string.
 		
 		\begin{figure}[h!]
@@ -116,7 +118,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 	 Albeit Alice and Bob share, at the end of the protocol, a key starting from nothing, and the secret is in theory information theoretical secure --- it can be arbitrarily close ---, it does not so with public (classical) communication.
 	 Alice utilizes a quantum channel that is not a public channel because of the monogamy of entanglement.
 	 The communication part in BB84 serves only to check for the presence of an enemy Eve, not to modify the secret --- which is already transferred at this point.  
-	 Thus the key is created only through a quantum channel, which is not covered by Maurer claim.\\
+	 Thus the key is created only through a quantum channel, which is not covered by Maurer's claim.\\
 
 %    The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.\\
 %    This is the case for example for the Diffie-Hellman method. 
@@ -147,7 +149,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 	\end{equation}
 	Assume that Alice and Bob start with a state $\rho$ which is also mixed with a part owned by Eve. 
 	Is there a way to factor her out the state?
-	Quantum distillation is a process that allows that. 
+	Quantum distillation is a process that allows that. \label{distillation}
 %	Through a series of local operations and classic (public) communication, Alice and Bob can indeed reach a new state $\rho_{AB}$ that has the state $\rho_E$ of Eve factored out.
 	Maximally entangled states held between Alice and Bob after a distillation protocol are --- by the monogamy of entanglement --- not entangled with the environment. 
 	In other words, the state Alice and Bob have is product with the environment.\\
