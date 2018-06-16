@@ -5,9 +5,9 @@ Towards the end of the project we decided to implement a python module to do tes
     \begin{equation}
     	\keyrate{X}{Y}{Z} \leq \redintrinfo{X}{Y}{Z} \leq \intrinfo{X}{Y}{Z} \leq I_{form} (X;Y|Z)
     \end{equation}
-    including also the information of formation.\\
+    including also the information of formation.
     As mentioned before, it is not well defined how to get direct values for the secret key rate and information of formation --- the fundamental quantities for key agreement --- from the distribution, since they are defined asymptotically over a \textit{possible} protocol. 
-    For their bounds (i.e. the central parts of the inequality) we can obtain direct numerical values from the probability distribution alone. \\
+    For their bounds (i.e. the central parts of the inequality) we can obtain direct numerical values from the probability distribution alone. 
     The aim of this part of the project is then to take a candidate as given in Fig. \ref{Tab:candidate2} and map the values of the reduced and normal intrinsic information for various variation of the probability distribution.\\
     
     A good result we hope to obtain is a probability distribution for which the reduced measure tend to $0$, while the intrinsic information remains larger than $0$, maintaining a level of correlation between of Alice and Bob. 
@@ -15,11 +15,11 @@ Towards the end of the project we decided to implement a python module to do tes
     This will lead to a new candidate for bound information.\\
     
     In order to perform analysis on those measures we firstly had to implement a library of modules that dealt with the probability and information theory aspects.
-    Following criteria for separability of quantum states, a quantum mechanics module was also implemented to translate and later tests the distributions from the quantum to classical regime.\\
+    Following criteria for separability of quantum states, a quantum mechanics module was also implemented to translate and later tests the distributions from the quantum to classical regime.
     The intrinsic information (and the reduced counterpart) is defined as an \emph{infimum} over the set of tripartite probability distributions. 
     To find a correct value it would require to solve an optimization problem. 
     The definition given in section \ref{intrininfo} however does not allow us to formulate the problem as convex, or, at least, not a trivial one, since the mutual information is only convex for a fixed term.
-    We decided then to adopt a Monte-Carlo method to estimate them.\\
+    We decided then to adopt a Monte-Carlo method to estimate them.
      
     For each step --- i.e. for each variation --- of the candidate base probability, the values of 
     \begin{itemize}
@@ -40,7 +40,7 @@ towards distributions with zero key cost (cyan), going through the ones without 
 	\end{figure}
 	The variations of the distribution mentioned above are linear steps toward a noise distribution we define.
 	The first and obvious noise function we tested is the uniform distribution, which acts on all values of $P_{XYZ}$.
-	Following the idea of the candidate distribution showed in Fig. \ref{Tab:candidate2} we  also utilized a noise function that operates on the non-correlated part for Alice and Bob.\\
+	Following the idea of the candidate distribution showed in Fig. \ref{Tab:candidate2} we  also utilized a noise function that operates on the non-correlated part for Alice and Bob.
 	
 	This method of simulating noise added to a known distribution takes also inspiration from the quantum world. 
 	A method to look for bound entangled states applies a noise channel to a known entangled state and then the new state is tested on different separability criteria.
@@ -63,12 +63,12 @@ towards distributions with zero key cost (cyan), going through the ones without 
     During the implementation of the module we were confronted with some issues on the measure of the reduced intrinsic information.
     Recalling Eq. \ref{eq:reducedintrinfo}, we first generate random channels $XYZ \rightarrow U$ to get the conditional probability $P_{U|XYZ}$. 
 %    In some cases, also a channel $X\rightarrow U$, or $XY \rightarrow U$ can be used.
-    Then the intrinsic information is minimized over all possible channels $ZU \rightarrow \bar{ZU}$.\\
+    Then the intrinsic information is minimized over all possible channels $ZU \rightarrow \bar{ZU}$.
     Ideally, we want to show how the reduced intrinsic information goes to $0$, so that the secret key rate also sinks to $0$. 
     Thus, $\Ent (U)$ is a lower bound on the value of the reduced intrinsic information.
     Since $U$ is generated through an arbitrary channel, however, it will not have $\Ent (U) = 0$.
-    In order to sink this lower bound, $U$ should be deduced from a \emph{deterministic} channel instead.\\
-    This puts some sort of conditioning on the choice of $U$ in the calculations of the reduced intrinsic information.\\
+    In order to sink this lower bound, $U$ should be deduced from a \emph{deterministic} channel instead.
+    This puts some sort of conditioning on the choice of $U$ in the calculations of the reduced intrinsic information.
     
     Observing this, we questioned the usefulness of the reduced intrinsic information as a measure to demonstrate the existence of bound information, contrary to what proposed in \cite{RW03}. 
     

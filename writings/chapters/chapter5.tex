@@ -1,18 +1,18 @@
 The question of the existence of an analog to bound entanglement was firstly posed in \cite{GisWolf00} by Gisin and Wolf, where they analyzed the comparisons and correspondences between quantum and classical protocols for key agreement. 
 The rise of bound information was a consequence of these correspondences.
-Since then the topic was picked up by the scientific community of quantum cryptography and a couple more observation were made.\\
+Since then the topic was picked up by the scientific community of quantum cryptography and a couple more observation were made.
 A probability distribution that presents bound information has not been found yet.
 % Nevertheless 	a case for asymptotic bound information was proposed again by Wolf together with Renner \cite{RW03}.
 
 \section{Tripartite bound information}
     A later work by Ac\'in et al. proposed the existence of bound information in a tripartite case \cite{ACM04}. 
     They analyzed the probability distribution resulting from measurement of a known bound entangled state. 
-    Furthermore they also show that this distribution can be \textit{activated} the same way as in quantum entanglement.\\
+    Furthermore they also show that this distribution can be \textit{activated} the same way as in quantum entanglement.
     This result is different from what we want to achieve because the probability distribution is divided among parties Alice, Bob and Claire, with Eve being a fourth party in the distribution. 
     In fact, their result of bound information is valid only when considering \emph{pairs} of honest parties from the original distribution.
 \section{The gap between the bounds can be arbitrarily large}
     To distinguish and analyze the case of bound information some information theoretical measures are needed. 
-    We already saw the secret key rate (section \ref{seckeyrate}) and the intrinsic information (section \ref{intrininfo}) and we already presented the question of bound information in terms of such measures. \\
+    We already saw the secret key rate (section \ref{seckeyrate}) and the intrinsic information (section \ref{intrininfo}) and we already presented the question of bound information in terms of such measures. 
     In \cite{RW03} a new measure of \emph{reduced intrinsic information} $\redintrinfo{X}{Y}{Z}$ is introduced as an upper bound on secret key rate, lower than just the normal intrinsic information.
     \begin{equation} \label{eq:reducedintrinfo}
     	\redintrinfo{X}{Y}{Z} := \inf_{P_{U|XYZ}} (\intrinfo{X}{Y}{ZU} + \Ent (U))
@@ -37,11 +37,12 @@ A probability distribution that presents bound information has not been found ye
     \begin{equation}
     	\keyrate{X}{Y}{Z} \neq \intrinfo{X}{Y}{Z}
     \end{equation}  
-     and they emphasize that this is the first time that equality does not hold. This fact disproved the conjecture posed in \cite{MW99}, that the two measured were actually the same.\\
+     and they emphasize that this is the first time that equality does not hold. This fact disproved the conjecture posed in \cite{MW99}, that the two measured were actually the same.
+     
      For this probability distribution we have
 	$$ \intrinfo{X}{Y}{Z} = 3/2 ,\; \keyrate{X}{Y}{Z} = 1 , \; \redintrinfo{X}{Y}{Z} = 1 $$
 	With the the fact that $\redintrinfo{X}{Y}{Z} = \keyrate{X}{Y}{Z}$ does indeed happen, and with the statements above, we can think of a model to later search for bound information in chapter \ref{ch:six}. 
-	If the reduced intrinsic information is a useful measure, we can minimize it to find probability distributions that have no possible key extractable from it.\\
+	If the reduced intrinsic information is a useful measure, we can minimize it to find probability distributions that have no possible key extractable from it.
      
 	\begin{figure}
 		\input{images/tabCandidate1}

@@ -2,13 +2,13 @@
 	The first step towards understanding \emph{bound information} is looking at the end product of a key exchange. 
 	The secret key is what we want to obtain from a protocol, so we must understand what we are after.
 	What is then a shared key? 
-	How do we define a common secret shared between Alice and Bob than can be used formally later on? \\
+	How do we define a common secret shared between Alice and Bob than can be used formally later on? 
 %    	\subsection{Common Secret} \label{commonsecret}
     	
 Intuitively a common secret is a piece of information (i.e. \textit{bits} of information) known to trusted parties --- for example Alice and Bob --- and to none else. 
-In an environment where we allow the presence of an eavesdropper Eve, reaching such state is not always trivial. \\
-There exist methods and protocols to generate such secrets, even from nothing, although they differ at different levels of secrecy. A notable one is the famous Diffie-Hellman method to generate a common cryptographic key \cite{DH76} .\\
-Here we provide a mathematical definition of a common secret that makes use of concepts that will be explained later in chapter \ref{ch:four}.\\
+In an environment where we allow the presence of an eavesdropper Eve, reaching such state is not always trivial. 
+There exist methods and protocols to generate such secrets, even from nothing, although they differ at different levels of secrecy. A notable one is the famous Diffie-Hellman method to generate a common cryptographic key \cite{DH76} .
+Here we provide a mathematical definition of a common secret that makes use of concepts that will be explained later in chapter \ref{ch:four}.
     	
 	Let $X,Y,Z,S$ be random variables on the same range $\mathcal{X}$. Let $X$ be owned by Alice, $Y$ by Bob and $Z$ by Eve. Then
   \begin{equation} \label{eq:common}
@@ -22,17 +22,17 @@ The first part defines the \textit{common} property: $X$ and $Y$ corresponding t
 The second part states that the amount of information Eve can gather about $X$ and $Y$, through it's realization of $Z$, is $0$.
 \section{The analogy with entanglement}
 	The most fascinating feature that arises from quantum mechanics is quantum entanglement. As Einstein, Podolsky and Rosen pointed out almost a century ago \cite{einstein1935}, 
-	the measurement of entangled states defies the classical understanding of the outcome. \\
+	the measurement of entangled states defies the classical understanding of the outcome. 
 	Given only one of two entangled quantum states \footnotemark ,  no information can be extracted from it. 
 	To educe the information that lies in it, one has to have access to the whole system --- i.e. both the states. 
 	This makes the two states \emph{inseparable}. 
-	A complete (anti-)correlation exists then between maximally entangled states.\\
+	A complete (anti-)correlation exists then between maximally entangled states.
 	 This is sufficient for the quantum state to be used as a variable between Alice and Bob to share a secret. 
 	 One party can encode the message into quantum entangled states and later they will be able to read the same message.
-	If Alice measures (ref. \ref{measurements}) $0$ on her part of the system, the part of the system owned by Bob will immediately become $1$.\\
+	If Alice measures (ref. \ref{measurements}) $0$ on her part of the system, the part of the system owned by Bob will immediately become $1$.
 	Quantum entanglement posses one more feature that classical correlation does not have: the monogamy of entanglement \cite{KW04}. 
 	As Koashi and Winter state in their paper a fundamental difference is that classical correlation can be shared, while quantum entanglement can not. 
-	This translates to the case where an eavesdropper Eve listens to the message exchange between Alice and Bob: in the classical communication there is no direct way for Alice nor Bob to know that Eve is listening (i.e. \textit{shares the correlation}), while in the second case Eve breaks the existing correlation between Alice and Bob.\\
+	This translates to the case where an eavesdropper Eve listens to the message exchange between Alice and Bob: in the classical communication there is no direct way for Alice nor Bob to know that Eve is listening (i.e. \textit{shares the correlation}), while in the second case Eve breaks the existing correlation between Alice and Bob.
 This two aspects of quantum entanglement --- correlation and monogamy --- give a valid framework for the establishment of a private channel between parties.
 	
 	\footnotetext{A quantum state in quantum mechanics describes a single and isolated quantum system. This can be for example an electron or a photon. For our purposes, a quantum state is always abstracted as a \emph{qubit} or multiple qubits, as described in appendix \ref{App:appendixB}}
@@ -45,7 +45,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 \section{Examples of key exchange}
 	Exchanging keys for encryption was once done \textit{physically}, requiring the parties to meet and assure that no eavesdropper was present.
 	Modern cryptographic systems make use of protocols over telecommunication channels. 
-	In both cases the result at the end is that the trusted parties leave (or terminate the protocol) with a bit of information that they know it will be known only to them.\\
+	In both cases the result at the end is that the trusted parties leave (or terminate the protocol) with a bit of information that they know it will be known only to them.
 	Here we present examples for both classical and quantum mechanical channels and compare them.
 		\subsection{The Diffie-Hellman key exchange}
 		\label{Diffie}
@@ -69,7 +69,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 	Protocols for the exchange of keys over a quantum channel have been invented.
 	These protocols work on the underlying physics of quantum mechanics.
 	Alice and Bob need then to have access to a quantum channel to exchange quantum states
-	\footnote{A quantum channel is anything that can carry quantum states between two points. For example an optical fiber that carries photons.}.\\
+	\footnote{A quantum channel is anything that can carry quantum states between two points. For example an optical fiber that carries photons.}.
 	Here follows the BB84 protocol as described in \cite{NC10} :
 		\begin{enumerate}
 			\item Alice chooses $(4+\delta )n$ data bits.
@@ -113,12 +113,12 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 	 Step $3$ enumerated above relies on computational complexity.
 	 The difficulty of breaking this step --- thus accessing the correlation between Alice and Bob --- is bounded only by the length of the number chosen one one side and the computational power available to the adversary on the other.
 	 This means, for example, that one cannot use a key obtained through Diffie-Hellman (DH) to generate an information theoretical secure key: 
-	 as DH starts from nothing, a protocol $R$ constructed to start as DH and producing information theoretical secure key with LOPC will violate the statement that no key can be crated by LOPC alone.\\
+	 as DH starts from nothing, a protocol $R$ constructed to start as DH and producing information theoretical secure key with LOPC will violate the statement that no key can be crated by LOPC alone.
 	 The BB84 protocol works differently, but also does not violate Maurer.
 	 Albeit Alice and Bob share, at the end of the protocol, a key starting from nothing, and the secret is in theory information theoretical secure --- it can be arbitrarily close ---, it does not so with public (classical) communication.
 	 Alice utilizes a quantum channel that is not a public channel because of the monogamy of entanglement.
 	 The communication part in BB84 serves only to check for the presence of an enemy Eve, not to modify the secret --- which is already transferred at this point.  
-	 Thus the key is created only through a quantum channel, which is not covered by Maurer's claim.\\
+	 Thus the key is created only through a quantum channel, which is not covered by Maurer's claim.
 
 %    The so-called cryptographic functions are functions that are easy to compute in one way, but have a much higher complexity the other way round.\\
 %    This is the case for example for the Diffie-Hellman method. 
@@ -139,7 +139,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
     
 \section{The equivalent of CKA in QM}
 	What we were trying to do was to factor out Eve from Alice and Bob's point of view.
-	The goal of classical key agreement (CKA) is also to create a private correlation between Alice and Bob, from one that also includes Eve.\\
+	The goal of classical key agreement (CKA) is also to create a private correlation between Alice and Bob, from one that also includes Eve.
 	We already stated that entangled states can provide this level of privacy.
 	However pure entangled states are very fragile and do not occur in nature.
 	The more general quantum state is a mixed state.
@@ -152,8 +152,8 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
 	Quantum distillation is a process that allows that. \label{distillation}
 %	Through a series of local operations and classic (public) communication, Alice and Bob can indeed reach a new state $\rho_{AB}$ that has the state $\rho_E$ of Eve factored out.
 	Maximally entangled states held between Alice and Bob after a distillation protocol are --- by the monogamy of entanglement --- not entangled with the environment. 
-	In other words, the state Alice and Bob have is product with the environment.\\
-	The joint probability distribution $P_{ABE}$ falls similarly into a product $P_{AB}\cdot P_E$ after a CKA protocol.\\
+	In other words, the state Alice and Bob have is product with the environment.
+	The joint probability distribution $P_{ABE}$ falls similarly into a product $P_{AB}\cdot P_E$ after a CKA protocol.
     
     \begin{figure}[h]
     	\centering
@@ -166,7 +166,7 @@ This two aspects of quantum entanglement --- correlation and monogamy --- give a
     Similarly one might measure entanglement by the maximal number of singlets that can be obtained form $\rho$ by local operations and classical communication. 
     These measures are not the same. 
     The first is called \emph{entanglement cost} or entanglement of formation; the second describes the distilled state. 
-    The classical counterpart would be the \emph{information of formation} and the \emph{secret-key rate}.\\
+    The classical counterpart would be the \emph{information of formation} and the \emph{secret-key rate}.
     Figure \ref{Fig:intuition} illustrates the analogy between the resource, distillate and cost.
     This is part of the intuition that leads to bound information.
     
