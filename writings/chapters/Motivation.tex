@@ -5,7 +5,7 @@
 
 The goal of key exchange is to allow Alice and Bob to establish a secure, private channel for communication.
 For two parties to communicate confidentially, it is first needed to share some secret key between them, so that each party can encrypt and decrypt the communication.
-If two parties could not establish a secure initial key exchange, they cannot communicate securely without the risk of an eavesdropper Eve listening to them.
+If two parties could not establish a secure --- as in information theoretic secure --- initial key exchange, they cannot communicate with absolute security without the risk of an eavesdropper Eve listening to them.
 The ultimate goal of Alice and Bob is to achieve a level of privacy, such that no eavesdropper could have information about the communication, even partially.\\
 %The tools or \emph{resources} to obtain such initial common secret can have many shapes and forms in modern telecommunication, often relying on computer science.\\
 
@@ -33,7 +33,8 @@ This can be seen as Alice and Bob holding a secret that Eve cannot get to know.
 
 From table \ref{Tab:analogy} we see that some of the resources and operations of QM have a bijective analog in classical information theory. 
 Such a (close) relation suggests that the two theories can be viewed together and to use one to better understand the other. 
-It is important however to point out that quantum entanglement and its effects \emph{are not} a quantum manifestation of classical effects and one theory does not explain the other. \\
+It is important however to point out that quantum entanglement and its effects \emph{are not} a quantum manifestation of classical effects and one theory does not prove the other.
+There are limitations to the correspondences. \\
 For example there is no known instance --- and it is believed to not exist -- of a classical correspondence to super-dense coding (a quantum effect). Other entities like a classical correspondence to bound entanglement, \emph{bound information}, are not excluded a priori and remain yet to be observed or disproved.\\
 
 	\begin{figure}[h!]
@@ -44,8 +45,7 @@ For example there is no known instance --- and it is believed to not exist -- of
 	\end{figure}
 An open question has remained over the years asking whether bound information exists in the classical regime.
 Should this resource exists, it would be --- by definition --- unusable to generate any key from it.
-While at first this insight might looks worthless, 
-following the intuition from bound entanglement might lead to interesting bounds on information theoretical key exchange.\\
+Nevertheless the existence of a resource with bound information might lead to interesting bounds on information theoretical key exchange.
 To summarize, we are interested in the following question:
 
 \paragraph*{The Question}

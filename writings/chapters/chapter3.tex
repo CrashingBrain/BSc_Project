@@ -1,17 +1,32 @@
 \section{The abstraction through random variables}
     We have used many times the idea of \textit{factoring out} the enemy in the previous chapter, but we never actually expressed what we meant with that.
-    In order to make reasoning like this it is needed to model the concepts of \textit{message} and \textit{information first} in a computation-able way.\\
-    In classical information theory a message is defined as a repetition of an experiment on radon variables with a (joint) probability distribution $P_{X_1X_2\ldots X_n}$.
-    The range of the random variable $X$ is the size of the alphabet with which we are communicating.
-    For example if the message is written in English the alphabet is composed of $26$ letters, or $62$ if we include numbers and upper and lower case letters.
-    The probability of a word in a message can be given, for example, by the frequency of that word in the English language.
-    Moreover, the probability of a word (or letter) to follow another can be dependent on the previous realizations of $P$.\\
-    Probability theory provides rules and operations to manipulate and observe these probability distributions.
-    The most important for us are the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables or the marginal $P_X$ of joint probabilities $P_{XY}$.
+    In order to make reasoning like this it is needed to model the concepts of \textit{message} and \textit{information} in a computation-able way.
+    C. Shannon studied this problem and published his results in \cite{Shannon49} which is now the foundation of modern information theory and cryptography.
     
-    Now the idea of "factoring out Eve" takes the meaning of obtaining 
+    Let us suppose that over a certain alphabet exist messages $M_1,M_2,\ldots M_n$ and each message has a probability $P(M_i)$ to be chosen (i.e. transmitted).
+    Each message $M_i$ is encrypted into its counterpart $E_i$.
+    An enemy intercepts $E_i$ and can therefore calculate the probability of message $M_i$ corresponding to the received encrypted version; namely the conditional probability $P(M_i|E_i)$.
+    Shannon states that to obtain perfect secrecy of the message $P_E(M)$ must equal $P(M)$ for all $E$ and all $M$.
+    This translates into the case that intercepting the encrypted message gives the enemy no information.
+    
+    Now imagine the message is transmitted by a satellite to Alice and Bob.
+    Eve is also listening.
+    We end up with three versions of the message\footnotemark : Alice's version $X$, Bob's $Y$ and Eve's version $Z$.
+    To express the whole space of combinations of possible messages, we need the joint probability $P_{XYZ}$.
+    Then the idea of "factoring out Eve" takes the meaning of obtaining 
     $$P_{XYZ} = P_{XY}\cdot P_Z$$
-    so that the marginal of $P_{XYZ}$ over $Z$ --- i.e. the part of the distribution owned by Eve --- is now \emph{independent} from variables $X$ and $Y$.
+    so that the marginal of $P_{XYZ}$ over $Z$ --- i.e. the part of the distribution owned by Eve --- is now product with variables $X$ and $Y$. $Z$ is independent from $X$ and $Y$.
+    
+    \footnotetext{Ideally the three messages are identical, but just consider that the message is sent through a noisy channel: each receiver will have slight variations of the message, hence the distinction.}
+    
+    
+%    In classical information theory a message is defined as a repetition of an experiment on random variables with a (joint) probability distribution $P_{X_1X_2\ldots X_n}$.
+%    The range of the random variable $X$ is the size of the alphabet with which we are communicating.
+%    For example if the message is written in English the alphabet is composed of $26$ letters, or $62$ if we include numbers and distinguish upper and lower case letters.
+%    The probability of a word in a message can be given, for example, by the frequency of that word in the English language.
+%    Moreover, the probability of a word (or letter) to follow another can be dependent on the previous realizations of $P$.
+%    Probability theory provides rules and operations to manipulate and observe these probability distributions.
+%    The most important for us are the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables and the marginal $P_X$ of joint probabilities $P_{XY}$.
     
 \section{Local operations and public communication}
     By local operations and public communication we mean operations carried out on $P_{XYZ}$ representing our variables.
