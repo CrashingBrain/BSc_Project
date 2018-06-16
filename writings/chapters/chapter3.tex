@@ -6,18 +6,30 @@
     Let us suppose that over a certain alphabet exist messages $M_1,M_2,\ldots M_n$ and each message has a probability $P(M_i)$ to be chosen (i.e. transmitted).
     Each message $M_i$ is encrypted into its counterpart $E_i$.
     An enemy intercepts $E_i$ and can therefore calculate the probability of message $M_i$ corresponding to the received encrypted version; namely the conditional probability $P(M_i|E_i)$.
-    Shannon states that to obtain perfect secrecy of the message $P_E(M)$ must equal $P(M)$ for all $E$ and all $M$.
-    This translates into the case that intercepting the encrypted message gives the enemy no information.
+    Shannon states that to obtain perfect secrecy of the message $P(M|E)$ must equal $P(M)$ for all $E$ and all $M$.
+    Using Bayes' theorem we can formulate
+    \begin{equation}
+    	P(M|E) = \frac{P(M)P(E|M)}{P(E)}
+    \end{equation}
+    which gives the sufficient and necessary condition that $P(E|M)=P(E)$ for perfect secrecy. 
+    The probability of obtaining $E$ a priori must be the same as receiving $E$ if message $M$ was encrypted.
+    This translates into the case where intercepting the encrypted message gives the enemy no information. 
     
     Now imagine the message is transmitted by a satellite to Alice and Bob.
-    Eve is also listening.
+    Eve is also listening. This is an example of a public channel.
     We end up with three versions of the message\footnotemark : Alice's version $X$, Bob's $Y$ and Eve's version $Z$.
     To express the whole space of combinations of possible messages, we need the joint probability $P_{XYZ}$.
     Then the idea of "factoring out Eve" takes the meaning of obtaining 
-    $$P_{XYZ} = P_{XY}\cdot P_Z$$
-    so that the marginal of $P_{XYZ}$ over $Z$ --- i.e. the part of the distribution owned by Eve --- is now product with variables $X$ and $Y$. $Z$ is independent from $X$ and $Y$.
+    \begin{equation}
+    	P_{XYZ} = P_{XY}\cdot P_Z
+    \end{equation}
+    so that the marginal of $P_{XYZ}$ over $Z$ --- i.e. the part of the distribution owned by Eve --- is now product with variables $X$ and $Y$. $Z$ must be independent from $X$ and $Y$.
     
     \footnotetext{Ideally the three messages are identical, but just consider that the message is sent through a noisy channel: each receiver will have slight variations of the message, hence the distinction.}
+    
+    From probability theory comes information theory, which provides us with useful measures and rules to operate on those probabilities.
+    The most important to us are the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables and the marginal $P_X$ of joint probabilities $P_{XY}$.
+    
     
     
 %    In classical information theory a message is defined as a repetition of an experiment on random variables with a (joint) probability distribution $P_{X_1X_2\ldots X_n}$.
@@ -28,12 +40,52 @@
 %    Probability theory provides rules and operations to manipulate and observe these probability distributions.
 %    The most important for us are the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables and the marginal $P_X$ of joint probabilities $P_{XY}$.
     
-\section{Local operations and public communication}
+\section{Local operations and public communication (LOPC)}
     By local operations and public communication we mean operations carried out on $P_{XYZ}$ representing our variables.
     We can mix different distributions together or trace out the marginal.
     Communicating over a channel is, in nature, noisy. 
     That noise is also a form of operations on the probability distribution.
+    Operations can also be carried out directly by the parties.
+    This is of more interest because we have control over those operations.
     
-\section{Secret key rate} \label{seckeyrate}
-    %[1]
-    The secret key rate $\keyrate{X}{Y}{Z}$ is roughly the maximal amount of correlated bits between Alice and Bob extractable from an arbitrarily large number of realizations of a distribution $P_{XYZ}$.
+    Take for example the Diffie-Hellman method illustrated in section \ref{Diffie}.
+    Steps $1$ and $4$ are \emph{public communication} and steps $2$,$3$ and $5$ are \emph{local operations}.
+    Local operations are conducted privately, meaning that everything that happens is only accessible to the party conducting the operation.
+    Other parties can not know what a local operation involved.
+    Public communication is everything that is communicated in clear by parties, or that an eavesdropper can intercept.
+    The totality of what an enemy knows from a protocol --- apart from the functioning of the protocol itself --- comes from public communication.
+    Through public communication Alice and Bob can also send instructions on what to do in their local operations, like in BB84.
+    
+    
+\section{Secret-key rate} \label{seckeyrate}
+    The secret-key rate $\keyrate{X}{Y}{Z}$ is roughly a quantification of the maximal amount of correlated bits between Alice and Bob extractable from an arbitrarily large number of independent realizations of a distribution $P_{XYZ}$.
+    It was introduced by Maurer in \cite{Maur93} to prove lower bounds on the achievable size of a key shared by Alice and Bob in secrecy.
+    It can be seen as the classical analog of the \textit{distillable entanglement} in \cite{BDS96}.
+    \begin{definition}\cite{Maur93, RW03}
+    Let $P_{XYZ}$ be a joint probability distribution. The secret-key rate $\keyrate{X}{Y}{Z}$ of $X$ and $Y$ with respect to $Z$ is the largest $R\in \mathbb{R}$ such that for all $\epsilon > 0$ there exists a protocol, that involves a sufficiently large number $N$ of realizations of $X^N$ of $X$ and $Y^N$ of $Y$, that satisfies:
+    Alice and Bob compute, at the end of the protocol, random variables $S_A$ and $S_B$, respectively, with range $\mathcal{S}$ such that there exists a random variable $S$ with the same range and
+    \begin{equation*}
+    	\Ent(S) = \log |S| \geq RN\; ,
+    \end{equation*}
+    \begin{equation*}
+    	P[S_A=S_B=S]>1-\epsilon\; ,
+    \end{equation*}
+    \begin{equation*}
+    	\I(S;CZ^N) < \epsilon
+    \end{equation*}
+	Here $C$ is the totality of the protocol public communication; $\I(S;CZ^N)$ is the mutual information between the secret key and what the eavesdropper Eve knows (ref. \ref{mutInfo}).
+    \end{definition}
+    
+    The secret-key rate is a useful measure of the amount of extractable secrecy --- hence, key bits --- from a protocol with LOPC.
+    It would be ideal to be able to express it as a function $\keyrate{X}{Y}{Z} = S(P_{XYZ})$.
+    Instead, it can be bounded by two functions\cite{Maur93}
+    \begin{equation}\label{eq:skrbound1}
+    	\keyrate{X}{Y}{Z} \leq \min[\I(X;Y),\, \I(X;Y|Z)]
+    \end{equation}
+    \begin{equation}\label{eq:skrbound2}
+    	\keyrate{X}{Y}{Z} \geq \max[\I(Y;X) - \I(Z;X),\, \I(X;Y) - \I(Z,Y)]
+    \end{equation}
+    Those are not strict bounds. In fact in Eq. \ref{eq:skrbound2} the secret-key rate can be positive even when the right-hand side is negative.
+    
+    
+    
