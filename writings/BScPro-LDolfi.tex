@@ -54,6 +54,7 @@
 \theoremstyle{remark}
 \newtheorem{remark}{Remark}
 \newtheorem{xmpl}{Example}
+\newtheorem{definition}{Definition}
 
 %quantum commands
 \renewcommand{\H}{\mathcal{H}}
@@ -70,8 +71,8 @@
 \DeclareMathOperator{\Ent}{H} % Entropy
 \DeclareMathOperator{\I}{I} % Mutual Information
 \newcommand{\keyrate}[3]{S(#1;#2||#3)} % secret key rate
-\newcommand{\intrinfo}[3]{\I(#1;#2\downarrow#3)} % intrinsic information
-\newcommand{\redintrinfo}[3]{\I(#1;#2\downdownarrows#3)} %reduced intrinsic information
+\newcommand{\intrinfo}[3]{\I(#1;#2\!\downarrow\!#3)} % intrinsic information
+\newcommand{\redintrinfo}[3]{\I(#1;#2\!\downdownarrows\!#3)} %reduced intrinsic information
 
 %------------------------------------%
 
