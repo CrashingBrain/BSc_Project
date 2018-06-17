@@ -1,39 +1,54 @@
-The question of the existence of an analog to bound entanglement was firstly posed in \cite{GisWolf00} by Gisin and Wolf, where they analyzed the comparisons and correspondences between quantum and classical protocols for key agreement. 
-The rise of bound information was a consequence of these correspondences.
-Since then the topic was picked up by the scientific community of quantum cryptography and a couple more observation were made.
+The question of the existence of an analog to bound entanglement was firstly posed in \cite{GisWolf00} by Gisin and Wolf, where they analyzed comparisons and correspondences between quantum and classical protocols for key agreement. 
+The question about bound information was a consequence of these correspondences.
+Since then the topic was picked up by the scientific community of quantum cryptography.
 A probability distribution that presents bound information has not been found yet.
 % Nevertheless 	a case for asymptotic bound information was proposed again by Wolf together with Renner \cite{RW03}.
 
 \section{Tripartite bound information}
     A later work by Ac\'in et al. proposed the existence of bound information in a tripartite case \cite{ACM04}. 
     They analyzed the probability distribution resulting from measurement of a known bound entangled state. 
-    Furthermore they also show that this distribution can be \textit{activated} the same way as in quantum entanglement.
+    Furthermore they also show that this distribution can be \textit{activated}\footnotemark the same way as in quantum entanglement.
     This result is different from what we want to achieve because the probability distribution is divided among parties Alice, Bob and Claire, with Eve being a fourth party in the distribution. 
     In fact, their result of bound information is valid only when considering \emph{pairs} of honest parties from the original distribution.
+    \footnotetext{The activation of entanglement can be roughly described as  the process through which entanglement can become a useful resource for nonclassical tasks. Horodecki \textit{et al.} demonstrated the activation of bound entanglement in \cite{3H99}}
 \section{The gap between the bounds can be arbitrarily large}
     To distinguish and analyze the case of bound information some information theoretical measures are needed. 
-    We already saw the secret key rate (section \ref{seckeyrate}) and the intrinsic information (section \ref{intrininfo}) and we already presented the question of bound information in terms of such measures. 
-    In \cite{RW03} a new measure of \emph{reduced intrinsic information} $\redintrinfo{X}{Y}{Z}$ is introduced as an upper bound on secret key rate, lower than just the normal intrinsic information.
-    \begin{equation} \label{eq:reducedintrinfo}
+    We saw the secret key rate (section \ref{seckeyrate}) and the intrinsic information (section \ref{intrininfo}) and we already presented the question of bound information in terms of such measures. 
+    In \cite{RW03} a new measure of \emph{reduced intrinsic information} $\redintrinfo{X}{Y}{Z}$ is introduced as an upper bound on secret key rate, lower than the intrinsic information. 
+    \begin{definition}\cite{RW03}
+    	Let $P_{XYZ}$ be a a discrete probability distribution. The reduced intrinsic information of $X$ and $Y$ given $Z$ is defined as
+    	\begin{equation} \label{eq:reducedintrinfo}
     	\redintrinfo{X}{Y}{Z} := \inf_{P_{U|XYZ}} (\intrinfo{X}{Y}{ZU} + \Ent (U))
     \end{equation}
-    For every $P_{XYZ}$ it holds
+    and for every $P_{XYZ}$ it holds
     \begin{equation} \label{eq:bounds}
     	\keyrate{X}{Y}{Z} \leq \redintrinfo{X}{Y}{Z} \leq \intrinfo{X}{Y}{Z}
     \end{equation}
-    	Reduced intrinsic information is a strictly stronger upper bound on secret key rate than intrinsic information.
-    	More importantly, Renner and Wolf proved that the gap between reduced and normal intrinsic information can be arbitrarily large. 
+    \end{definition}
+    	Reduced intrinsic information is a stronger upper bound on secret key rate than intrinsic information.
+    	More importantly, Renner and Wolf proved that the gap between reduced and normal intrinsic information (hence also between the secret-key rate and intrinsic information) can be arbitrarily large for distributions where the range of $X$, $Y$ and $Z$ can be arbitrarey large\cite{RW03}. 
     	Considering then that the former is an upper bound to secret key rate, and the latter is a lower bound to information of formation, this implies then the existence of asymptotic bound information.
-    	\begin{figure}[h!]
+    	\begin{definition}\cite{RW03}
+    		Let $P_{X_{(n)}Y_{(n)}Z_{(n)}}$ be a an arbitrary discrete $n$-ary probability distribution. Then the distribution is said to have \emph{asymptotic bound information} when
+    		\begin{equation}
+    			\intrinfo{X_{(n)}}{Y_{(n)}}{Z_{(n)}} \rightarrow c > 0
+    		\end{equation}
+    		and
+    		\begin{equation}
+    			\keyrate{X_{(n)}}{Y_{(n)}}{Z_{(n)}} \rightarrow 0
+    		\end{equation}
+    		for $n\rightarrow \infty$.
+    	\end{definition}
+    	\begin{figure}
     		\input{images/bounds}
     		\caption{The different measures for $P_{XYZ}$ and how they bound each other.}
     	\end{figure}
     	
 \section{A candidate probability distribution}\label{daproblem}
-    Wolf and Renner proposed in \cite{RW03} for the first time a probability distribution (Fig. \ref{Tab:candidate}) which is a good candidate for the classical analogy of \emph{bound entanglement}. 
+    Wolf and Renner proposed in \cite{RW03} for the first time a probability distribution (Fig. \ref{Tab:candidate}) which is a valid candidate for the classical analogy of \emph{bound entanglement}. 
     In fact, they offer a probability distribution that asymptotically has bound information. 
     This example did not come directly from a translation of bound entangled states.
-    They also show, for such a distribution, that 
+    Moreover hey also show, for such a distribution, that 
     \begin{equation}
     	\keyrate{X}{Y}{Z} \neq \intrinfo{X}{Y}{Z}
     \end{equation}  
