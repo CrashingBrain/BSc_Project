@@ -6,17 +6,17 @@ Towards the end of the project we decided to implement a python module to do tes
     	\keyrate{X}{Y}{Z} \leq \redintrinfo{X}{Y}{Z} \leq \intrinfo{X}{Y}{Z} \leq I_{form} (X;Y|Z)
     \end{equation}
     including also the information of formation.
-    As mentioned before, it is not well defined how to get direct values for the secret key rate and information of formation --- the fundamental quantities for key agreement --- from the distribution, since they are defined asymptotically over a \textit{possible} protocol. 
+    As mentioned before, obtaining a value for the secret-key rate and information of formation --- the fundamental quantities for key agreement --- requires a \textit{possible} protocol. 
     For their bounds (i.e. the central parts of the inequality) we can obtain direct numerical values from the probability distribution alone. 
-    The aim of this part of the project is then to take a candidate as given in Fig. \ref{Tab:candidate2} and map the values of the reduced and normal intrinsic information for various variation of the probability distribution.\\
+    The aim of this part of the project is then to take a candidate as given in Fig. \ref{Tab:candidate2} and trace the values of the reduced and normal intrinsic information for  variation of the probability distribution.\\
     
-    A good result we hope to obtain is a probability distribution for which the reduced measure tend to $0$, while the intrinsic information remains larger than $0$, maintaining a level of correlation between of Alice and Bob. 
-    Due to the strictness of the bounds, this will constrain the value for the secret key rate down to (possibly) $0$, while keeping a non-zero key cost ($I_{\text{form}}$).
+    A good result we hope to obtain is a probability distribution for which the reduced measure tends to $0$, while the intrinsic information remains larger than $0$, bounding also the information of formation to be greater than $0$. 
+    Due to the tightness of the bounds, this will constrain the value for the secret key rate down to (possibly) $0$, while keeping a non-zero key cost ($I_{\text{form}}$).
     This will lead to a new candidate for bound information.\\
     
     In order to perform analysis on those measures we firstly had to implement a library of modules that dealt with the probability and information theory aspects.
     Following criteria for separability of quantum states, a quantum mechanics module was also implemented to translate and later tests the distributions from the quantum to classical regime.
-    The intrinsic information (and the reduced counterpart) is defined as an \emph{infimum} over the set of tripartite probability distributions. 
+    The intrinsic information (and its reduced counterpart) is defined as an \emph{infimum} over the set of tripartite probability distributions. 
     To find a correct value it would require to solve an optimization problem. 
     The definition given in section \ref{intrininfo} however does not allow us to formulate the problem as convex, or, at least, not a trivial one, since the mutual information is only convex for a fixed term.
     We decided then to adopt a Monte-Carlo method to estimate them.
@@ -28,7 +28,7 @@ Towards the end of the project we decided to implement a python module to do tes
     	\item	reduced intrinsic information
     	\item	trace over quantum state witness given in \cite{DPS04}
     \end{itemize}
-    are measured.
+    are estimated.
 \section{Different noises analysis}
 
 	\begin{figure}[h!]
@@ -44,16 +44,19 @@ towards distributions with zero key cost (cyan), going through the ones without 
 	
 	This method of simulating noise added to a known distribution takes also inspiration from the quantum world. 
 	A method to look for bound entangled states applies a noise channel to a known entangled state and then the new state is tested on different separability criteria.
+	The intuition comes from the respectively enclosed convex sets of separable states.
 	
 	 
 	\begin{figure}
 		\begin{subfigure}{0.5\textwidth}
 			\input{images/noise1}
 			\subcaption{Noise1}
+			\label{Fig:noise1}
 		\end{subfigure}
 		\begin{subfigure}{0.5\textwidth}
 			\input{images/noise2}
 			\subcaption{Noise2}
+			\label{Fig:noise2}
 		\end{subfigure}
 		\caption{Different noises disturbs different parts of the correlation between $X$ and $Y$}
 		\label{Fig:noises}
@@ -64,12 +67,24 @@ towards distributions with zero key cost (cyan), going through the ones without 
     Recalling Eq. \ref{eq:reducedintrinfo}, we first generate random channels $XYZ \rightarrow U$ to get the conditional probability $P_{U|XYZ}$. 
 %    In some cases, also a channel $X\rightarrow U$, or $XY \rightarrow U$ can be used.
     Then the intrinsic information is minimized over all possible channels $ZU \rightarrow \bar{ZU}$.
-    Ideally, we want to show how the reduced intrinsic information goes to $0$, so that the secret key rate also sinks to $0$. 
+    Ideally, we want to show how the reduced intrinsic information goes to $0$, so that the secret key rate also falls to $0$. 
     Thus, $\Ent (U)$ is a lower bound on the value of the reduced intrinsic information.
     Since $U$ is generated through an arbitrary channel, however, it will not have $\Ent (U) = 0$.
-    In order to sink this lower bound, $U$ should be deduced from a \emph{deterministic} channel instead.
-    This puts some sort of conditioning on the choice of $U$ in the calculations of the reduced intrinsic information.
+    In order to minimize this lower bound, the marginal $P_U$ should be deterministic.
     
-    Observing this, we questioned the usefulness of the reduced intrinsic information as a measure to demonstrate the existence of bound information, contrary to what proposed in \cite{RW03}. 
+    Observing this, we questioned the usefulness of the reduced intrinsic information as a measure to demonstrate the existence of bound information, contrary to we thought at the beginning. 
+    
+\section{Results}
+Despite the difficulties encountered in implementing the code, we were able to produce some marginal results.
+When the noise functions were applied to the marginal $P_{XYZ}$ of the distribution in Fig. \ref{Tab:candidate} we were able to make the following observations
+\begin{itemize}
+\item For the uniform noise, as expected, the behaviour presents no intrinsic information nor reduced intrinsic information. The two measures remain the same until around $\alpha = 1- 1/8 = 0.875$. Around that point the reduced intrinsic information of the behaviour \textit{decrases} until reaching $1$, as we already knew from \cite{RW03}.
+
+\item For the noise in Fig. \ref{Fig:noise1}, we notice first of all that the intrinsic information is not monotonic along the path. It takes the form of a convex function with minimum for an $\alpha$ around $0.4$. At both ends of the path the two measures diverge resulting in $\intrinfo{X}{Y}{Z} \approx 1$ and $\redintrinfo{X}{Y}{Z} \approx 0.5$ for $\alpha = 0$, i.e. for just the noise function represented in the figure. On the other end we obtain again the results as before for the marginal of the candidate.
+
+\item Finally for the noise function in fig. \ref{Fig:noise2} ... %TODO to measure
+\end{itemize}
+
+%TODO put images
     
     
