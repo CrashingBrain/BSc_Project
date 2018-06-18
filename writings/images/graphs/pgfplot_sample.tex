@@ -1,0 +1,9 @@
+
+\pgfplotsset{major grid style={dotted,black}}
+\begin{tikzpicture}
+  \begin{axis}[ xlabel=$\alpha$, ylabel={$I(X,Y)$} ] % use TeX as calculator: 
+%    \addplot[cyan, thick] table[x=dof,y=L1] {../../../coding/some_test_data.csv};
+     \addplot[magenta, thick] table[x=alpha,y=intrInf] {../../../coding/results/analysis_noise1_FourPDstr_100.log};
+     \addplot[cyan, thick,mark=*] table[x=alpha,y=redIntr] {../../../coding/results/analysis_noise1_FourPDstr_100.log};
+  \end{axis} 
+\end{tikzpicture}
