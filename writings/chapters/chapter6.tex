@@ -62,7 +62,7 @@ towards distributions with zero key cost (cyan), going through the ones without 
 		\label{Fig:noises}
 	\end{figure}
 	
-\section{The problem with the reduced intrinsic information}
+\section{The problem with the reduced intrinsic information}\label{problem}
     During the implementation of the module we were confronted with some issues on the measure of the reduced intrinsic information.
     Recalling Eq. \ref{eq:reducedintrinfo}, we first generate random channels $XYZ \rightarrow U$ to get the conditional probability $P_{U|XYZ}$. 
 %    In some cases, also a channel $X\rightarrow U$, or $XY \rightarrow U$ can be used.
@@ -82,9 +82,10 @@ When the noise functions were applied to the marginal $P_{XYZ}$ of the distribut
 
 \item For the noise in Fig. \ref{Fig:noise1}, we notice first of all that the intrinsic information is not monotonic along the path. It takes the form of a convex function with minimum for an $\alpha$ around $0.4$. At both ends of the path the two measures diverge resulting in $\intrinfo{X}{Y}{Z} \approx 1$ and $\redintrinfo{X}{Y}{Z} \approx 0.5$ for $\alpha = 0$, i.e. for just the noise function represented in the figure. On the other end we obtain again the results as before for the marginal of the candidate.
 
-\item Finally for the noise function in fig. \ref{Fig:noise2} ... %TODO to measure
+\item Finally for the noise function in fig. \ref{Fig:noise2} we observe the same general behaviour as before. 
+The observable minimum is around values $\alpha = 0.2$ and for just the noise function the reduced intrinsic information falls to about $\redintrinfo{X}{Y}{Z} \approx 0.125$ and $\intrinfo{X}{Y}{Z} \approx 0.25$.
 \end{itemize}
 
-%TODO put images
+
     
     
