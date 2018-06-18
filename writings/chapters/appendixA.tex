@@ -21,22 +21,19 @@
 	
 	It is important also to note that through the inner product of two vectors we also define the norm $\|\ket{v}\|  =  \sqrt{( \vec{v}, \vec{v} )} $.\\
 	
-	
-	The outer product of two vectors, on the other hand, produces a matrix, with very important properties.  
-	
 	\section{Tensor product spaces}
-	The tensor product $V\otimes W$ is an operation between vector spaces that combines every element of the first vector space and every element of the second vector space in a bigger vector space. Tensor product is linear and from its properties emerges the famous phenomenon of quantum entanglement, which simply is that not all vectors in $\H = V\otimes W$ can be divided into $\ket{v}\otimes\ket{w}$ with $\ket{v}\in V,\; \ket{w}\in W$. This will later be explained in the next section.\\
+	The tensor product $V\otimes W$ is an operation between vector spaces that combines every element of the first vector space and every element of the second vector space in a bigger vector space. Tensor product is linear and from its properties emerges the famous phenomenon of quantum entanglement, which simply is that not all vectors in $\H = V\otimes W$ can be divided into $\ket{v}\otimes\ket{w}$ with $\ket{v}\in V,\; \ket{w}\in W$. This will later be explained in the next section.
 	Notation and abbreviation for the tensor product is 
 	$$ \ket{v}\otimes\ket{w} = \ket{v}\ket{w} = \ket{v,w} = \ket{vw}$$
 	It has the following properties:
-	\begin{description}
-		\item $\forall\ket{v}\in V ,\; \forall\ket{w}\in W, \; \forall z\in \mathbb{C}$	\\
-					$ z(\ket{v}\otimes\ket{w}) = (z\ket{v})\otimes\ket{w} = \ket{v}\otimes(z\ket{w} $
-		\item $\forall\ket{v_1},\ket{v_2}\in V ,\; \forall\ket{w}\in W$	\\
-					$ (\ket{v_1} + \ket{v_2})\otimes\ket{w} = \ket{v_1w} + \ket{v_2w} $
-		\item $\forall\ket{v}\in V ,\; \forall\ket{w}\in W, \; A:V\rightarrow V' \; B:W\rightarrow W'$	\\
-					$ (A\otimes B) \left(\sum_i a_i \ket{v_i w_i} \right) = \sum_i a_i A\ket{v_i}\otimes B\ket{w_i} $
-	\end{description}
+	\begin{align*}
+		 \forall\ket{v}\in V ,\; \forall\ket{w}\in W, \; \forall z\in \mathbb{C}&\\
+					&z(\ket{v}\otimes\ket{w}) = (z\ket{v})\otimes\ket{w} = \ket{v}\otimes(z\ket{w} \\
+		\forall\ket{v_1},\ket{v_2}\in V ,\; \forall\ket{w}\in W	&\\
+					 &(\ket{v_1} + \ket{v_2})\otimes\ket{w} = \ket{v_1w} + \ket{v_2w} \\
+		\forall\ket{v}\in V ,\; \forall\ket{w}\in W, \; A:V\rightarrow V' \; B:W\rightarrow W'&\\
+					&(A\otimes B) \left(\sum_i a_i \ket{v_i w_i} \right) = \sum_i a_i A\ket{v_i}\otimes B\ket{w_i} 
+	\end{align*}
 	The inner product on $V$ and $W$ can be used to define (linearly) an inner product on $V\otimes W$.	
 	
 	
