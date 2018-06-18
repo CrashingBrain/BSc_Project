@@ -115,7 +115,15 @@ def ThreePNoise2():
     for idx in [[0,0],[0,1],[1,0],[1,1],[0,2],[0,3],[1,2],[1,3]]:
         P[ idx[0], idx[1], idx[0]*4 + idx[1]] = 1
         P[ idx[1], idx[0], idx[1]*4 + idx[0]] = 1
-    return pr.normalize(P)        
+    return pr.normalize(P)
+
+def ThreePNoise2_():
+    P = np.zeros((4,4,2))
+    # Fill upper triangle
+    for idx in [[0,0],[0,1],[1,0],[1,1],[0,2],[0,3],[1,2],[1,3]]:
+        P[ idx[0], idx[1], idx[1]%2] = 1
+        P[ idx[1], idx[0], idx[0]%2] = 1
+    return pr.normalize(P) 
 
 def ThreePNoise3():
     P = np.zeros((4,4,16))
