@@ -69,10 +69,11 @@ towards distributions with zero key cost (cyan), going through the ones without 
     Then the intrinsic information is minimized over all possible channels $ZU \rightarrow \bar{ZU}$.
     Ideally, we want to show how the reduced intrinsic information goes to $0$, so that the secret key rate also falls to $0$. 
     Thus, $\Ent (U)$ is a lower bound on the value of the reduced intrinsic information.
-    Since $U$ is generated through an arbitrary channel, however, it will not have $\Ent (U) = 0$.
-    In order to minimize this lower bound, the marginal $P_U$ should be deterministic.
+    In order to minimize this lower bound, the marginal $P_U$ should be deterministic and thus $\Ent(U) = 0$.
+    However for the other term $\intrinfo{X}{Y}{ZU}$ a deterministic $U$ will result in having the intrinsic information.
+    Intuitively, minimizing on $\Ent(U)$ increases the value of $\intrinfo{X}{Y}{ZU}$ and vice versa.
     
-    Observing this, we questioned the usefulness of the reduced intrinsic information as a measure to demonstrate the existence of bound information, contrary to we thought at the beginning. 
+    Observing this, we questioned the usefulness of the reduced intrinsic information as a measure to demonstrate the existence of bound information, contrary to we thought at the beginning.
     
 \section{Results}
 Despite the difficulties encountered in implementing the code, we were able to produce some marginal results.

@@ -27,17 +27,17 @@ The second part states that the amount of information Eve can gather about $X$ a
 	the measurement of entangled states defies the classical understanding of a state. 
 	They concluded that the theory is incomplete and has to be replaced.
 	Bell responded to that with \emph{non-locality}\cite{Bell64}: there are probability distributions for which there is no local hidden variable model, i.e. exactly what EPR are chasing for.
-	As quantum mechanics gives rise to such non-local probability distributions we cannot hope to find a "local hidden variable model" replacing quantum mechanics.\\
+	As quantum mechanics gives rise to such non-local probability distributions we cannot hope to find a "local hidden variable model" replacing quantum mechanics.
 	
-	For a quantum system to exhibit non-locality entanglement is necessary.
+	For a quantum system to exhibit non-locality, entanglement is necessary.
 %	Entangled particles remain connected so that actions on one affect the other, even when separated by great distances.
 	Consider two pure quantum states $\ket{\psi}_A$ and $\ket{\phi}_B$.
 	The composite system of the two states is
 	\begin{equation}\label{eq:separable}
 		\ket{\psi}_A \otimes \ket{\phi}_B = \ket{\psi\phi}_{AB}
 	\end{equation}
-	States that can be represented as in Eq. \ref{eq:separable} are called \emph{separable states}.
-	Not all states are separable. Non-separable states are called \emph{entangled states}.
+	States that can be represented as in Eq. \ref{eq:separable} are called \emph{separable}.
+	Not all states are separable. Non-separable states are called \emph{entangled}.
 	Consider now the state
 	\begin{equation}
 		\frac{1}{\sqrt{2}}\left(\ket{0}_A\otimes\ket{1}_B - \ket{1}_A\otimes\ket{0}_B\right) = \ket{\Psi^{-}}_{AB}
@@ -48,16 +48,16 @@ The second part states that the amount of information Eve can gather about $X$ a
 		= \frac{1}{\sqrt{2}} \left( \alpha_0\beta_0\ket{00} + \alpha_0\beta_1\ket{01} + \alpha_1\beta_0\ket{10} + \alpha_1\beta_1\ket{11} \right)
 	\end{multline}
 	that satisfies 
-	\begin{align*}
+	\begin{align}
 	\alpha_0\beta_0 = \alpha_1\beta_1 & = 0 \\
 	\alpha_0\beta_1 & = 1\\
 	\alpha_1\beta_0 & = -1
-	\end{align*}
+	\end{align}
 	This is an entangled state\footnote{This particular state is called "singlet" and is one of the four Bell's basis presented in \cite{Bell64}}.
 	
 	Furthermore, if Alice measures to have $\ket{0}$ on her part of the system, then Bob, using the same measurement basis, by non-locality, will measure $\ket{1}$.
 	The other option of measuring $\ket1$ for Alice and $\ket0$ for Bob is also equally probable.
-	Which one of the measurement is obtained is random, nevertheless Alice and Bob's values are always (anti-)correlated.\\
+	Alice and Bob's values are always (anti-)correlated, regardless of which of the measurements is obtained (which is random).
 
 %	Let a joint quantum system between Alice and Bob be entangled.
 %	Tracing out the part of the system only for Alice (respectively for Bob) will give a completely mixed state. 
@@ -67,7 +67,7 @@ The second part states that the amount of information Eve can gather about $X$ a
 %	 This allows Alice and Bob to encode a message onto the quantum state and use it as a variable to share a secret\footnotemark . 
 %	If Alice measures to have $\ket{0}$ on her part of the system, then Bob, using the same measurement basis, by non-locality, will measure $\ket{1}$\\
 	
-	Quantum entanglement posses one more feature that classical correlation does not have: the monogamy of entanglement \cite{KW04}. 
+	Quantum entanglement posseses one more feature that classical correlation does not have: the monogamy of entanglement \cite{KW04}. 
 	As Koashi and Winter state in their paper a fundamental difference is that classical correlation can be shared, while quantum entanglement can not. 
 	This translates to the case where an eavesdropper Eve listens to the message exchange between Alice and Bob: in the classical communication there is no direct way for Alice nor Bob to know that Eve is listening (i.e. \textit{shares the correlation}), while in the second case Eve breaks the existing correlation between Alice and Bob.
 These two aspects of quantum entanglement --- correlation and monogamy --- give a valid framework for the establishment of a private channel between parties.
