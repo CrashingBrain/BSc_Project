@@ -1,18 +1,18 @@
 \section{The abstraction through random variables}
-    We have used many times the idea of \textit{factoring out} the enemy in the previous chapter, but we never actually expressed what we meant with that.
+    We have mentioned many times the idea of \textit{factoring out} the enemy in the previous chapter, but we never actually expressed formally what we meant with that for CKA.
     In order to make reasoning like this it is needed to model the concepts of \textit{message} and \textit{information} in a computation-able way.
-    C. Shannon studied this problem and published his results in \cite{Shannon49} which is now the foundation of modern information theory and cryptography.
+    Shannon studied this problem and published his results in \cite{Shannon49} which is now the foundation of modern information theory and cryptography.
     
-    Let us suppose that over a certain alphabet exist messages $M_1,M_2,\ldots M_n$ and each message has a probability $P(M_i)$ to be chosen (i.e. transmitted).
+    Let us suppose that over a certain alphabet there exist messages $M_1,M_2,\ldots M_n$ and each message has a probability $P(M_i)$ to be chosen (i.e. transmitted).
     Each message $M_i$ is encrypted into its counterpart $E_i$.
     An enemy intercepts $E_i$ and can therefore calculate the probability of message $M_i$ corresponding to the received encrypted version; namely the conditional probability $P(M_i|E_i)$.
     Shannon states that to obtain perfect secrecy of the message $P(M|E)$ must equal $P(M)$ for all $E$ and all $M$.
-    Using Bayes' theorem we can formulate
+    From Bayes' formula
     \begin{equation}
     	P(M|E) = \frac{P(M)P(E|M)}{P(E)}
     \end{equation}
-    which gives the sufficient and necessary condition that $P(E|M)=P(E)$ for perfect secrecy. 
-    The probability of obtaining $E$ a priori must be the same as receiving $E$ if message $M$ was encrypted.
+    it follows that $P(E|M)=P(E)$ is an equivalent condition for perfect secrecy.
+    That is, the probability of the cipher-text $E$ must be independent of knowing the message $M$.
     This translates into the case where intercepting the encrypted message gives the enemy no information. 
     
     Now imagine the message is transmitted by a satellite to Alice and Bob.
@@ -21,14 +21,14 @@
     To express the whole space of combinations of possible messages, we need the joint probability $P_{XYZ}$.
     Then the idea of "factoring out Eve" takes the meaning of obtaining 
     \begin{equation}
-    	P_{XYZ} = P_{XY}\cdot P_Z
+    	P_{XYZ}(x,y,z) = P_{XY}(x,y)\cdot P_Z(z) \; \forall x,y,z
     \end{equation}
-    so that the marginal of $P_{XYZ}$ over $Z$ --- i.e. the part of the distribution owned by Eve --- is now product with variables $X$ and $Y$. $Z$ must be independent from $X$ and $Y$.
+    so that the marginal of $P_{XYZ}$ over $Z$ --- i.e. the part of the distribution owned by Eve --- is now product with variables $X$ and $Y$. $Z$ is independent from $X$ and $Y$.
     
     \footnotetext{Ideally the three messages are identical, but just consider that the message is sent through a noisy channel: each receiver will have slight variations of the message, hence the distinction.}
     
-    From probability theory comes information theory, which provides us with useful measures and rules to operate on those probabilities.
-    The most important to us are the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables and the marginal $P_X$ of joint probabilities $P_{XY}$.
+    Information theory builds on probability theory, which provides us with useful measures and rules to operate on those probabilities.
+    The most important to us are the marginal $P_X(x)$ of joint probabilities $P_{XY}(x,y)$, the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables.
     
     
     
@@ -41,26 +41,27 @@
 %    The most important for us are the entropy $\Ent (X)$, the correlation and mutual information $\I(X;Y)$ of random variables and the marginal $P_X$ of joint probabilities $P_{XY}$.
     
 \section{Local operations and public communication (LOPC)}
-    By local operations and public communication we mean operations carried out on $P_{XYZ}$ representing our variables.
+    By local operations and public communication we mean operations carried out on bit strings sampled from $P_{XYZ}(x,y,z)$ and can then be modelled as channels.
     We can mix different distributions together or trace out the marginal.
-    Communicating over a channel is, in nature, noisy. 
+    Communication over an actual realization of a channel is noisy. 
     That noise is also a form of operations on the probability distribution.
     Operations can also be carried out directly by the parties.
     This is of more interest because we have control over those operations.
     
     Take for example the Diffie-Hellman method illustrated in section \ref{Diffie}.
-    Steps $1$ and $4$ are \emph{public communication} and steps $2$,$3$ and $5$ are \emph{local operations}.
+    steps $1$ and $4$ are \emph{public communication} and steps $2$,$3$ and $5$ are \emph{local operations}.
     Local operations are conducted privately, meaning that everything that happens is only accessible to the party conducting the operation.
     Other parties can not know what a local operation involved.
     Public communication is everything that is communicated in clear by parties, or that an eavesdropper can intercept.
-    The totality of what an enemy knows from a protocol --- apart from the functioning of the protocol itself --- comes from public communication.
+    The totality of what an enemy knows from a protocol --- apart from the functioning of the protocol itself --- comes from public communication and the partial trace.
     Through public communication Alice and Bob can also send instructions on what to do in their local operations, like in BB84.
     
     
 \section{Secret-key rate} \label{seckeyrate}
-    The secret-key rate $\keyrate{X}{Y}{Z}$ is roughly a quantification of the maximal amount of correlated bits between Alice and Bob extractable from an arbitrarily large number of independent realizations of a distribution $P_{XYZ}$.
+    The secret-key rate $\keyrate{X}{Y}{Z}$ is roughly a quantification of the maximal amount of correlated bits between Alice and Bob extractable from an arbitrarily large number of independent realizations of a distribution $P_{XYZ}$ that are not known to Eve.
     It was introduced by Maurer in \cite{Maur93} to prove lower bounds on the achievable size of a key shared by Alice and Bob in secrecy.
-    It can be seen as the classical analog of the \textit{distillable entanglement} in \cite{BDS96}.
+    It can be seen as a classical analog of the \textit{distillable entanglement} in \cite{BDS96}.
+    Formally the secret key rate is defined as follows.
     \begin{definition}\cite{Maur93, RW03}
     Let $P_{XYZ}$ be a joint probability distribution. The secret-key rate $\keyrate{X}{Y}{Z}$ of $X$ and $Y$ with respect to $Z$ is the largest $R\in \mathbb{R}$ such that for all $\epsilon > 0$ there exists a protocol, that involves a sufficiently large number $N$ of realizations of $X^N$ of $X$ and $Y^N$ of $Y$, that satisfies:
     Alice and Bob compute, at the end of the protocol, random variables $S_A$ and $S_B$, respectively, with range $\mathcal{S}$ such that there exists a random variable $S$ with the same range and
@@ -85,7 +86,7 @@
     \begin{equation}\label{eq:skrbound2}
     	\keyrate{X}{Y}{Z} \geq \max[\I(Y;X) - \I(Z;X),\, \I(X;Y) - \I(Z,Y)]
     \end{equation}
-    Those are not strict bounds. In fact in Eq. \ref{eq:skrbound2} the secret-key rate can be positive even when the right-hand side is negative.
+    Those are not tight bounds. In fact in Eq. \ref{eq:skrbound2} the secret-key rate can be positive even when the right-hand side is negative.
     
     
     
