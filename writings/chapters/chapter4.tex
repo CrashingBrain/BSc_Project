@@ -1,8 +1,8 @@
 \label{ch:four}
 \section{Mutual information}\label{mutInfo}
-	Mutual information measure the amount of information that $X$ and $Y$ \textit{share}.
+	The mutual information measures the amount of information that $X$ and $Y$ \textit{share}.
     It can be used as a measure of correlation (or dependency) between random variables.
-    Intuitively we can use mutual information to measure how much shared key two random variables $X$ and $Y$ can hold.
+    Intuitively we can use the mutual information --- along with a check of privacy against Eve --- to measure how much shared key two random variables $X$ and $Y$ can hold.
     \begin{definition}
 	Let $X$ and $Y$ be two jointly distributed random variables. Then the mutual information of the random variables is the relative entropy --- a measure of distance between probability distributions --- between the joint distribution $P_{XY}(x,y)$ and the product distribution $P_X(x)\cdot P_Y(y)$.
 	\begin{equation}
@@ -10,15 +10,15 @@
 	\end{equation}
 	or equivalently, showing its relation to the entropies of the random variables
 	\begin{equation}
-		\I(X;Y) = \Ent(X) - \Ent(X|Y) = \Ent(X,Y) - \Ent(X|Y) - \Ent(Y|X)
+		\I(X;Y) = \Ent(X) - \Ent(X|Y) = \Ent(X,Y) - \Ent(X|Y) - \Ent(Y|X) = \Ent(Y) - \Ent(Y|X)
 	\end{equation}
 	This relation can be seen more directly in Fig. \ref{fig:mutual_info}.
     \end{definition} 
 	Mutual information is nonnegative and bounded by the entropy of random variable $X$
 	\begin{equation}
-		0 \leq \I(X;Y) \leq \Ent(X)
+		0 \leq \I(X;Y) \leq \min \left(\Ent(X), \Ent(Y)\right)
 	\end{equation}
-	In this sense mutual information can also be interpreted as how much information $X$ gives to $Y$, thus being bounded by its own entropy.
+	In this sense the mutual information can also be interpreted as how much information $X$ gives about $Y$, thus being bounded by its own entropy.
 	\begin{figure}[ht]
 		\centering
 		\input{images/mutual-info}
@@ -40,21 +40,22 @@ Additional information on a third random variable $Z$ can increase or decrease t
     The infimum is taken over all possible channels applied to $Z$ (the choice of a channel can be seen as the choice of a point of view for Eve).
     
     The intrinsic information is an upper bound to the secret-key rate, although not tight \cite{RW03}. 
-    Refer to next chapter to see an anlysis of the gap between the two measures.
+    \begin{equation} \label{eq:bkeyinfo}
+    	\keyrate{X}{Y}{Y} \leq \intrinfo{X}{Y}{Y}
+    \end{equation}
+    Refer to the next chapter to see an anlysis of the gap between the two measures.
     The amount of secret bits Alice and Bob can extract from the distribution is then bounded by how much the attacker Eve can disrupts their conditional mutual correlation.
     Intrinsic information is also a lower bound to another measure, \emph{information of formation}, which is the amount of initial secret bits between Alice and Bob required to create the distribution $P_{XYZ}$ with LOPC.
     
    
 \section{When correlation is unusable}
-Setting the bound
-$$\keyrate{X}{Y}{Y} \leq \intrinfo{X}{Y}{Y}$$
-we can already see that not always factoring out the adversary can be enough to be able to produce a key.
-An immediate observation of the inequality is the case when
+Setting the bound in Eq. \ref{eq:bkeyinfo} we can see that not always factoring out the adversary can be enough to be able to produce a key.
+For example we could have 
 \begin{align*}
 	\keyrate{X}{Y}{Z} & = 0 \\
 	\intrinfo{X}{Y}{Z} & > 0 
 \end{align*}
-A distribution that has no key bits extractable from it, but Alice and Bob still retain some non-zero mutual correlation.
+meaning that there exists some sort of mutual correlation between Alice and Bob, but they share no key.
 Whether this case is possible is the question of bound information expressed at the beginning of this work.
 \begin{definition}\cite{GisWolf00, RW03} 
 Let $P_{XYZ}$ be a joint probability distribution for parties Alice, Bob and Eve.
@@ -73,8 +74,8 @@ Then $P_{XYZ}$ is said to have \emph{bound infromation}.
 Recalling the intuition from quantum mechanics, we now pose the case of the existence of bound entanglement.
 As stated before (section \ref{distillation}), quantum distillation extract from an entangled mixed state a set of quasi-pure entangled states.
 Pure entangled states can be used as a resource to produce a key for Alice and Bob \cite{Ekert91}.
-There are, furthermore, entangled mixed states that are non-distillable, i.e. no pure entanglement can be extracted from it \cite{3H98}.
-In summation, bound entanglement is a kind of correlation between Alice and Bob inaccessible to Eve but nevertheless of no use for generating a secret (quantum) key.
+There are, furthermore, entangled mixed states that are non-distillable, i.e. no pure entanglement can be extracted from them \cite{3H98}.
+Bound entanglement is a kind of correlation between Alice and Bob --- that can become inaccessible to Eve --- but nevertheless of no use for generating a secret (quantum) key.
 So in the quantum regime this questions has already been answered.
 
 %	\begin{quotation}
