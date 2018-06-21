@@ -1,11 +1,11 @@
 # BSc Project Repository
 
-**Title:**      *Bound Information: Search of a Classical Analog to Bound Entanglement*
-**Author:**     Luca Dolfi
-**Advisor:**    Prof. Stefan Wolf
-**Tutor:**      Arne Hansen
+**Title:**      *Bound Information: Search of a Classical Analog to Bound Entanglement*<br>
+**Author:**     Luca Dolfi<br>
+**Advisor:**    Prof. Stefan Wolf<br>
+**Tutor:**      Arne Hansen<br>
 
-<sup>*A thesis presented for the degree of BSc in Informatics
+<sup>*A thesis presented for the degree of BSc in Informatics<br>
 USI - Università della Svizzera Italiana, spring 2018*</sup>
 
 #### Abstract
